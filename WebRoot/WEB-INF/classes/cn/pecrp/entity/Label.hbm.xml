@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<!-- 1:配置类和表的关系 -->
+	<!-- name实体类是全路径 table是数据表的名字 随便写 会帮我们创建 -->
+	<class name="cn.pecrp.entity.Label" table="label">
+		<!-- 2:配置实体类id和表id对应 类似主键 -->
+		<!-- name是实体类id的属性的名称 column是表的字段的id的名称 随便写 会生成 -->
+		<id name="lid" column="lid">
+			<!-- 设置数据表id的增长的策略 -->
+			<!-- native会让主键自动增长 -->
+			<generator class="native"></generator>
+		</id>
+
+		<!-- 3:配置其他属性和表的字段对应 -->
+		<property name="labelName" column="labelName"></property>
+
+		<!-- 4:配置多对多的关系 -->
+		<set name="userSet" table="user_label" cascade="save-update">
+			<key column="lid"></key>
+			<many-to-many class="cn.pecrp.entity.User" column="uid"></many-to-many>
+		</set>
+
+		<set name="videoSet" table="video_label" cascade="save-update,delete">
+			<key column="lid"></key>
+			<many-to-many class="cn.pecrp.entity.Video" column="vid"></many-to-many>
+		</set>
+
+	</class>
+</hibernate-mapping>
