@@ -4,9 +4,11 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
-	<package name="myPackage" namespace="/" extends="struts-default">		
+	<constant name="struts.il8n.encoding" value="UTF-8" />
+	
+	<!-- 注意使用的包不是struts-default 而是json-default -->
+	<package name="myPackage" namespace="/" extends="json-default">		
 		<action name="*Action" class = "userAction" method="{1}">
-			<result name = "success">/index.jsp</result>
 		</action>
 	</package>
 </struts>

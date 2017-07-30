@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>登录</title>
+<meta charset="utf-8">
+<script src="/PECRP/jquery1.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+	$(document).ready(function() {
+	
+		$("#btn").click(function() {
+
+			$.ajax({
+				url : "loginAction",   //这个就是填相应的action
+				type : "POST", 		   //数据发送方式
+				dataType : "json",	   // 接受数据格式
+				
+				// 要传递的数据
+				data : {
+					username:'usernameValue',   
+					password:'passwordValue'
+				},
+				
+				// 回调函数，接受服务器端返回给客户端的值，即result值
+				success : function(data) {      //后台传回json
+					var json = eval(data);      
+					var data = "";
+					alert(json.name + " " + json.age);
+					window.location.href='index.html';    //跳转页面
+				}
+				
+			});
+		});
+	});
+
+</script>
+</head>
+<body>
+	<form id="form1">
+		用户名：<input type="text" name="username"><br /> 
+		密&nbsp;&nbsp;码：<input type="text" name="password"><br /> 
+		<input type="button" id = "btn" value="登录" >
+	</form>
+</body>
+</html>
