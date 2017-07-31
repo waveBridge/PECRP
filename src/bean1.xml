@@ -20,6 +20,16 @@
 	<!-- 开启事务注解 -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 
+<!-- 	 <tx:advice id="txAdvice" transaction-manager="transactionManager">
+	  <tx:attributes>
+	   <tx:method name="get*" read-only="false" propagation="NOT_SUPPORTED"/>
+	   <tx:method name="find*" read-only="false" propagation="NOT_SUPPORTED"/>
+	   <tx:method name="save*" propagation="REQUIRED"/>
+	   <tx:method name="update*" propagation="REQUIRED"/> 
+	   <tx:method name="delete*" propagation="REQUIRED"/>
+	  </tx:attributes>
+	 </tx:advice>  -->
+
 	<!-- 配置连接池 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<!-- 注入属性值 -->
@@ -30,8 +40,7 @@
 	</bean>
 
 	<!-- 配置sessionFactory -->
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<!-- 注入数据库配置 -->
 		<property name="dataSource" ref="dataSource"></property>
 		<!-- 指定hibernate核心配置文件 -->
