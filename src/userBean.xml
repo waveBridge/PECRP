@@ -21,6 +21,8 @@
 	<bean id = "userService" class = "cn.pecrp.service.UserService">
 		<!-- 注入dao -->
 		<property name="userDao" ref = "userDaoImpl"></property>
+		<property name="mailUtil" ref = "mailUtil"></property>
+		<property name="timeUtil" ref = "timeUtil"></property>
 	</bean>
 	
 	<!-- 创建dao实现类对象 -->

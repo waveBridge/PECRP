@@ -77,7 +77,8 @@ public class UserAction extends ActionSupport {
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
 			String nickname = request.getParameter("nickname");
-			String email = request.getParameter("email");
+			String email 	= request.getParameter("email");
+			String vcode 	= request.getParameter("vcode");
 			
 			//先查找该用户名是否被注册
 			boolean flag = userService.searchUser(username);
@@ -85,23 +86,66 @@ public class UserAction extends ActionSupport {
 			if(flag == true) { 
 				json.put("msg","3");                  //用户名重复
 			} else {
-				User user = new User();
-				user.setUsername(username);
-				user.setPassword(password);
-				user.setNickname(nickname);
-				user.setEmail(email);				
-				boolean flag2 =userService.register(user);
+				//看验证码是否正确以及是否失效
+				flag = userService.cmpVCode(vcode);
 				
-				if(flag2 == true) {
-					json.put("msg", "1");             //注册成功
+				if(flag == true){
+					
+					User user = new User();
+					user.setUsername(username);
+					user.setPassword(password);
+					user.setNickname(nickname);
+					user.setEmail(email);				
+					boolean flag2 =userService.register(user);
+					
+					if(flag2 == true) {
+						json.put("msg", "1");             //注册成功
+					
+					} else {
+						json.put("msg","0");              //注册失败
+					}
 				} else {
-					json.put("msg","0");              //注册失败
+					System.out.println("验证码匹配失败");
+					json.put("msg", "0");                 //验证码匹配失败
 				}
 			}
 			
 		} catch(Exception e) {
+			System.out.println("注册异常");
 			json.put("msg", "0");                     //注册 异常
 		} finally {
+			out.write(json.toString());
+			out.flush();
+			out.close();
+		}
+		
+		return null;
+	}
+	
+	//获取邮箱验证码
+	public String getVCode() throws IOException {
+		System.out.println("getVCode...action...");
+		//获得request和response对象
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setContentType("application/json;charset=utf-8");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		PrintWriter out = response.getWriter();
+		
+		JSONObject json = new JSONObject();
+		try{
+			String email = request.getParameter("email");
+			
+			boolean flag = userService.getVCode(email);
+			if(flag == true) {
+				json.put("msg","1");                 //生成了验证码并发送给了用户
+			} else {
+				json.put("msg","0");                 //未获取到
+			}
+			
+		}catch (Exception e) {
+			json.put("msg","0");
+		}finally {
 			out.write(json.toString());
 			out.flush();
 			out.close();

@@ -48,6 +48,8 @@
 	</bean>
 	
 	<!-- 引入其他spring配置文件 -->
+	<import resource="classpath:mailUtil.xml"/>
+	<import resource="classpath:timeUtil.xml"/>
 	<import resource="classpath:userBean.xml"/>
 
 </beans>

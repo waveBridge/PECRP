@@ -1,11 +1,16 @@
 package cn.pecrp.service;
 
+import java.util.Calendar;
+
 import javax.servlet.http.HttpSession;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.transaction.annotation.Transactional;   //注意事务的配置引入的包一定不要错
 
 import cn.pecrp.dao.UserDao;
 import cn.pecrp.entity.User;
+import cn.pecrp.until.MailUtil;
+import cn.pecrp.until.TimeUtil;
+import javassist.bytecode.stackmap.BasicBlock.Catch;
 
 @Transactional
 public class UserService {
@@ -14,6 +19,16 @@ public class UserService {
 		this.userDao = userDao;
 	}
 	
+	private MailUtil mailUtil;
+	public void setMailUtil(MailUtil mailUtil) {
+		this.mailUtil = mailUtil;
+	}
+	
+	private TimeUtil timeUtil;
+	public void setTimeUtil(TimeUtil timeUtil) {
+		this.timeUtil = timeUtil;
+	}
+
 	//登录
 	public boolean login(String username, String password) {
 		System.out.println("login...service...");
@@ -56,6 +71,55 @@ public class UserService {
 			return false;
 		}
 			
+	}
+	
+	//发送邮件获取验证码
+	public boolean getVCode(String email) {
+		System.out.println("getVCode...service...");
+		//随机生成5验证码
+	    Integer x =(int)((Math.random()*9+1)*10000);  
+	    String text = x.toString(); 
+		boolean flag = mailUtil.sendMail(email, text);
+		if(flag == true){
+			//发送成功，把验证码和时间记录
+			String nowTime = timeUtil.getTime();
+			
+			//存入session  验证码#时间
+			HttpSession session = ServletActionContext.getRequest().getSession();
+			session.setAttribute("vcodeTime",text+"#"+nowTime);
+			System.out.println(session.getAttribute("vcodeTime"));
+			return true;
+			
+		} else {
+			return false;
+		}
+	}
+	
+	//比较验证码是否正确以及是否失效
+	public boolean cmpVCode(String vcode) {
+		System.out.println("cmpVCode...service...");
+		
+		try{
+			HttpSession session = ServletActionContext.getRequest().getSession();
+			String vcodeTime =  (String) session.getAttribute("vcodeTime");
+			String vcodeTimeArray[] = vcodeTime.split("#");
+			
+			//先比较验证码是否正确
+			if(vcodeTimeArray[0].equals(vcode)) {
+				boolean flag = timeUtil.cmpTime(vcodeTimeArray[1]);
+				
+				if(flag == true){
+					return true;
+				}
+				
+			}
+			
+			return false;
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return false;
+		}	 
 	}
 
 }
