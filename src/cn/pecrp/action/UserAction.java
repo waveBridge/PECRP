@@ -106,7 +106,7 @@ public class UserAction extends ActionSupport {
 					}
 				} else {
 					System.out.println("—È÷§¬Î∆•≈‰ ß∞‹");
-					json.put("msg", "0");                 //—È÷§¬Î∆•≈‰ ß∞‹
+					json.put("msg", "2");                 //—È÷§¬Î∆•≈‰ ß∞‹
 				}
 			}
 			
@@ -153,5 +153,6 @@ public class UserAction extends ActionSupport {
 		
 		return null;
 	}
+	
 	
 }

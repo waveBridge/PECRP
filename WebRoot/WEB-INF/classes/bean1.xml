@@ -20,16 +20,6 @@
 	<!-- 开启事务注解 -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 
-<!-- 	 <tx:advice id="txAdvice" transaction-manager="transactionManager">
-	  <tx:attributes>
-	   <tx:method name="get*" read-only="false" propagation="NOT_SUPPORTED"/>
-	   <tx:method name="find*" read-only="false" propagation="NOT_SUPPORTED"/>
-	   <tx:method name="save*" propagation="REQUIRED"/>
-	   <tx:method name="update*" propagation="REQUIRED"/> 
-	   <tx:method name="delete*" propagation="REQUIRED"/>
-	  </tx:attributes>
-	 </tx:advice>  -->
-
 	<!-- 配置连接池 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<!-- 注入属性值 -->
@@ -51,5 +41,6 @@
 	<import resource="classpath:mailUtil.xml"/>
 	<import resource="classpath:timeUtil.xml"/>
 	<import resource="classpath:userBean.xml"/>
-
+	<import resource="classpath:infoBean.xml"/>
+	
 </beans>
