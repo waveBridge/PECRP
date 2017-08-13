@@ -10,5 +10,7 @@
 	<package name="myPackage" namespace="/" extends="json-default">		
 		<action name="*Action" class = "userAction" method="{1}"></action>
 		<action name="changePassAction" class = "infoAction" method="changePass"></action>
+		<action name="forgetPassGetVCodeAction" class = "infoAction" method="forgetPassGetVCode"></action>
+		<action name="forgetPassChangeAction" class = "infoAction" method="forgetPassChange"></action>
 	</package>
 </struts>

@@ -21,6 +21,8 @@
 	<bean id = "infoService" class = "cn.pecrp.service.InfoService">
 		<!-- 注入dao -->
 		<property name="infoDao" ref = "infoDaoImpl"></property>
+		<property name="mailUtil" ref = "mailUtil"></property>
+		<property name="timeUtil" ref = "timeUtil"></property>
 	</bean>
 	
 	<!-- 创建dao实现类对象 -->

@@ -1,11 +1,14 @@
 package cn.pecrp.service;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.pecrp.dao.InfoDao;
+import cn.pecrp.until.MailUtil;
+import cn.pecrp.until.TimeUtil;
 
 @Transactional
 public class InfoService {
@@ -15,7 +18,16 @@ public class InfoService {
 		this.infoDao = infoDao;
 	}
 	
+	private MailUtil mailUtil;
+	public void setMailUtil(MailUtil mailUtil) {
+		this.mailUtil = mailUtil;
+	}
 	
+	private TimeUtil timeUtil;
+	public void setTimeUtil(TimeUtil timeUtil) {
+		this.timeUtil = timeUtil;
+	}
+
 	//通过旧密码改密码
 	public int changePass(String oldPass,String newPass) {
 		System.out.println("changePass...service...");
@@ -40,6 +52,87 @@ public class InfoService {
 		} else {
 			return -1;              //新旧密码不一致
 		}
+	}
+	
+	//忘记密码_获取验证码
+	public int forgetPassGetVCode(String username,String email)	{
+		System.out.println("forgetPassGetVCode...service...");
+		
+		//先核对用户名和邮箱是否匹配
+		int flag = infoDao.searchUser(username,email);
+		
+		if(flag == -1) {
+			return -1;  			//不匹配
+		} else {
+			//uid存入session
+			HttpSession session = ServletActionContext.getRequest().getSession();
+			session.setAttribute("uid",flag);
+			
+			//发送邮箱验证码
+			//随机生成5验证码
+		    Integer x =(int)((Math.random()*9+1)*10000);  
+		    String text = x.toString(); 
+			boolean flag2 = mailUtil.sendMail(email, text);
+			if(flag2 == true){
+				//发送成功，把验证码和时间记录
+				String nowTime = timeUtil.getTime();
+				
+				//存入session  验证码#时间
+				session.setAttribute("vcodeTime",text+"#"+nowTime);
+				System.out.println(session.getAttribute("vcodeTime"));
+				return 1;                  //发送成功
+				
+			} else {
+				return 0;
+			}
+
+		}
+	}
+	
+	//忘记密码_比对验证码
+	public boolean forgetPassCmpVCode(String vcode) {
+		System.out.println("cmpVCode...service...");
+		
+		try{
+			HttpSession session = ServletActionContext.getRequest().getSession();
+			String vcodeTime =  (String) session.getAttribute("vcodeTime");
+			String vcodeTimeArray[] = vcodeTime.split("#");
+			
+			//先比较验证码是否正确
+			if(vcodeTimeArray[0].equals(vcode)) {
+				boolean flag = timeUtil.cmpTime(vcodeTimeArray[1]);
+				
+				if(flag == true){
+					return true;
+				}
+				
+			}
+			
+			return false;
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return false;
+		}	 
+	}
+
+	//忘记密码_修改密码
+	public boolean forgetPassChange(String password) {
+		System.out.println("forgetPassChange..service...");
+		
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		try{
+			boolean flag = infoDao.changePass((int)session.getAttribute("uid"),password);
+			if(flag == true) {
+				return true;
+			} else {
+				return false;
+			}
+		}catch (Exception e) {
+			System.out.println(e.toString());
+			return false;
+		}
+		
 	}
 	
 }
