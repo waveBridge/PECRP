@@ -1,10 +1,15 @@
 package cn.pecrp.dao;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
+import cn.pecrp.entity.Label;
+import cn.pecrp.entity.Search;
 import cn.pecrp.entity.User;
+import cn.pecrp.entity.Video;
 
 public class UserDaoImpl implements UserDao {
 	
@@ -52,6 +57,18 @@ public class UserDaoImpl implements UserDao {
 		}
 		
 	}
+
+	//根据id返回用户所有信息
+	@Override
+	public User getUserInfo(int uid) {
+		System.out.println("getUserInfo...dao...");
 		
-	
+		try{
+			User user = hibernateTemplate.get(User.class, uid);
+			return user;
+		}catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
+		}
+	}
 }

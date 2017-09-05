@@ -18,7 +18,7 @@
 		<!-- 3:配置其他属性和表的字段对应 -->
 		<property name="content" column="content"></property>
 
-		<set name="searchUserSet" table="user_search" cascade="save-update,delete">
+		<set name="searchUserSet" table="user_search" cascade="save-update,delete" lazy="false">
 			<key column="sid"></key>
 			<many-to-many class="cn.pecrp.entity.User" column="uid"></many-to-many>
 		</set>

@@ -66,5 +66,24 @@ public class InfoDaoImpl implements InfoDao {
 		
 		
 	}
+
+	//修改昵称
+	@Override
+	public boolean changeNickname(int uid, String nickname) {
+		System.out.println("changeNickname...dao..");
+		
+		try{
+			User user = hibernateTemplate.get(User.class,uid);
+			if(user == null) {
+				return false;            // 未找到
+			} else {
+				user.setNickname(nickname);
+				return true;             // 修改成功
+			}
+		}catch (Exception e) {
+			System.out.println(e.toString());    
+			return false;
+		}
+	}
 	
 }

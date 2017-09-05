@@ -18,7 +18,7 @@
 		<!-- 3:配置其他属性和表的字段对应 -->
 		<property name="classifyName" column="classifyName"></property>
 
-		<set name="videoSet" table="classify_video" cascade="save-update,delete">
+		<set name="videoSet" table="classify_video" cascade="save-update,delete" lazy="false">
 			<key column="cid"></key>
 			<many-to-many class="cn.pecrp.entity.Video" column="vid"></many-to-many>
 		</set>

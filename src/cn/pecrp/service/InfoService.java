@@ -134,5 +134,40 @@ public class InfoService {
 		}
 		
 	}
+
+	//修改昵称
+	public boolean changeNickname(String nickname) {
+		System.out.println("changeNickname..service...");
+		
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		try{
+			boolean flag = infoDao.changeNickname((int)session.getAttribute("uid"),nickname);
+			if(flag == false) {
+				return false;         //修改失败
+			} else {
+				return true;          //修改成功
+			}
+		}catch (Exception e) {
+			System.out.println(e.toString());
+			return false;
+		}
+	}
+
+	//修改用户的标签
+	public boolean changeLabel(String[] lidsArray) {
+		System.out.println("changeLabel..service...");
+		
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		
+		
+		try{
+			//根据lid数组得到
+			
+			return true;
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return false;
+		}
+	}
 	
 }

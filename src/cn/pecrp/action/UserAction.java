@@ -13,6 +13,8 @@ import com.opensymphony.xwork2.ActionSupport;
 import cn.pecrp.entity.User;
 import cn.pecrp.service.UserService;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 public class UserAction extends ActionSupport {
 	
@@ -147,6 +149,43 @@ public class UserAction extends ActionSupport {
 			json.put("msg","0");
 		}finally {
 			out.write(json.toString());
+			out.flush();
+			out.close();
+		}
+		
+		return null;
+	}
+	
+	//得到该用户的所有信息
+	public String getUserInfo()  throws IOException {
+		System.out.println("getUserInfo...action...");
+		
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setContentType("application/json;charset=utf-8");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		PrintWriter out = response.getWriter();
+		
+		//设置jsonConfig是为了摆脱死循环，因为是多对多级联关系
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
+		
+		JSONObject json; 
+		JSONObject json2 = new JSONObject();
+		
+		try {
+			User user  = userService.getUserInfo();
+			if(user != null) {
+				json = JSONObject.fromObject(user, jsonConfig);
+				json2.put("msg",json);                //有信息则输出信息
+			} else {
+				json2.put("msg","0");                 //没有信息 0
+			}
+			
+		}catch (Exception e) {
+			System.out.println(e.toString());
+			json2.put("msg","0");                     //若没有信息则为0
+		}finally {
+			out.write(json2.toString());
 			out.flush();
 			out.close();
 		}

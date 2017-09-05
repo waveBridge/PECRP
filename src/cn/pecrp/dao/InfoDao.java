@@ -7,4 +7,6 @@ public interface InfoDao {
 	boolean changePass(int uid, String newPass);
 
 	int searchUser(String username, String email);
+
+	boolean changeNickname(int attribute, String nickname);
 }

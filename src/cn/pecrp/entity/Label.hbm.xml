@@ -19,12 +19,12 @@
 		<property name="labelName" column="labelName"></property>
 
 		<!-- 4:配置多对多的关系 -->
-		<set name="userSet" table="user_label" cascade="save-update">
+		<set name="userSet" table="user_label" cascade="save-update" lazy="false">
 			<key column="lid"></key>
 			<many-to-many class="cn.pecrp.entity.User" column="uid"></many-to-many>
 		</set>
 
-		<set name="videoSet" table="video_label" cascade="save-update,delete">
+		<set name="videoSet" table="video_label" cascade="save-update,delete" lazy="false">
 			<key column="lid"></key>
 			<many-to-many class="cn.pecrp.entity.Video" column="vid"></many-to-many>
 		</set>

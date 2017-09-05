@@ -122,4 +122,20 @@ public class UserService {
 		}	 
 	}
 
+	//返回所有的用户信息
+	public User getUserInfo() {
+		System.out.println("getUserInfo...service...");
+		
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		
+		try{
+			//根据id得到该用户的所有信息
+			User user = userDao.getUserInfo((int)session.getAttribute("uid"));
+			return user;
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
+		}
+	}
+
 }

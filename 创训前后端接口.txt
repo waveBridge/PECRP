@@ -28,4 +28,16 @@ url :	forgetPassChangeAction
 in	:	vcode,password 		(验证码，新密码,不需要用户名)
 out	:	修改成功("msg","1")  	修改失败("msg","0")		验证码错误或失效("msg","-1")
 
+//修改昵称
+url	:	changeNicknameAction
+in	:	nickname            (新的昵称)
+out	:	修改成功("msg","传给我的新的昵称")   修改失败("msg","0")
+
+//得到某用户的所有信息
+url	：	getUserInfoAction
+in	:	无需输入，用户id存在session中
+out	:	成功的到信息("msg",user对象)	未得到信息("msg","0")
+
+
+
   

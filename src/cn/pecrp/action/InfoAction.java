@@ -2,6 +2,9 @@ package cn.pecrp.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +13,7 @@ import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import cn.pecrp.entity.Label;
 import cn.pecrp.service.InfoService;
 import net.sf.json.JSONObject;
 
@@ -133,4 +137,61 @@ public class InfoAction extends ActionSupport {
 		
 		return null;
 	}
+	
+	//修改昵称
+	public String changeNickname() throws IOException {
+		System.out.println("changeNickname...action...");
+		//获得request和response对象
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setContentType("application/json;charset=utf-8");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		PrintWriter out = response.getWriter();
+		
+		JSONObject json = new JSONObject();
+		try{
+			String nickname = request.getParameter("nickname");
+			boolean flag = infoService.changeNickname(nickname);
+			if(flag == false) {
+				json.put("msg","0");                  //修改失败
+			} else {
+				json.put("msg",nickname);                  //修改成功
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			json.put("msg","0");              
+		} finally {
+			out.write(json.toString());
+			out.flush();
+			out.close();
+		}
+		
+		return null;
+	}
+	
+//	//修改用户的标签
+//	public String changeLabel() throws IOException {
+//		System.out.println("changeLabel...action...");
+//		//获得request和response对象
+//		HttpServletRequest request = ServletActionContext.getRequest();
+//		HttpServletResponse response = ServletActionContext.getResponse();
+//		response.setContentType("application/json;charset=utf-8");
+//		response.setHeader("Access-Control-Allow-Origin", "*");
+//		PrintWriter out = response.getWriter();
+//		
+//		JSONObject json = new JSONObject();
+//		try{
+////			String label = request.getParameter("labels");         //接收到字符串形式的labels集合
+////			JSONObject labels = JSONObject.fromObject(label);
+////			Set<Label> labelSet = new HashSet<Label>();			
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		} finally {
+//			out.write(json.toString());
+//			out.flush();
+//			out.close();
+//		}
+//		return null;
+//	}
+	
 }

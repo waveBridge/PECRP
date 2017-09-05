@@ -25,29 +25,29 @@
 		<property name="collection" column="collection"></property>
 
 		<!-- 4:配置多对多的关系 -->
-		<set name="labelSet" table="video_label" cascade="save-update,delete">
+		<set name="labelSet" table="video_label" cascade="save-update,delete" lazy="false">
 			<key column="vid"></key>
 			<many-to-many class="cn.pecrp.entity.Label" column="lid"></many-to-many>
 		</set>
 
 		<set name="collectionUserSet" table="user_video_collection"
-			cascade="save-update,delete">
+			cascade="save-update,delete" lazy="false">
 			<key column="vid"></key>
 			<many-to-many class="cn.pecrp.entity.User" column="uid"></many-to-many>
 		</set>
 
-		<set name="watchUserSet" table="user_video_watch" cascade="save-update,delete">
+		<set name="watchUserSet" table="user_video_watch" cascade="save-update,delete" lazy="false">
 			<key column="vid"></key>
 			<many-to-many class="cn.pecrp.entity.User" column="uid"></many-to-many>
 		</set>
 
-		<set name="classifySet" table="classify_video" cascade="save-update,delete">
+		<set name="classifySet" table="classify_video" cascade="save-update,delete" lazy="false">
 			<key column="vid"></key>
 			<many-to-many class="cn.pecrp.entity.Classify" column="cid"></many-to-many>
 		</set>
 
 		<set name="reviewSet" cascade="save-update,delete" inverse="true"
-			batch-size="20">
+			batch-size="20" lazy="false">
 			<key column="vid"></key>
 			<one-to-many class="cn.pecrp.entity.Review" />
 		</set>

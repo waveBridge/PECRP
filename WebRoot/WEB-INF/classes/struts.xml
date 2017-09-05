@@ -12,5 +12,7 @@
 		<action name="changePassAction" class = "infoAction" method="changePass"></action>
 		<action name="forgetPassGetVCodeAction" class = "infoAction" method="forgetPassGetVCode"></action>
 		<action name="forgetPassChangeAction" class = "infoAction" method="forgetPassChange"></action>
+		<action name="changeNicknameAction" class = "infoAction" method="changeNickname"></action>
+		<action name="changeLabelAction" class = "infoAction" method="changeLabel"></action>
 	</package>
 </struts>
