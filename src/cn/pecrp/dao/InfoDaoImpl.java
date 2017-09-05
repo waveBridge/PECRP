@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
+import cn.pecrp.entity.Label;
 import cn.pecrp.entity.User;
 
 public class InfoDaoImpl implements InfoDao {
@@ -82,6 +83,28 @@ public class InfoDaoImpl implements InfoDao {
 			}
 		}catch (Exception e) {
 			System.out.println(e.toString());    
+			return false;
+		}
+	}
+
+	//改变用户标签
+	@Override
+	public boolean changeLabel(int uid, int[] lidInt) {
+		System.out.println("changeLabel...Dao..");
+		
+		try{
+			//先删除掉用户的标签
+			User user = hibernateTemplate.get(User.class, uid);
+			user.getLabelSet().clear();
+			
+			//再添加标签
+			for(int lid : lidInt) {
+				Label label = hibernateTemplate.get(Label.class, lid);
+				user.getLabelSet().add(label);
+			}
+			return true;
+		} catch (Exception e) {
+			System.out.println(e.toString());
 			return false;
 		}
 	}

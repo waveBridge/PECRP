@@ -38,6 +38,9 @@ url	：	getUserInfoAction
 in	:	无需输入，用户id存在session中
 out	:	成功的到信息("msg",user对象)	未得到信息("msg","0")
 
-
+//改变某用户的标签
+url	:	changeLabelAction
+in	:	lids    (一个字符串，是用户新的标签，由标签的编号组成，由小写字母a个分隔， 如：1a4a3   无需排序)
+out	:	修改成功("msg","1")    修改失败("msg","0")
 
   

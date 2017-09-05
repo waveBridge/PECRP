@@ -9,4 +9,7 @@ public interface InfoDao {
 	int searchUser(String username, String email);
 
 	boolean changeNickname(int attribute, String nickname);
+
+	boolean changeLabel(int uid, int[] lidInt);
+
 }

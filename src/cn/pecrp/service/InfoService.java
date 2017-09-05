@@ -154,16 +154,28 @@ public class InfoService {
 	}
 
 	//修改用户的标签
-	public boolean changeLabel(String[] lidsArray) {
+	public boolean changeLabel(String lids) {
 		System.out.println("changeLabel..service...");
 		
 		HttpSession session = ServletActionContext.getRequest().getSession();
-		
-		
 		try{
-			//根据lid数组得到
+			//根据lids字符串的到数字数组
+			String[] lidsArray = lids.split("a");
+			int[] lidInt = new int[lidsArray.length];            //标签编号数组
+			int cnt = 0;
+			for(String i : lidsArray) {
+				lidInt[cnt] = Integer.parseInt(i);
+				cnt ++;
+			}
 			
-			return true;
+			//再改变用户的标签
+			boolean flag = infoDao.changeLabel((int)session.getAttribute("uid"),lidInt);
+			if(flag == true) {
+				return true;
+			} else {
+				return false;
+			}
+			
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			return false;

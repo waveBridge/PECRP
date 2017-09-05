@@ -169,29 +169,35 @@ public class InfoAction extends ActionSupport {
 		return null;
 	}
 	
-//	//修改用户的标签
-//	public String changeLabel() throws IOException {
-//		System.out.println("changeLabel...action...");
-//		//获得request和response对象
-//		HttpServletRequest request = ServletActionContext.getRequest();
-//		HttpServletResponse response = ServletActionContext.getResponse();
-//		response.setContentType("application/json;charset=utf-8");
-//		response.setHeader("Access-Control-Allow-Origin", "*");
-//		PrintWriter out = response.getWriter();
-//		
-//		JSONObject json = new JSONObject();
-//		try{
-////			String label = request.getParameter("labels");         //接收到字符串形式的labels集合
-////			JSONObject labels = JSONObject.fromObject(label);
-////			Set<Label> labelSet = new HashSet<Label>();			
-//		} catch (Exception e) {
-//			System.out.println(e.toString());
-//		} finally {
-//			out.write(json.toString());
-//			out.flush();
-//			out.close();
-//		}
-//		return null;
-//	}
+	//修改用户的标签
+	public String changeLabel() throws IOException {
+		System.out.println("changeLabel...action...");
+		
+		//获得request和response对象
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setContentType("application/json;charset=utf-8");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		PrintWriter out = response.getWriter();
+		
+		JSONObject json = new JSONObject();
+		try{
+			String lids = request.getParameter("lids");         //接收到字符串形式的labels集合
+			boolean flag = infoService.changeLabel(lids);
+			if(flag == true) {   
+				json.put("msg", "1");                           //改变成功
+			} else {
+				json.put("msg", "0");                           //改变失败
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			json.put("msg", "0");
+		} finally {
+			out.write(json.toString());
+			out.flush();
+			out.close();
+		}
+		return null;
+	}
 	
 }
