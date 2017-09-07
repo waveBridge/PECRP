@@ -12,4 +12,6 @@ public interface InfoDao {
 
 	boolean changeLabel(int uid, int[] lidInt);
 
+	boolean upImg(int uid, String path);
+
 }

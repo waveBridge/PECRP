@@ -6,6 +6,12 @@
 <struts>
 	<constant name="struts.il8n.encoding" value="UTF-8" />
 	
+	<constant name="struts.action.extension" value=","></constant>    
+    <!-- 上传文件最大限制（如果为多文件上传，则为多个文件的总大小） -->    
+    <constant name="struts.multipart.maxSize" value="40000000"></constant>    
+    <!-- 存放上传文件的临时目录 -->    
+    <constant name="struts.multipart.saveDir" value="D:\\temp"></constant>      
+	
 	<!-- 注意使用的包不是struts-default 而是json-default -->
 	<package name="myPackage" namespace="/" extends="json-default">		
 		<action name="*Action" class = "userAction" method="{1}"></action>
@@ -14,5 +20,10 @@
 		<action name="forgetPassChangeAction" class = "infoAction" method="forgetPassChange"></action>
 		<action name="changeNicknameAction" class = "infoAction" method="changeNickname"></action>
 		<action name="changeLabelAction" class = "infoAction" method="changeLabel"></action>
+		<action name="upImgAction" class = "infoAction" method="upImg">
+			<!-- param是参数，能够到action中 -->
+			<param name="maximumSize ">1000000</param>    
+            <param name="allowedTypes">image/png,image/jpg,image/jpeg,image/gif</param>     
+		</action>
 	</package>
 </struts>

@@ -108,5 +108,20 @@ public class InfoDaoImpl implements InfoDao {
 			return false;
 		}
 	}
+
+	//–¥»ÎÕ∑œÒµÿ÷∑
+	@Override
+	public boolean upImg(int uid, String path) {
+		System.out.println("upImg...dao...");
+		
+		try{
+			User user = hibernateTemplate.get(User.class, uid);
+			user.setPhoto(path);
+			return true;
+		}catch (Exception e) {
+			System.out.println(e.toString());
+			return false;
+		}
+	}
 	
 }
