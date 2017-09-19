@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 import javax.servlet.http.HttpSession;
 import org.apache.struts2.ServletActionContext;
-import org.springframework.transaction.annotation.Transactional;   //×¢ÒâÊÂÎñµÄÅäÖÃÒıÈëµÄ°üÒ»¶¨²»Òª´í
+import org.springframework.transaction.annotation.Transactional;   //æ³¨æ„äº‹åŠ¡çš„é…ç½®å¼•å…¥çš„åŒ…ä¸€å®šä¸è¦é”™
 
 import cn.pecrp.dao.UserDao;
 import cn.pecrp.entity.User;
@@ -29,23 +29,23 @@ public class UserService {
 		this.timeUtil = timeUtil;
 	}
 
-	//µÇÂ¼
+	//ç™»å½•
 	public boolean login(String username, String password) {
 		System.out.println("login...service...");
 		
 		int flag = userDao.searchUser(username, password);
 		if(flag == 0) {
-			//²»´æÔÚ
+			//ä¸å­˜åœ¨
 			return false;
 		} else {
-			//´æÔÚÓÃ»§  uid·ÅÈësession
+			//å­˜åœ¨ç”¨æˆ·  uidæ”¾å…¥session
 			HttpSession session = ServletActionContext.getRequest().getSession();
 			session.setAttribute("uid", flag);
 			return true;
 		}
 	}
 	
-	//¸ù¾İÓÃ»§Ãû²éÕÒÓÃ»§
+	//æ ¹æ®ç”¨æˆ·åæŸ¥æ‰¾ç”¨æˆ·
 	public boolean searchUser(String username) {
 		System.out.println("searchUser...service...");
 		
@@ -57,7 +57,7 @@ public class UserService {
 		else return false;
 	}
 	
-	//×¢²á
+	//æ³¨å†Œ
 	public boolean register(User user) {
 		System.out.println("register...service...");
 		
@@ -65,7 +65,7 @@ public class UserService {
 		
 		if(flag != 0) {
 			HttpSession session = ServletActionContext.getRequest().getSession();
-			session.setAttribute("uid", flag);               //ÓÃ»§id·ÅÈë session
+			session.setAttribute("uid", flag);                //ç”¨æˆ·idæ”¾å…¥ session
 			return true;
 		} else {
 			return false;
@@ -73,18 +73,18 @@ public class UserService {
 			
 	}
 	
-	//·¢ËÍÓÊ¼ş»ñÈ¡ÑéÖ¤Âë
+	//å‘é€é‚®ä»¶è·å–éªŒè¯ç 
 	public boolean getVCode(String email) {
 		System.out.println("getVCode...service...");
-		//Ëæ»úÉú³É5ÑéÖ¤Âë
+		//éšæœºç”Ÿæˆ5éªŒè¯ç 
 	    Integer x =(int)((Math.random()*9+1)*10000);  
 	    String text = x.toString(); 
 		boolean flag = mailUtil.sendMail(email, text);
 		if(flag == true){
-			//·¢ËÍ³É¹¦£¬°ÑÑéÖ¤ÂëºÍÊ±¼ä¼ÇÂ¼
+			//å‘é€æˆåŠŸï¼ŒæŠŠéªŒè¯ç å’Œæ—¶é—´è®°å½•
 			String nowTime = timeUtil.getTime();
 			
-			//´æÈësession  ÑéÖ¤Âë#Ê±¼ä
+			//å­˜å…¥session  éªŒè¯ç #æ—¶é—´
 			HttpSession session = ServletActionContext.getRequest().getSession();
 			session.setAttribute("vcodeTime",text+"#"+nowTime);
 			System.out.println(session.getAttribute("vcodeTime"));
@@ -95,7 +95,7 @@ public class UserService {
 		}
 	}
 	
-	//±È½ÏÑéÖ¤ÂëÊÇ·ñÕıÈ·ÒÔ¼°ÊÇ·ñÊ§Ğ§
+	//æ¯”è¾ƒéªŒè¯ç æ˜¯å¦æ­£ç¡®ä»¥åŠæ˜¯å¦å¤±æ•ˆ
 	public boolean cmpVCode(String vcode) {
 		System.out.println("cmpVCode...service...");
 		
@@ -104,7 +104,7 @@ public class UserService {
 			String vcodeTime =  (String) session.getAttribute("vcodeTime");
 			String vcodeTimeArray[] = vcodeTime.split("#");
 			
-			//ÏÈ±È½ÏÑéÖ¤ÂëÊÇ·ñÕıÈ·
+			//å…ˆæ¯”è¾ƒéªŒè¯ç æ˜¯å¦æ­£ç¡®
 			if(vcodeTimeArray[0].equals(vcode)) {
 				boolean flag = timeUtil.cmpTime(vcodeTimeArray[1]);
 				
@@ -122,14 +122,14 @@ public class UserService {
 		}	 
 	}
 
-	//·µ»ØËùÓĞµÄÓÃ»§ĞÅÏ¢
+	//è¿”å›æ‰€æœ‰çš„ç”¨æˆ·ä¿¡æ¯
 	public User getUserInfo() {
 		System.out.println("getUserInfo...service...");
 		
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		
 		try{
-			//¸ù¾İidµÃµ½¸ÃÓÃ»§µÄËùÓĞĞÅÏ¢
+			//æ ¹æ®idå¾—åˆ°è¯¥ç”¨æˆ·çš„æ‰€æœ‰ä¿¡æ¯
 			User user = userDao.getUserInfo((int)session.getAttribute("uid"));
 			return user;
 		} catch (Exception e) {

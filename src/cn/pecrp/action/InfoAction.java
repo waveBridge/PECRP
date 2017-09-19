@@ -31,10 +31,10 @@ public class InfoAction extends ActionSupport {
 		this.infoService = infoService;
 	}
 	
-	//ÉÏ´«ÎÄ¼ş£¬²ÉÓÃ±íµ¥ĞÎÊ½£¬×¢Èë
-	private File upload;                  //ÉÏ´«ÎÄ¼ş
-    private String uploadFileName;        //ÉÏ´«ÎÄ¼şÃû
-    private String uploadContentType;     //ÉÏ´«ÎÄ¼şÀàĞÍ
+	//ä¸Šä¼ æ–‡ä»¶ï¼Œé‡‡ç”¨è¡¨å•å½¢å¼ï¼Œæ³¨å…¥
+	private File upload;                  //ä¸Šä¼ æ–‡ä»¶
+	private String uploadFileName;        //ä¸Šä¼ æ–‡ä»¶å
+	private String uploadContentType; //ä¸Šä¼ æ–‡ä»¶ç±»å‹
 
     private long maximumSize;  
     private String allowedTypes;  
@@ -71,11 +71,11 @@ public class InfoAction extends ActionSupport {
         this.allowedTypes = allowedTypes;  
     }  
 
-	//ĞŞ¸ÄÃÜÂë
+    //ä¿®æ”¹å¯†ç 
 	public String changePass() throws IOException {
 		System.out.println("changePass...action...");
 		
-		//»ñµÃrequestºÍresponse¶ÔÏó
+		//è·å¾—requestå’Œresponseå¯¹è±¡
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpServletResponse response = ServletActionContext.getResponse();
 		response.setContentType("application/json;charset=utf-8");
@@ -90,16 +90,16 @@ public class InfoAction extends ActionSupport {
 			
 			int flag = infoService.changePass(oldPass,newPass);
 			if(flag == 1) {
-				json.put("msg", "1");                   //ĞŞ¸Ä³É¹¦  
+				json.put("msg", "1");                   //ä¿®æ”¹æˆåŠŸ 
 			} else if(flag == -1) { 
-				json.put("msg", "-1");                  //Ô­ÃÜÂë´íÎó
+				json.put("msg", "-1");                  //åŸå¯†ç é”™è¯¯
 			} else {
-				json.put("msg", "0");                   //ĞŞ¸ÄÊ§°Ü
+				json.put("msg", "0");                   //ä¿®æ”¹å¤±è´¥
 			}
 			
 		} catch (Exception e) {
 			System.out.println(e.toString());
-			json.put("msg","0");                      //ĞŞ¸ÄÊ§°Ü
+			json.put("msg","0");                        //ä¿®æ”¹å¤±è´¥
 		} finally{
 			out.write(json.toString());
 			out.flush();
@@ -108,11 +108,10 @@ public class InfoAction extends ActionSupport {
 		return null;
 	}
 	
-	//Íü¼ÇÃÜÂë_»ñÈ¡ÑéÖ¤Âë
+	//å¿˜è®°å¯†ç _è·å–éªŒè¯ç 
 	public String forgetPassGetVCode() throws IOException {
 		System.out.println("forgetPassGetVCode...action...");
 		
-		//»ñµÃrequestºÍresponse¶ÔÏó
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpServletResponse response = ServletActionContext.getResponse();
 		response.setContentType("application/json;charset=utf-8");
@@ -126,11 +125,11 @@ public class InfoAction extends ActionSupport {
 			
 			int flag = infoService.forgetPassGetVCode(username,email);
 			if(flag == -1) {
-				json.put("msg","-1");                   //ÓÃ»§ÃûÓëÓÊÏä²»Æ¥Åä
+				json.put("msg","-1");                   //ç”¨æˆ·åä¸é‚®ç®±ä¸åŒ¹é…
 			} else if (flag == 1) {
-				json.put("msg", "1");                   //·¢ËÍÁËÑéÖ¤Âë
+				json.put("msg", "1");                   //å‘é€äº†éªŒè¯ç 
 			} else {
-				json.put("msg", "0");                   //Î´Öª´íÎó
+				json.put("msg", "0");                   //æœªçŸ¥é”™è¯¯
 			}
 			
 		} catch (Exception e) {
@@ -145,10 +144,10 @@ public class InfoAction extends ActionSupport {
 		return null;
 	}
 	
-	//Íü¼ÇÃÜÂë_ĞŞ¸ÄÃÜÂë
+	//å¿˜è®°å¯†ç _ä¿®æ”¹å¯†ç 
 	public String forgetPassChange() throws IOException {
 		System.out.println("forgetPassChange...action...");
-		//»ñµÃrequestºÍresponse¶ÔÏó
+		
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpServletResponse response = ServletActionContext.getResponse();
 		response.setContentType("application/json;charset=utf-8");
@@ -159,18 +158,18 @@ public class InfoAction extends ActionSupport {
 		try{
 			String vcode = request.getParameter("vcode");
 			String password = request.getParameter("password");
-			//¿´ÑéÖ¤ÂëÊÇ·ñÕıÈ·
+			//çœ‹éªŒè¯ç æ˜¯å¦æ­£ç¡®
 			boolean flag = infoService.forgetPassCmpVCode(vcode);
 			if(flag == true) {
-				//ÕıÈ·£¬¿ÉÒÔĞŞ¸ÄÃÜÂë
+				//æ­£ç¡®ï¼Œå¯ä»¥ä¿®æ”¹å¯†ç 
 				flag = infoService.forgetPassChange(password);
 				if(flag == true) {
-					json.put("msg", "1");                   //ĞŞ¸Ä³É¹¦
+					json.put("msg", "1");                   //ä¿®æ”¹æˆåŠŸ
 				} else {
-					json.put("msg","0");                    //ĞŞ¸ÄÊ§°Ü
+					json.put("msg","0");                    //ä¿®æ”¹å¤±è´¥
 				}
 			} else {
-				json.put("msg", "-1");                      //ÑéÖ¤Âë´íÎó
+				json.put("msg", "-1");                      //éªŒè¯ç é”™è¯¯
 			} 
 			
 		}catch (Exception e) {
@@ -184,10 +183,10 @@ public class InfoAction extends ActionSupport {
 		return null;
 	}
 	
-	//ĞŞ¸ÄêÇ³Æ
+	//ä¿®æ”¹æ˜µç§°
 	public String changeNickname() throws IOException {
 		System.out.println("changeNickname...action...");
-		//»ñµÃrequestºÍresponse¶ÔÏó
+		
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpServletResponse response = ServletActionContext.getResponse();
 		response.setContentType("application/json;charset=utf-8");
@@ -199,9 +198,9 @@ public class InfoAction extends ActionSupport {
 			String nickname = request.getParameter("nickname");
 			boolean flag = infoService.changeNickname(nickname);
 			if(flag == false) {
-				json.put("msg","0");                  //ĞŞ¸ÄÊ§°Ü
+				json.put("msg","0");                 	   //ä¿®æ”¹å¤±è´¥
 			} else {
-				json.put("msg",nickname);                  //ĞŞ¸Ä³É¹¦
+				json.put("msg",nickname);                  //ä¿®æ”¹æˆåŠŸ
 			}
 		} catch (Exception e) {
 			System.out.println(e.toString());
@@ -215,11 +214,10 @@ public class InfoAction extends ActionSupport {
 		return null;
 	}
 	
-	//ĞŞ¸ÄÓÃ»§µÄ±êÇ©
+	//ä¿®æ”¹ç”¨æˆ·çš„æ ‡ç­¾
 	public String changeLabel() throws IOException {
 		System.out.println("changeLabel...action...");
 		
-		//»ñµÃrequestºÍresponse¶ÔÏó
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpServletResponse response = ServletActionContext.getResponse();
 		response.setContentType("application/json;charset=utf-8");
@@ -228,12 +226,12 @@ public class InfoAction extends ActionSupport {
 		
 		JSONObject json = new JSONObject();
 		try{
-			String lids = request.getParameter("lids");         //½ÓÊÕµ½×Ö·û´®ĞÎÊ½µÄlabels¼¯ºÏ
+			String lids = request.getParameter("lids");         //æ¥æ”¶åˆ°å­—ç¬¦ä¸²å½¢å¼çš„labelsé›†åˆç”±aéš”å¼€
 			boolean flag = infoService.changeLabel(lids);
 			if(flag == true) {   
-				json.put("msg", "1");                           //¸Ä±ä³É¹¦
+				json.put("msg", "1");                           //æ”¹å˜æˆåŠŸ
 			} else {
-				json.put("msg", "0");                           //¸Ä±äÊ§°Ü
+				json.put("msg", "0");                           //æ”¹å˜å¤±è´¥
 			}
 		} catch (Exception e) {
 			System.out.println(e.toString());
@@ -246,7 +244,7 @@ public class InfoAction extends ActionSupport {
 		return null;
 	}
 	
-	//ÉÏ´«Í·Ïñ
+	//ä¸Šä¼ å¤´åƒ
 	public String upImg() throws IOException {
 		System.out.println("upImg...action...");
 		
@@ -257,15 +255,15 @@ public class InfoAction extends ActionSupport {
 		
 		JSONObject json = new JSONObject();
 		try{
-			//ÉÏ´«ÎÄ¼ş
+			//ä¸Šä¼ æ–‡ä»¶
 			String flag = infoService.upFile(maximumSize,allowedTypes,upload,uploadFileName,uploadContentType);
 			
-			//µØÖ·ÎªÉÏ´«³É¹¦   0Ê§°Ü  -1Ì«´ó  -2ÀàĞÍ²»·ûºÏ
+			//åœ°å€ä¸ºä¸Šä¼ æˆåŠŸ   0å¤±è´¥  -1å¤ªå¤§  -2ç±»å‹ä¸ç¬¦åˆ
 			json.put("msg", flag);
 			
 		} catch (Exception e) {
 			System.out.println(e.toString());
-			json.put("msg", "0");                    //Ê§°Ü
+			json.put("msg", "0");                    //å¤±è´¥
 		} finally {
 			outt.write(json.toString());
 			outt.flush();

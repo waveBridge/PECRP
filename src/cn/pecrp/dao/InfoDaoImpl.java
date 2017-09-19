@@ -14,7 +14,7 @@ public class InfoDaoImpl implements InfoDao {
 		this.hibernateTemplate = hibernateTemplate;
 	}
 	
-	//Í¨¹ıuidµÃµ½ÃÜÂë
+	//é€šè¿‡uidå¾—åˆ°å¯†ç 
 	@Override
 	public String getPass(int uid) {
 		System.out.println("getPass...dao...");
@@ -30,7 +30,7 @@ public class InfoDaoImpl implements InfoDao {
 	}
 
 	
-	//Í¨¹ıuidĞŞ¸ÄÃÜÂë
+	//é€šè¿‡uidä¿®æ”¹å¯†ç 
 	@Override
 	public boolean changePass(int uid, String newPass) {
 		System.out.println("changPass...dao...");
@@ -47,7 +47,7 @@ public class InfoDaoImpl implements InfoDao {
 		}
 	}
 
-	//Í¨¹ıÓÃ»§ÃûºÍÓÊÏä²éÑ¯ÓÃ»§
+	//é€šè¿‡ç”¨æˆ·åå’Œé‚®ç®±æŸ¥è¯¢ç”¨æˆ·
 	@Override
 	public int searchUser(String username, String email) {
 		System.out.println("searchUser...dao..");
@@ -55,9 +55,9 @@ public class InfoDaoImpl implements InfoDao {
 			@SuppressWarnings("unchecked")
 			List<User> list = (List<User>)hibernateTemplate.find("from User where username = ? and email = ?",username,email);
 			if(list.size() == 0) {
-				return -1;                     	//²»Æ¥Åä
+				return -1;                     	//ä¸åŒ¹é…
 			} else {
-				return list.get(0).getUid();	//Æ¥Åä²¢ÇÒ·µ»Øuid
+				return list.get(0).getUid();	//åŒ¹é…å¹¶ä¸”è¿”å›uid
 			}
 			
 		}catch (Exception e) {
@@ -68,7 +68,7 @@ public class InfoDaoImpl implements InfoDao {
 		
 	}
 
-	//ĞŞ¸ÄêÇ³Æ
+	//ä¿®æ”¹æ˜µç§°
 	@Override
 	public boolean changeNickname(int uid, String nickname) {
 		System.out.println("changeNickname...dao..");
@@ -76,10 +76,10 @@ public class InfoDaoImpl implements InfoDao {
 		try{
 			User user = hibernateTemplate.get(User.class,uid);
 			if(user == null) {
-				return false;            // Î´ÕÒµ½
+				return false;            // æœªæ‰¾åˆ°
 			} else {
 				user.setNickname(nickname);
-				return true;             // ĞŞ¸Ä³É¹¦
+				return true;             // ä¿®æ”¹æˆåŠŸ
 			}
 		}catch (Exception e) {
 			System.out.println(e.toString());    
@@ -87,17 +87,17 @@ public class InfoDaoImpl implements InfoDao {
 		}
 	}
 
-	//¸Ä±äÓÃ»§±êÇ©
+	//æ”¹å˜ç”¨æˆ·æ ‡ç­¾
 	@Override
 	public boolean changeLabel(int uid, int[] lidInt) {
 		System.out.println("changeLabel...Dao..");
 		
 		try{
-			//ÏÈÉ¾³ıµôÓÃ»§µÄ±êÇ©
+			//å…ˆåˆ é™¤æ‰ç”¨æˆ·çš„æ ‡ç­¾
 			User user = hibernateTemplate.get(User.class, uid);
 			user.getLabelSet().clear();
 			
-			//ÔÙÌí¼Ó±êÇ©
+			//å†æ·»åŠ æ ‡ç­¾
 			for(int lid : lidInt) {
 				Label label = hibernateTemplate.get(Label.class, lid);
 				user.getLabelSet().add(label);
@@ -109,7 +109,7 @@ public class InfoDaoImpl implements InfoDao {
 		}
 	}
 
-	//Ğ´ÈëÍ·ÏñµØÖ·
+	//å†™å…¥å¤´åƒåœ°å€
 	@Override
 	public boolean upImg(int uid, String path) {
 		System.out.println("upImg...dao...");

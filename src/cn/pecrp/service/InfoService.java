@@ -31,59 +31,59 @@ public class InfoService {
 		this.timeUtil = timeUtil;
 	}
 
-	//Í¨¹ı¾ÉÃÜÂë¸ÄÃÜÂë
+	//é€šè¿‡æ—§å¯†ç æ”¹å¯†ç 
 	public int changePass(String oldPass,String newPass) {
 		System.out.println("changePass...service...");
 		
-		//ÏÈÅĞ¶ÏÃÜÂëÊÇ·ñÕıÈ·  »ñÈ¡¸ÃÓÃ»§µÄÃÜÂë ÓÃ»§¿Ï¶¨´æÔÚsessionÖĞ
+		//å…ˆåˆ¤æ–­å¯†ç æ˜¯å¦æ­£ç¡®  è·å–è¯¥ç”¨æˆ·çš„å¯†ç  ç”¨æˆ·è‚¯å®šå­˜åœ¨sessionä¸­
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		int uid = (int)session.getAttribute("uid");
 		
-		//Í¨¹ıÓÃ»§idÕÒÃÜÂë²¢±È½ÏoldPass
+		//é€šè¿‡ç”¨æˆ·idæ‰¾å¯†ç å¹¶æ¯”è¾ƒoldPass
 		String password = infoDao.getPass(uid);
 		
 		if(oldPass.equals(password)) {
 			
-			//Í¨¹ıuidĞŞ¸ÄÃÜÂë
+			//é€šè¿‡uidä¿®æ”¹å¯†ç 
 			boolean flag = infoDao.changePass(uid,newPass);
 			if(flag == true) {
-				return 1;           //ĞŞ¸Ä³É¹¦
+				return 1;           //ä¿®æ”¹æˆåŠŸ
 			} else {
-				return 0;           //Î´Öª´íÎó
+				return 0;           //æœªçŸ¥é”™è¯¯
 			}
 			
 		} else {
-			return -1;              //ĞÂ¾ÉÃÜÂë²»Ò»ÖÂ
+			return -1;              //æ–°æ—§å¯†ç ä¸ä¸€è‡´
 		}
 	}
 	
-	//Íü¼ÇÃÜÂë_»ñÈ¡ÑéÖ¤Âë
+	//å¿˜è®°å¯†ç _è·å–éªŒè¯ç 
 	public int forgetPassGetVCode(String username,String email)	{
 		System.out.println("forgetPassGetVCode...service...");
 		
-		//ÏÈºË¶ÔÓÃ»§ÃûºÍÓÊÏäÊÇ·ñÆ¥Åä
+		//å…ˆæ ¸å¯¹ç”¨æˆ·åå’Œé‚®ç®±æ˜¯å¦åŒ¹é…
 		int flag = infoDao.searchUser(username,email);
 		
 		if(flag == -1) {
-			return -1;  			//²»Æ¥Åä
+			return -1;  			//ä¸åŒ¹é…
 		} else {
-			//uid´æÈësession
+			//uidå­˜å…¥session
 			HttpSession session = ServletActionContext.getRequest().getSession();
 			session.setAttribute("uid",flag);
 			
-			//·¢ËÍÓÊÏäÑéÖ¤Âë
-			//Ëæ»úÉú³É5ÑéÖ¤Âë
+			//å‘é€é‚®ç®±éªŒè¯ç 
+			//éšæœºç”Ÿæˆ5éªŒè¯ç 
 		    Integer x =(int)((Math.random()*9+1)*10000);  
 		    String text = x.toString(); 
 			boolean flag2 = mailUtil.sendMail(email, text);
 			if(flag2 == true){
-				//·¢ËÍ³É¹¦£¬°ÑÑéÖ¤ÂëºÍÊ±¼ä¼ÇÂ¼
+				//å‘é€æˆåŠŸï¼ŒæŠŠéªŒè¯ç å’Œæ—¶é—´è®°å½•
 				String nowTime = timeUtil.getTime();
 				
-				//´æÈësession  ÑéÖ¤Âë#Ê±¼ä
+				//å­˜å…¥session  éªŒè¯ç #æ—¶é—´
 				session.setAttribute("vcodeTime",text+"#"+nowTime);
 				System.out.println(session.getAttribute("vcodeTime"));
-				return 1;                  //·¢ËÍ³É¹¦
+				return 1;                  //å‘é€æˆåŠŸ
 				
 			} else {
 				return 0;
@@ -92,7 +92,7 @@ public class InfoService {
 		}
 	}
 	
-	//Íü¼ÇÃÜÂë_±È¶ÔÑéÖ¤Âë
+	//å¿˜è®°å¯†ç _æ¯”å¯¹éªŒè¯ç 
 	public boolean forgetPassCmpVCode(String vcode) {
 		System.out.println("cmpVCode...service...");
 		
@@ -101,7 +101,7 @@ public class InfoService {
 			String vcodeTime =  (String) session.getAttribute("vcodeTime");
 			String vcodeTimeArray[] = vcodeTime.split("#");
 			
-			//ÏÈ±È½ÏÑéÖ¤ÂëÊÇ·ñÕıÈ·
+			//å…ˆæ¯”è¾ƒéªŒè¯ç æ˜¯å¦æ­£ç¡®
 			if(vcodeTimeArray[0].equals(vcode)) {
 				boolean flag = timeUtil.cmpTime(vcodeTimeArray[1]);
 				
@@ -119,7 +119,7 @@ public class InfoService {
 		}	 
 	}
 
-	//Íü¼ÇÃÜÂë_ĞŞ¸ÄÃÜÂë
+	//å¿˜è®°å¯†ç _ä¿®æ”¹å¯†ç 
 	public boolean forgetPassChange(String password) {
 		System.out.println("forgetPassChange..service...");
 		
@@ -138,7 +138,7 @@ public class InfoService {
 		
 	}
 
-	//ĞŞ¸ÄêÇ³Æ
+	//ä¿®æ”¹æ˜µç§°
 	public boolean changeNickname(String nickname) {
 		System.out.println("changeNickname..service...");
 		
@@ -146,9 +146,9 @@ public class InfoService {
 		try{
 			boolean flag = infoDao.changeNickname((int)session.getAttribute("uid"),nickname);
 			if(flag == false) {
-				return false;         //ĞŞ¸ÄÊ§°Ü
+				return false;         //ä¿®æ”¹å¤±è´¥
 			} else {
-				return true;          //ĞŞ¸Ä³É¹¦
+				return true;          //ä¿®æ”¹æˆåŠŸ
 			}
 		}catch (Exception e) {
 			System.out.println(e.toString());
@@ -156,22 +156,22 @@ public class InfoService {
 		}
 	}
 
-	//ĞŞ¸ÄÓÃ»§µÄ±êÇ©
+	//ä¿®æ”¹ç”¨æˆ·çš„æ ‡ç­¾
 	public boolean changeLabel(String lids) {
 		System.out.println("changeLabel..service...");
 		
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		try{
-			//¸ù¾İlids×Ö·û´®µÄµ½Êı×ÖÊı×é
+			//æ ¹æ®lidså­—ç¬¦ä¸²çš„åˆ°æ•°å­—æ•°ç»„
 			String[] lidsArray = lids.split("a");
-			int[] lidInt = new int[lidsArray.length];            //±êÇ©±àºÅÊı×é
+			int[] lidInt = new int[lidsArray.length];            //æ ‡ç­¾ç¼–å·æ•°ç»„
 			int cnt = 0;
 			for(String i : lidsArray) {
 				lidInt[cnt] = Integer.parseInt(i);
 				cnt ++;
 			}
 			
-			//ÔÙ¸Ä±äÓÃ»§µÄ±êÇ©
+			//å†æ”¹å˜ç”¨æˆ·çš„æ ‡ç­¾
 			boolean flag = infoDao.changeLabel((int)session.getAttribute("uid"),lidInt);
 			if(flag == true) {
 				return true;
@@ -185,27 +185,27 @@ public class InfoService {
 		}
 	}
 
-	//ÉÏ´«ÎÄ¼ş
+	//ä¸Šä¼ æ–‡ä»¶
 	public String upFile(long maximumSize, String allowedTypes, File upload, String uploadFileName,
 			String uploadContentType) {
 		System.out.println("upFile...service...");
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		
 		try{
-			//ĞÂ½¨ÎÄ¼ş
+			//æ–°å»ºæ–‡ä»¶
 			File uploadFile = new File(ServletActionContext.getServletContext().getRealPath("upload"));
 			if(!uploadFile.exists()) {  
 	            uploadFile.mkdir();  
 	        } 
 			
-			//ÑéÖ¤ÎÄ¼ş´óĞ¡
+			//éªŒè¯æ–‡ä»¶å¤§å°
 	        if (maximumSize < upload.length()) {  
-	            return "-1";                        //ÎÄ¼ş¹ı´ó
+	            return "-1";                       //æ–‡ä»¶è¿‡å¤§
 	            
 	        } else {
-	        	//ÑéÖ¤ÎÄ¼ş¸ñÊ½
+	        	//éªŒè¯æ–‡ä»¶æ ¼å¼
 	        	boolean flag = false;  
-	            String[]  allowedTypesStr = allowedTypes.split(",");    //ÕâÊÇÔÚÅäÖÃÎÄ¼şÖĞ °´ÕÕ¶ººÅ¸ô¿ª
+	            String[]  allowedTypesStr = allowedTypes.split(",");    //è¿™æ˜¯åœ¨é…ç½®æ–‡ä»¶ä¸­ æŒ‰ç…§é€—å·éš”å¼€
 	            
 	            for (int i = 0; i < allowedTypesStr.length; i++) {  
 	                if (uploadContentType.equals(allowedTypesStr[i])) {  
@@ -214,28 +214,28 @@ public class InfoService {
 	            }  
 	            
 	            if (flag == false) {  
-	                return "-2";                     //ÎÄ¼ş¸ñÊ½´íÎó
+	                return "-2";                     //æ–‡ä»¶æ ¼å¼é”™è¯¯
 	                
 	            } else {
-	            	//ÎÄ¼şÃûÎª"uid_img"+uid+"ºó×º"
+	            	//æ–‡ä»¶åä¸º"uid_img"+uid+"åç¼€"
 	            	String[] uploadFileNameArray = uploadFileName.split("\\.");
 	            	uploadFileName = "uid_img" + session.getAttribute("uid") + "." + uploadFileNameArray[1];
 	            	String path = uploadFile.getPath()+ "\\" + uploadFileName;
 	            	
-	            	//×¼±¸ÉÏ´«
+	            	//å‡†å¤‡ä¸Šä¼ 
 		            FileUtils.copyFile(upload, new File(path));  
-		            //É¾³ıÁÙÊ±ÎÄ¼ş  
+		            //åˆ é™¤ä¸´æ—¶æ–‡ä»¶ 
 		            upload.delete(); 
 		            
-		            //Ïà¶ÔÂ·¾¶
+		            //ç›¸å¯¹è·¯å¾„
 		            String rePath = "upload" + "\\" + uploadFileName;
-		            //Ğ´ÈëÊı¾İ¿â
+		            //å†™å…¥æ•°æ®åº“
 		            boolean flag2 = infoDao.upImg((int)session.getAttribute("uid"), rePath);
 		            if(flag2 == false) {
-		            	return "0";                //Ê§°Ü
+		            	return "0";                  //å¤±è´¥
 		            } else { 
 		            	System.out.println(ServletActionContext.getServletContext().getContextPath());
-		            	return rePath;               //³É¹¦
+		            	return rePath;               //æˆåŠŸ
 		            }
 		      
 	            }

@@ -27,17 +27,17 @@ public class MailUtil {
 		System.out.println("sendMail...util...");
 		
 		try{
-			//Éè¶¨mail server
+			//è®¾å®šmail server
 			senderImpl.setHost("smtp.163.com");
 			
-			// ÉèÖÃÊÕ¼şÈË£¬¼Ä¼şÈË ÓÃÊı×é·¢ËÍ¶à¸öÓÊ¼ş
+			// è®¾ç½®æ”¶ä»¶äººï¼Œå¯„ä»¶äºº ç”¨æ•°ç»„å‘é€å¤šä¸ªé‚®ä»¶
 			// String[] array = new String[]    {"sun111@163.com","sun222@sohu.com"};    
-			// mailMessage.setTo(array);  
+			// mailMessage.setTo(array);    
 			
 			mailMessage.setTo(to); 
 		    mailMessage.setFrom( "15850685753@163.com" ); 
-		    mailMessage.setSubject( "ÌåÓı½ÌÑ§·ÖÀàÍÆ¼öÆ½Ì¨ÓÊÏäÑéÖ¤Âë" ); 
-		    mailMessage.setText("·¢×ÔÌåÓı½ÌÑ§·ÖÀàÍÆ¼öÆ½Ì¨,ÕâÊÇÄúµÄÑéÖ¤Âë:  "+text+" ,10·ÖÖÓÖ®ÄÚÓĞĞ§¡£"); 
+		    mailMessage.setSubject( "ä½“è‚²æ•™å­¦åˆ†ç±»æ¨èå¹³å°é‚®ç®±éªŒè¯ç " ); 
+		    mailMessage.setText("å‘è‡ªä½“è‚²æ•™å­¦åˆ†ç±»æ¨èå¹³å°,è¿™æ˜¯æ‚¨çš„éªŒè¯ç :  "+text+" ,10åˆ†é’Ÿä¹‹å†…æœ‰æ•ˆã€‚"); 
 			
 		    senderImpl.setUsername("15850685753@163.com");
 		    senderImpl.setPassword("L19970604");
@@ -46,14 +46,14 @@ public class MailUtil {
 		    prop.put("mail.smtp.timeout","25000");
 		    senderImpl.setJavaMailProperties(prop);
 		    
-		    //·¢ËÍÓÊ¼ş
+		    //å‘é€é‚®ä»¶
 		    senderImpl.send(mailMessage);
 		    
-		    System.out.println("·¢ËÍÓÊ¼ş³É¹¦");
+		    System.out.println("å‘é€é‚®ä»¶æˆåŠŸ");
 		    
 		    return true;
 		}catch (Exception e) {
-			System.out.println("·¢ËÍÓÊ¼şÊ§°Ü");
+			System.out.println("å‘é€é‚®ä»¶å¤±è´¥");
 			return false;
 		}
 	}

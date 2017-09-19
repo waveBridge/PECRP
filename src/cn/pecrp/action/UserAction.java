@@ -24,11 +24,10 @@ public class UserAction extends ActionSupport {
 	}
 
 
-	//ÓÃ»§µÇÂ¼
+	//ç”¨æˆ·ç™»å½•
 	public String login() throws IOException {
 		System.out.println("login...action...");
 		
-		//»ñµÃrequestºÍresponse¶ÔÏó
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpServletResponse response = ServletActionContext.getResponse();
 		response.setContentType("application/json;charset=utf-8");
@@ -37,14 +36,14 @@ public class UserAction extends ActionSupport {
 				
 		JSONObject json = new JSONObject();
 		try{
-			//»ñÈ¡Öµ
+			//è·å–å€¼Öµ
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
 			
-			//³¢ÊÔµÇÂ¼
+			//å°è¯•ç™»å½•
 			boolean flag = userService.login(username,password);
 			
-			//µÇÂ¼Ê§°Ü·µ»Ø0   ³É¹¦·µ»Ø1
+			//ç™»å½•å¤±è´¥è¿”å›0   æˆåŠŸè¿”å›1
 			if(flag == false) {
 				json.put("msg", "0");
 			} else {
@@ -64,10 +63,10 @@ public class UserAction extends ActionSupport {
 	}
 	
 	
-	//ÓÃ»§×¢²á
+	//ç”¨æˆ·æ³¨å†Œ
 	public String register() throws IOException {
 		System.out.println("register...action...");
-		//»ñµÃrequestºÍresponse¶ÔÏó
+		
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpServletResponse response = ServletActionContext.getResponse();
 		response.setContentType("application/json;charset=utf-8");
@@ -82,13 +81,13 @@ public class UserAction extends ActionSupport {
 			String email 	= request.getParameter("email");
 			String vcode 	= request.getParameter("vcode");
 			
-			//ÏÈ²éÕÒ¸ÃÓÃ»§ÃûÊÇ·ñ±»×¢²á
+			//å…ˆæŸ¥æ‰¾è¯¥ç”¨æˆ·åæ˜¯å¦è¢«æ³¨å†Œ
 			boolean flag = userService.searchUser(username);
 			
 			if(flag == true) { 
-				json.put("msg","3");                  //ÓÃ»§ÃûÖØ¸´
+				json.put("msg","3");                  //ç”¨æˆ·åé‡å¤
 			} else {
-				//¿´ÑéÖ¤ÂëÊÇ·ñÕıÈ·ÒÔ¼°ÊÇ·ñÊ§Ğ§
+				//çœ‹éªŒè¯ç æ˜¯å¦æ­£ç¡®ä»¥åŠæ˜¯å¦å¤±æ•ˆ
 				flag = userService.cmpVCode(vcode);
 				
 				if(flag == true){
@@ -101,20 +100,20 @@ public class UserAction extends ActionSupport {
 					boolean flag2 =userService.register(user);
 					
 					if(flag2 == true) {
-						json.put("msg", "1");             //×¢²á³É¹¦
+						json.put("msg", "1");             //æ³¨å†ŒæˆåŠŸ
 					
 					} else {
-						json.put("msg","0");              //×¢²áÊ§°Ü
+						json.put("msg","0");              //æ³¨å†Œå¤±è´¥
 					}
 				} else {
-					System.out.println("ÑéÖ¤ÂëÆ¥ÅäÊ§°Ü");
-					json.put("msg", "2");                 //ÑéÖ¤ÂëÆ¥ÅäÊ§°Ü
+					System.out.println("éªŒè¯ç åŒ¹é…å¤±è´¥");
+					json.put("msg", "2");                 //éªŒè¯ç åŒ¹é…å¤±è´¥
 				}
 			}
 			
 		} catch(Exception e) {
-			System.out.println("×¢²áÒì³£");
-			json.put("msg", "0");                     //×¢²á Òì³£
+			System.out.println("æ³¨å†Œå¼‚å¸¸");
+			json.put("msg", "0");                     //æ³¨å†Œ å¼‚å¸¸
 		} finally {
 			out.write(json.toString());
 			out.flush();
@@ -124,10 +123,10 @@ public class UserAction extends ActionSupport {
 		return null;
 	}
 	
-	//»ñÈ¡ÓÊÏäÑéÖ¤Âë
+	//è·å–é‚®ç®±éªŒè¯ç 
 	public String getVCode() throws IOException {
 		System.out.println("getVCode...action...");
-		//»ñµÃrequestºÍresponse¶ÔÏó
+		
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpServletResponse response = ServletActionContext.getResponse();
 		response.setContentType("application/json;charset=utf-8");
@@ -137,12 +136,12 @@ public class UserAction extends ActionSupport {
 		JSONObject json = new JSONObject();
 		try{
 			String email = request.getParameter("email");
-			
+			System.out.println(email);
 			boolean flag = userService.getVCode(email);
 			if(flag == true) {
-				json.put("msg","1");                 //Éú³ÉÁËÑéÖ¤Âë²¢·¢ËÍ¸øÁËÓÃ»§
+				json.put("msg","1");                 //ç”Ÿæˆäº†éªŒè¯ç å¹¶å‘é€ç»™äº†ç”¨æˆ·
 			} else {
-				json.put("msg","0");                 //Î´»ñÈ¡µ½
+				json.put("msg","0");                 //æœªè·å–åˆ°
 			}
 			
 		}catch (Exception e) {
@@ -156,7 +155,7 @@ public class UserAction extends ActionSupport {
 		return null;
 	}
 	
-	//µÃµ½¸ÃÓÃ»§µÄËùÓĞĞÅÏ¢
+	//å¾—åˆ°è¯¥ç”¨æˆ·çš„æ‰€æœ‰ä¿¡æ¯
 	public String getUserInfo()  throws IOException {
 		System.out.println("getUserInfo...action...");
 		
@@ -165,7 +164,7 @@ public class UserAction extends ActionSupport {
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		PrintWriter out = response.getWriter();
 		
-		//ÉèÖÃjsonConfigÊÇÎªÁË°ÚÍÑËÀÑ­»·£¬ÒòÎªÊÇ¶à¶Ô¶à¼¶Áª¹ØÏµ
+		//è®¾ç½®jsonConfigæ˜¯ä¸ºäº†æ‘†è„±æ­»å¾ªç¯ï¼Œå› ä¸ºæ˜¯å¤šå¯¹å¤šçº§è”å…³ç³»
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
 		
@@ -176,14 +175,14 @@ public class UserAction extends ActionSupport {
 			User user  = userService.getUserInfo();
 			if(user != null) {
 				json = JSONObject.fromObject(user, jsonConfig);
-				json2.put("msg",json);                //ÓĞĞÅÏ¢ÔòÊä³öĞÅÏ¢
+				json2.put("msg",json);                //æœ‰ä¿¡æ¯åˆ™è¾“å‡ºä¿¡æ¯
 			} else {
-				json2.put("msg","0");                 //Ã»ÓĞĞÅÏ¢ 0
+				json2.put("msg","0");                 //æ²¡æœ‰ä¿¡æ¯ 0
 			}
 			
 		}catch (Exception e) {
 			System.out.println(e.toString());
-			json2.put("msg","0");                     //ÈôÃ»ÓĞĞÅÏ¢ÔòÎª0
+			json2.put("msg","0");                     //è‹¥æ²¡æœ‰ä¿¡æ¯åˆ™ä¸º0
 		}finally {
 			out.write(json2.toString());
 			out.flush();

@@ -18,7 +18,7 @@ public class UserDaoImpl implements UserDao {
 		this.hibernateTemplate = hibernateTemplate;
 	}
 	
-	//Ñ°ÕÒÓÃ»§ByÕËºÅÃÜÂë
+	//å¯»æ‰¾ç”¨æˆ·Byè´¦å·å¯†ç 
 	@Override
 	public int searchUser(String username,String password) {
 		@SuppressWarnings("unchecked")
@@ -31,7 +31,7 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
-	//Ñ°ÕÒÓÃ»§ByÕËºÅ
+	//å¯»æ‰¾ç”¨æˆ·Byè´¦å·
 	@Override
 	public int searchUser(String username) {
 		@SuppressWarnings("unchecked")
@@ -43,13 +43,12 @@ public class UserDaoImpl implements UserDao {
 		
 	}
 
-	//Ìí¼ÓÓÃ»§
+	//æ·»åŠ ç”¨æˆ·
 	@Override
 	public int addUser(User user) {
 		System.out.println("addUser...dao...");
 		try{
 			int flag = (int)hibernateTemplate.save(user);
-			System.out.println("saveºó·µ»ØµÄflagÖµ" + flag);
 			return flag;
 		}catch (Exception e) {
 			System.out.println(e.toString());
@@ -58,7 +57,7 @@ public class UserDaoImpl implements UserDao {
 		
 	}
 
-	//¸ù¾İid·µ»ØÓÃ»§ËùÓĞĞÅÏ¢
+	//æ ¹æ®idè¿”å›ç”¨æˆ·æ‰€æœ‰ä¿¡æ¯
 	@Override
 	public User getUserInfo(int uid) {
 		System.out.println("getUserInfo...dao...");

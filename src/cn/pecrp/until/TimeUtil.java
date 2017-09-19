@@ -8,13 +8,13 @@ import org.junit.Test;
 
 public class TimeUtil {
 	
-	//»ñÈ¡Ê±¼ä  ·µ»ØºÁÃë¼¶Ê±¼ä
+	//èŽ·å–æ—¶é—´  è¿”å›žæ¯«ç§’çº§æ—¶é—´
 	public String getTime() {
 		System.out.println("getTime...util...");
 		
 		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar calendar = Calendar.getInstance();
-		Long date = calendar.getTime().getTime();            //»ñÈ¡ºÁÃëÊ±¼ä
+		Long date = calendar.getTime().getTime();             //èŽ·å–æ¯«ç§’æ—¶é—´
 		
 		//String dateStringPaString = sdf.format(date);
 		//System.out.println(dateStringPaString);
@@ -27,9 +27,9 @@ public class TimeUtil {
 		long tempTime = Long.parseLong(time);
 		System.out.println("tempTime"+tempTime);
 		
-		//ÔÚ»ñÈ¡ÏÖÔÚµÄÊ±¼ä
+		//åœ¨èŽ·å–çŽ°åœ¨çš„æ—¶é—´
 		Calendar calendar = Calendar.getInstance();
-		Long date = calendar.getTime().getTime();            //»ñÈ¡ºÁÃëÊ±¼ä
+		Long date = calendar.getTime().getTime();           //èŽ·å–æ¯«ç§’æ—¶é—´
 		System.out.println("date"+date);
 		
 		if(date - tempTime > 600000 ) {
