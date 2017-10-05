@@ -15,6 +15,7 @@
 	<!-- 注意使用的包不是struts-default 而是json-default -->
 	<package name="myPackage" namespace="/" extends="json-default">		
 		<action name="*Action" class = "userAction" method="{1}"></action>
+		
 		<action name="changePassAction" class = "infoAction" method="changePass"></action>
 		<action name="forgetPassGetVCodeAction" class = "infoAction" method="forgetPassGetVCode"></action>
 		<action name="forgetPassChangeAction" class = "infoAction" method="forgetPassChange"></action>
@@ -25,5 +26,7 @@
 			<param name="maximumSize ">1000000</param>    
             <param name="allowedTypes">image/png,image/jpg,image/jpeg,image/gif</param>     
 		</action>
+		
+		<action name="watchAction" class = "watchAction" method="watch"></action>
 	</package>
 </struts>

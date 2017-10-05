@@ -12,9 +12,16 @@ public class User {
 	private String	photo;
 	private Set<Label> labelSet = new HashSet<Label>();
 	private Set<Video> collectionSet = new HashSet<Video>();
+	private Set<Video> zanSet = new HashSet<Video>();
 	private Set<Video> watchSet = new HashSet<Video>();
 	private Set<Search> searchSet = new HashSet<Search>();
 	
+	public Set<Video> getZanSet() {
+		return zanSet;
+	}
+	public void setZanSet(Set<Video> zanSet) {
+		this.zanSet = zanSet;
+	}
 	public Set<Search> getSearchSet() {
 		return searchSet;
 	}

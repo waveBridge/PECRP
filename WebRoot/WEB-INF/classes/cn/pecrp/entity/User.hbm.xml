@@ -38,6 +38,11 @@
 			<key column="uid"></key>
 			<many-to-many class="cn.pecrp.entity.Video" column="vid"></many-to-many>
 		</set>
+		
+		<set name="zanSet" table="user_video_zan" cascade="save-update,delete" lazy="false">
+			<key column="uid"></key>
+			<many-to-many class="cn.pecrp.entity.Video" column="vid"></many-to-many>
+		</set>
 
 		<set name="searchSet" table="user_search" cascade="save-update,delete" lazy="false">
 			<key column="uid"></key>

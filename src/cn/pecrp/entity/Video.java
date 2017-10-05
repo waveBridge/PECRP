@@ -9,15 +9,22 @@ public class Video {
 	private String	link;
 	private String	picture;
 	private String	time;   
-	private String	playNum;
+	private Integer	playNum;
 	private Integer	popularity;
 	private Integer	collection;
 	private Set<Label> labelSet = new HashSet<Label>();
 	private Set<User> collectionUserSet = new HashSet<User>();
+	private Set<User> zanUserSet = new HashSet<User>();
 	private Set<User> watchUserSet = new HashSet<User>();
 	private Set<Classify> classifySet = new HashSet<Classify>();
 	private Set<Review> reviewSet = new HashSet<Review>();
 	
+	public Set<User> getZanUserSet() {
+		return zanUserSet;
+	}
+	public void setZanUserSet(Set<User> zanUserSet) {
+		this.zanUserSet = zanUserSet;
+	}
 	public Set<Review> getReviewSet() {
 		return reviewSet;
 	}
@@ -78,10 +85,10 @@ public class Video {
 	public void setTime(String time) {
 		this.time = time;
 	}
-	public String getPlayNum() {
+	public Integer getPlayNum() {
 		return playNum;
 	}
-	public void setPlayNum(String playNum) {
+	public void setPlayNum(Integer playNum) {
 		this.playNum = playNum;
 	}
 	public Integer getPopularity() {

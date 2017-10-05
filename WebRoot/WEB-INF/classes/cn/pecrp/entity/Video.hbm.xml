@@ -35,6 +35,12 @@
 			<key column="vid"></key>
 			<many-to-many class="cn.pecrp.entity.User" column="uid"></many-to-many>
 		</set>
+		
+		<set name="zanUserSet" table="user_video_zan"
+			cascade="save-update,delete" lazy="false">
+			<key column="vid"></key>
+			<many-to-many class="cn.pecrp.entity.User" column="uid"></many-to-many>
+		</set>
 
 		<set name="watchUserSet" table="user_video_watch" cascade="save-update,delete" lazy="false">
 			<key column="vid"></key>

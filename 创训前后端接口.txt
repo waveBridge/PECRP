@@ -48,4 +48,10 @@ url	:	upImgAction
 in	:	通过表单上传，type = "file"  name = "upload"
 out :	修改成功("msg","图片相对路径，可直接访问")  失败("msg","0")  文件类型不符合("msg","-2")  文件太大("msg","-1");
 
+//点开视频（增加用户历史和视频访问量）
+url	:	watchAction
+in	:	vid(视频id)
+out	:	允许访问（修改访问量和观看历史成功）("msg","1")  错误("msg","0")
+
+
   
