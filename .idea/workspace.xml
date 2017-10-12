@@ -2,9 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b630df30-079e-4673-a74c-a8bc94d8ebf5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.classpath" afterPath="$PROJECT_DIR$/.classpath" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/assets/css/bootstrap.css" afterPath="$PROJECT_DIR$/WebRoot/assets/css/bootstrap.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/assets/css/style.css" afterPath="$PROJECT_DIR$/WebRoot/assets/css/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/assets/img/1.jpg" afterPath="$PROJECT_DIR$/WebRoot/assets/img/1.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/assets/img/2.jpg" afterPath="$PROJECT_DIR$/WebRoot/assets/img/2.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/assets/img/3.jpg" afterPath="$PROJECT_DIR$/WebRoot/assets/img/3.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/assets/img/4.jpg" afterPath="$PROJECT_DIR$/WebRoot/assets/img/4.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/assets/img/5.jpg" afterPath="$PROJECT_DIR$/WebRoot/assets/img/5.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/assets/img/6.jpg" afterPath="$PROJECT_DIR$/WebRoot/assets/img/6.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/assets/img/7.jpg" afterPath="$PROJECT_DIR$/WebRoot/assets/img/7.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/assets/img/8.jpg" afterPath="$PROJECT_DIR$/WebRoot/assets/img/8.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/assets/img/9.jpg" afterPath="$PROJECT_DIR$/WebRoot/assets/img/9.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/index.html" afterPath="$PROJECT_DIR$/WebRoot/index.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,8 +27,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/WebRoot/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="492">
-              <caret line="69" column="65" lean-forward="false" selection-start-line="69" selection-start-column="65" selection-end-line="69" selection-end-column="65" />
+            <state relative-caret-position="264">
+              <caret line="51" column="49" lean-forward="false" selection-start-line="51" selection-start-column="49" selection-end-line="51" selection-end-column="49" />
               <folding>
                 <element signature="n#style#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#li#0;n#ul#0;n#div#1;n#div#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -51,8 +58,8 @@
       <file leaf-file-name="basic.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WebRoot/assets/css/basic.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="12" column="1" lean-forward="true" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+            <state relative-caret-position="684">
+              <caret line="57" column="51" lean-forward="true" selection-start-line="57" selection-start-column="51" selection-end-line="57" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -61,8 +68,8 @@
       <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WebRoot/assets/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2166">
-              <caret line="249" column="28" lean-forward="false" selection-start-line="249" selection-start-column="28" selection-end-line="249" selection-end-column="28" />
+            <state relative-caret-position="-171">
+              <caret line="1103" column="33" lean-forward="false" selection-start-line="1103" selection-start-column="33" selection-end-line="1103" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -114,6 +121,7 @@
     <findStrings>
       <find>owl-carousel</find>
       <find>header-slide</find>
+      <find>zoom-container</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -123,8 +131,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/WebRoot/assets/css/bootstrap.css" />
-        <option value="$PROJECT_DIR$/WebRoot/assets/css/style.css" />
         <option value="$PROJECT_DIR$/WebRoot/assets/owl-carousel/owl.carousel.css" />
+        <option value="$PROJECT_DIR$/WebRoot/assets/css/style.css" />
         <option value="$PROJECT_DIR$/WebRoot/index.html" />
       </list>
     </option>
@@ -454,7 +462,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
+    <frame x="-8" y="-8" width="1616" height="876" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.168125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -545,26 +553,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/assets/css/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2166">
-          <caret line="249" column="28" lean-forward="false" selection-start-line="249" selection-start-column="28" selection-end-line="249" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../RJetc/cnsoft_final/templates/btts_9_sp/btts_9_sp/assets/css/basic.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="236">
           <caret line="73" column="0" lean-forward="false" selection-start-line="73" selection-start-column="0" selection-end-line="78" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/assets/css/basic.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="12" column="1" lean-forward="true" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
           <folding />
         </state>
       </provider>
@@ -579,10 +571,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/assets/css/basic.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="684">
+          <caret line="57" column="51" lean-forward="true" selection-start-line="57" selection-start-column="51" selection-end-line="57" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/assets/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-171">
+          <caret line="1103" column="33" lean-forward="false" selection-start-line="1103" selection-start-column="33" selection-end-line="1103" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/WebRoot/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="492">
-          <caret line="69" column="65" lean-forward="false" selection-start-line="69" selection-start-column="65" selection-end-line="69" selection-end-column="65" />
+        <state relative-caret-position="264">
+          <caret line="51" column="49" lean-forward="false" selection-start-line="51" selection-start-column="49" selection-end-line="51" selection-end-column="49" />
           <folding>
             <element signature="n#style#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#li#0;n#ul#0;n#div#1;n#div#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
