@@ -1,5 +1,9 @@
 package cn.pecrp.dao;
 
+import java.util.Set;
+
+import cn.pecrp.entity.Label;
+
 public interface InfoDao {
 	
 	String getPass(int uid);
@@ -10,7 +14,7 @@ public interface InfoDao {
 
 	boolean changeNickname(int attribute, String nickname);
 
-	boolean changeLabel(int uid, int[] lidInt);
+	Set<Label> changeLabel(int uid, int[] lidInt);
 
 	boolean upImg(int uid, String path);
 

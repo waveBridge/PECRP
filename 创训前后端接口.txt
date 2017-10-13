@@ -23,7 +23,7 @@ url	:	forgetPassGetVCodeAction
 in	:	username,email		(用户名和邮箱地址)
 out	:	用户名与邮箱不匹配("msg","-1")   发送邮件成功("msg","1")  发送邮件失败("msg","0")
 
-//用户忘记密码请求修改面吗
+//用户忘记密码请求修改密码
 url :	forgetPassChangeAction
 in	:	vcode,password 		(验证码，新密码,不需要用户名)
 out	:	修改成功("msg","1")  	修改失败("msg","0")		验证码错误或失效("msg","-1")
@@ -40,8 +40,8 @@ out	:	成功的到信息("msg",user对象)	未得到信息("msg","0")
 
 //改变某用户的标签
 url	:	changeLabelAction
-in	:	lids    (一个字符串，是用户新的标签，由标签的编号组成，由小写字母a个分隔， 如：1a4a3   无需排序)
-out	:	修改成功("msg","1")    修改失败("msg","0")
+in	:	lids    (一个字符串，是用户新的标签，由标签的编号组成，由小写字母a个分隔， 如：1a4a3  无需排序 。 特别的，若用户取消所有标签，即删除所有标签，则传一个字符'a'即可)
+out	:	修改成功("msg":{"lid":"labelName","lid":"labelName"},"cnt":标签个数)    修改失败("msg","0")
 
 //上传头像(修改头像)
 url	:	upImgAction

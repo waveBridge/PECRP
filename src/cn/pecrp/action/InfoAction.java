@@ -1,28 +1,22 @@
 package cn.pecrp.action;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.BufferedReader;  
-import java.io.BufferedWriter;  
-import java.io.File;  
-import java.io.FileInputStream;  
-import java.io.FileOutputStream;  
-import java.io.InputStreamReader;  
-import java.io.OutputStreamWriter;  
-import java.util.Map;
+import java.util.HashMap;
 
-import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import cn.pecrp.service.InfoService;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 public class InfoAction extends ActionSupport {
 	
@@ -224,14 +218,22 @@ public class InfoAction extends ActionSupport {
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		PrintWriter out = response.getWriter();
 		
-		JSONObject json = new JSONObject();
+		//设置jsonConfig是为了摆脱死循环，因为是多对多级联关系
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
+		
+		JSONObject json2;									//把对象转变为json2
+		JSONObject json = new JSONObject();                     	//传输的json
 		try{
-			String lids = request.getParameter("lids");         //接收到字符串形式的labels集合由a隔开
-			boolean flag = infoService.changeLabel(lids);
-			if(flag == true) {   
-				json.put("msg", "1");                           //改变成功
+			String lids = request.getParameter("lids");         	//接收到字符串形式的labels集合由a隔开
+			HashMap<Integer,String> flag = infoService.changeLabel(lids);
+			if(flag == null) {   
+				json.put("msg", "0");                          	 	//改变失败
 			} else {
-				json.put("msg", "0");                           //改变失败
+				int cnt = flag.size();
+				json2 = JSONObject.fromObject(flag, jsonConfig);
+				json.put("msg", json2);                           	//改变成功
+				json.put("cnt", cnt);
 			}
 		} catch (Exception e) {
 			System.out.println(e.toString());

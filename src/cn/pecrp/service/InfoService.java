@@ -1,8 +1,10 @@
 package cn.pecrp.service;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
-import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
@@ -10,6 +12,7 @@ import org.apache.struts2.ServletActionContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.pecrp.dao.InfoDao;
+import cn.pecrp.entity.Label;
 import cn.pecrp.until.MailUtil;
 import cn.pecrp.until.TimeUtil;
 
@@ -157,31 +160,41 @@ public class InfoService {
 	}
 
 	//修改用户的标签
-	public boolean changeLabel(String lids) {
+	public HashMap<Integer,String> changeLabel(String lids) {
 		System.out.println("changeLabel..service...");
 		
 		HttpSession session = ServletActionContext.getRequest().getSession();
-		try{
+		try{		
+			int[] lidInt;
 			//根据lids字符串的到数字数组
-			String[] lidsArray = lids.split("a");
-			int[] lidInt = new int[lidsArray.length];            //标签编号数组
-			int cnt = 0;
-			for(String i : lidsArray) {
-				lidInt[cnt] = Integer.parseInt(i);
-				cnt ++;
+			if(lids.equals("a")) {                               //表示用户清除所有标签             
+				lidInt = new int[0];
+			}
+			
+			else {
+				String[] lidsArray = lids.split("a");
+				lidInt = new int[lidsArray.length];            //标签编号数组
+				int cnt = 0;
+				for(String i : lidsArray) {
+					lidInt[cnt] = Integer.parseInt(i);
+					cnt ++;
+				}
 			}
 			
 			//再改变用户的标签
-			boolean flag = infoDao.changeLabel((int)session.getAttribute("uid"),lidInt);
-			if(flag == true) {
-				return true;
-			} else {
-				return false;
+			Set<Label> flag = infoDao.changeLabel((int)session.getAttribute("uid"),lidInt);
+			
+			//存到map中
+			HashMap<Integer,String> labels = new HashMap<Integer,String>();
+			for(Label it:flag){
+				labels.put(it.getLid(), it.getLabelName());
 			}
+			
+			return labels;
 			
 		} catch (Exception e) {
 			System.out.println(e.toString());
-			return false;
+			return null;
 		}
 	}
 

@@ -1,6 +1,7 @@
 package cn.pecrp.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
@@ -89,7 +90,7 @@ public class InfoDaoImpl implements InfoDao {
 
 	//改变用户标签
 	@Override
-	public boolean changeLabel(int uid, int[] lidInt) {
+	public Set<Label> changeLabel(int uid, int[] lidInt) {
 		System.out.println("changeLabel...Dao..");
 		
 		try{
@@ -102,10 +103,13 @@ public class InfoDaoImpl implements InfoDao {
 				Label label = hibernateTemplate.get(Label.class, lid);
 				user.getLabelSet().add(label);
 			}
-			return true;
+			
+			hibernateTemplate.update(user);
+			return user.getLabelSet();
+			
 		} catch (Exception e) {
 			System.out.println(e.toString());
-			return false;
+			return null;
 		}
 	}
 
