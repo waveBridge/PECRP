@@ -17,30 +17,54 @@ public class WatchService {
 	}
 	
 	//准备看视频，加访问量
-	public boolean watch(String svid) {
+	public int watch(String svid) {
 		System.out.println("watch...service...");
 		
 		try{
 			int vid = Integer.parseInt(svid);
-			boolean flag;		
+			int flag;		
 
 			//修改视频访问量
 			flag = watchDao.addPlayNum(vid,1);
-			if(flag == false){
-				return false;
+			if(flag == -1){
+				return -1;
 			}
 			
 			//修改用户访问历史
 			HttpSession session = ServletActionContext.getRequest().getSession();
 			int uid = (int)session.getAttribute("uid");
-			flag = watchDao.addHistory(uid,vid);
-		
+			boolean flag2 = watchDao.addHistory(uid,vid);
+			
+			if(flag2 == false){
+				return -1;
+			}
+			
 			return flag;
 			
 		}catch (Exception e) {
 			System.out.println(e.toString());
-			return false;
+			return -1;
 		}
+	}
+
+	//点赞
+	public String zan(String vids) {
+		System.out.println("zan...service...");
+		
+		try{
+			int vid = Integer.parseInt(vids);
+			HttpSession session = ServletActionContext.getRequest().getSession();
+			int uid = (int)session.getAttribute("uid");
+			
+			//赞一下或者取消赞
+			String flag = watchDao.zan(uid,vid);
+			return flag;
+			
+		}catch (Exception e) {
+			System.out.println(e.toString());
+			return "-1";
+		}
+		
 	}
 	
 }

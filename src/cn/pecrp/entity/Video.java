@@ -10,8 +10,6 @@ public class Video {
 	private String	picture;
 	private String	time;   
 	private Integer	playNum;
-	private Integer	popularity;
-	private Integer	collection;
 	private Set<Label> labelSet = new HashSet<Label>();
 	private Set<User> collectionUserSet = new HashSet<User>();
 	private Set<User> zanUserSet = new HashSet<User>();
@@ -91,16 +89,5 @@ public class Video {
 	public void setPlayNum(Integer playNum) {
 		this.playNum = playNum;
 	}
-	public Integer getPopularity() {
-		return popularity;
-	}
-	public void setPopularity(Integer popularity) {
-		this.popularity = popularity;
-	}
-	public Integer getCollection() {
-		return collection;
-	}
-	public void setCollection(Integer collection) {
-		this.collection = collection;
-	}
+
 }

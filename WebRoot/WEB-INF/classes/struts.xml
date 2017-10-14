@@ -28,5 +28,6 @@
 		</action>
 		
 		<action name="watchAction" class = "watchAction" method="watch"></action>
+		<action name="zanAction" class = "watchAction" method="zan"></action>
 	</package>
 </struts>

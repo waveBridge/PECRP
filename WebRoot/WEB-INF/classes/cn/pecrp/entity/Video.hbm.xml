@@ -21,8 +21,6 @@
 		<property name="picture" column="picture"></property>
 		<property name="time" column="time"></property>
 		<property name="playNum" column="playNum"></property>
-		<property name="popularity" column="popularity"></property>
-		<property name="collection" column="collection"></property>
 
 		<!-- 4:配置多对多的关系 -->
 		<set name="labelSet" table="video_label" cascade="save-update,delete" lazy="false">

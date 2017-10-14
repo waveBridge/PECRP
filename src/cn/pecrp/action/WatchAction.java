@@ -36,15 +36,49 @@ public class WatchAction extends ActionSupport {
 		JSONObject json = new JSONObject();
 		try{
 			String vid = request.getParameter("vid");
-			boolean flag = watchService.watch(vid);
-			if(flag == true){
-				json.put("msg", "1");                    //可以观看
-			} else {
+			int flag = watchService.watch(vid);
+			if(flag == -1){
 				json.put("msg", "0");                    //未知错误
+			} else {
+				json.put("msg", flag);                    //可以访问
 			}
 		}catch (Exception e) {
 			System.out.println(e.toString());
 			json.put("msg", "0");                         //异常
+		}finally {
+			out.write(json.toString());
+			out.flush();
+			out.close();
+		}
+		
+		return null;
+	}
+	
+	//点赞
+	public String zan() throws IOException{
+		System.out.println("zan...action...");
+		
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setContentType("application/json;charset=utf-8");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		PrintWriter out = response.getWriter();
+				
+		JSONObject json = new JSONObject();
+		try{
+			String vid = request.getParameter("vid");
+			String flag = watchService.zan(vid);
+			if(flag.equals("-1")){
+				json.put("msg", "-1");                   //错误
+			} else {
+				String[] tmpArray = flag.split("a");
+				json.put("msg", tmpArray[1]);            //msg存视频的赞数
+				json.put("isZan", tmpArray[0]);          //isZan表示此人目前对此视频的状态
+			}
+			
+		}catch (Exception e) {
+			System.out.println(e.toString());
+			json.put("msg", "-1");
 		}finally {
 			out.write(json.toString());
 			out.flush();
