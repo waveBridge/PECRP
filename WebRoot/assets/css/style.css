@@ -94,24 +94,24 @@ a:focus {
     text-decoration: none;
 }
 
-input:not([type]), input[type="color"], input[type="email"], input[type="number"], input[type="password"], input[type="tel"], input[type="url"], input[type="text"], input[type="search"], textarea, .form-control, select {
-    border: 2px solid #E7E7E7;
-    border-radius: 0 0 0 0;
-    box-shadow: none;
-    color: #999999;
-    display: block;
-    font-size: 14px;
-    font-weight: normal;
-    height: 40px;
-    line-height: 1.2;
-    margin: 10px 0;
-    outline: medium none;
-    padding: 5px 10px 0;
-    transition: border-color 0.2s ease-in-out 0s, color 0.2s ease-in-out 0s;
-    width: 100%;
-    background-color: transparent;
-    border: 2px solid #444444;
-}
+/*input:not([type]), input[type="color"], input[type="email"], input[type="number"], input[type="password"], input[type="tel"], input[type="url"], input[type="text"], input[type="search"], textarea, .form-control, select {*/
+    /*border: 2px solid #E7E7E7;*/
+    /*border-radius: 0 0 0 0;*/
+    /*box-shadow: none;*/
+    /*color: #999999;*/
+    /*display: block;*/
+    /*font-size: 14px;*/
+    /*font-weight: normal;*/
+    /*height: 40px;*/
+    /*line-height: 1.2;*/
+    /*margin: 10px 0;*/
+    /*outline: medium none;*/
+    /*padding: 5px 10px 0;*/
+    /*transition: border-color 0.2s ease-in-out 0s, color 0.2s ease-in-out 0s;*/
+    /*width: 100%;*/
+    /*background-color: transparent;*/
+    /*border: 2px solid #444444;*/
+/*}*/
 
 .center {
     text-align: center;
@@ -196,6 +196,20 @@ body.sub-page .logo {
 /* ---------------------------------------------------------------------------- */
 /* -----------------------------------Header----------------------------------- */
 /* ---------------------------------------------------------------------------- */
+
+/*Rewrite starts*/
+.classify{
+    height: 60px;
+    /*display: inline-block;*/
+    /*border:1px solid red;*/
+    text-align: center;
+}
+.classify a{
+    font-size: 10px;
+}
+
+
+/*Rewrite ends*/
 #top {
     background: #fff;
     padding: 10px 0 0;
@@ -439,16 +453,33 @@ body.sub-page .logo {
 .sub-vid .zoom-container {
     margin-bottom: 20px;
 }
+.sub-vid .zoom-container img{
+    height: 145px;
+    width: 260px;
+}
 
 /* ---------------------------------------------------------------------------- */
 /* ---------------------------------MainContent-------------------------------- */
 /* ---------------------------------------------------------------------------- */
-.featured {
+.hot {
     padding: 20px 5px 0;
     border-right: 1px solid #bbb;
     border-left: 1px solid #bbb;
     border-top: 1px solid #bbb;
     margin-top: 20px;
+}
+.hot .hot-header {
+    padding: 8px 15px;
+    background-color: rgb(255, 81, 81);
+    display: inline-block;
+    border-radius: 5px;
+    margin: 5px 10px 25px 14px;
+}
+.hot .hot-header h2 {
+    font-size: 14px;
+    margin: 0;
+    color: #fff;
+    text-transform: uppercase;
 }
 
 #main-content {
@@ -897,10 +928,9 @@ footer .bottom-footer .link {
 /* ------------------------------------Button---------------------------------- */
 /* ---------------------------------------------------------------------------- */
 .btn {
-    font-size: 15px;
-    border-radius: 5px;
-    padding: 5px 14px;
-    color: #fff;
+    /*font-size: 15px;*/
+    /*border-radius: 5px;*/
+    /*padding: 5px 14px;*/
 }
 
 .btn-facebook:hover, .btn-twitter:hover, .btn-pinterest:hover, .btn-google:hover, .btn-mail:hover {
@@ -1096,8 +1126,8 @@ li.tweets_avatar {
 
 .zoom-container img {
     display: block;
-    width: 100%;
-    height: auto;
+    height: 310px;
+    width: 600px;
     -webkit-transition: all .5s ease; /* Safari and Chrome */
     -moz-transition: all .5s ease; /* Firefox */
     -ms-transition: all .5s ease; /* IE 9 */
@@ -1161,26 +1191,63 @@ li.tweets_avatar {
 .wrap-vid {
     margin-bottom: 20px;
 }
-
+.wrap-vid .zoom-container img{
+    height: 145px;
+    width: 230px;
+}
 .vid-item {
     position: relative;
 }
 
 .vid-name {
     margin: 0;
+
 }
 
 .vid-name a {
     font-size: 19px;
+    font-weight: 700;
     color: #000;
+    margin-right: 10px;
 }
 
 .vid-name a:hover {
     color: #FD0005;
 }
 
+.vid-name i{
+    margin-right: 8px;
+    margin-left: 2px;
+}
+
+.vid-rank{
+   width: 20px;
+    margin-right: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    background-color: hotpink;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid  hotpink;
+    border-radius: 4px;
+}
+.vid-rank-out {
+   width: 20px;
+    margin-right: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    background-color: gray;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid  gray;
+    border-radius: 4px;
+}
+
 .vid-tags {
     margin: 15px 0;
+
     border: 1px solid #ddd;
     padding: 30px;
 }
@@ -1195,13 +1262,14 @@ li.tweets_avatar {
     background: #000;
 }
 
+
 .info {
     margin: 0;
     font-size: 14px;
 }
 
 .info i {
-    margin-right: 8px;
+
 }
 
 .info span {
