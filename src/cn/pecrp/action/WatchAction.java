@@ -2,6 +2,7 @@ package cn.pecrp.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,10 +11,11 @@ import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
-
+import cn.pecrp.entity.Video;
 import cn.pecrp.service.WatchService;
 
 public class WatchAction extends ActionSupport {
@@ -87,4 +89,44 @@ public class WatchAction extends ActionSupport {
 		
 		return null;
 	}
+	
+	//快速收藏
+	public String collect() throws IOException {
+		System.out.println("collect...action...");
+		
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setContentType("application/json;charset=utf-8");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		PrintWriter out = response.getWriter();
+		
+
+		JSONObject json = new JSONObject();
+		try{
+			String vid = request.getParameter("vid");
+			String flag = watchService.collect(vid);
+			
+			if(flag == null) {
+				json.put("msg", "-1");								//返回-1，有错误
+			} else {
+				String[] tmpArray = flag.split("a");
+				json.put("msg", tmpArray[1]);           			//msg存视频的收藏
+				json.put("isCollect", tmpArray[0]);        		    //isCollect表示此人是否收藏此视频
+			}
+			
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			json.put("mas", "-1");									//返回-1，有异常
+		} finally {
+			out.write(json.toString());
+			out.flush();
+			out.close();
+		}
+		
+		return null;
+	}
+	
+	//修改收藏夹
+	
 }

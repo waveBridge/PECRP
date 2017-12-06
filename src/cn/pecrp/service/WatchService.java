@@ -1,11 +1,14 @@
 package cn.pecrp.service;
 
+import java.util.Set;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 import org.springframework.transaction.annotation.Transactional;   //注意事务的配置引入的包一定不要错
 
 import cn.pecrp.dao.WatchDao;
+import cn.pecrp.entity.Video;
 
 @Transactional
 public class WatchService {
@@ -63,6 +66,26 @@ public class WatchService {
 		}catch (Exception e) {
 			System.out.println(e.toString());
 			return "-1";
+		}
+		
+	}
+
+	//收藏
+	public String collect(String vvid) {
+		System.out.println("collect...service...");
+		
+		try{
+			int vid = Integer.parseInt(vvid);
+			HttpSession session = ServletActionContext.getRequest().getSession();
+			int uid = (int)session.getAttribute("uid");
+			
+			//收藏 返回是否收藏以及总收藏量
+			String flag = watchDao.addACollect(vid, uid);
+			return flag;
+			
+		}catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
 		}
 		
 	}

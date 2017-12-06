@@ -222,7 +222,7 @@ public class InfoAction extends ActionSupport {
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
 		
-		JSONObject json2;									//把对象转变为json2
+		JSONObject json2;											//把对象转变为json2
 		JSONObject json = new JSONObject();                     	//传输的json
 		try{
 			String lids = request.getParameter("lids");         	//接收到字符串形式的labels集合由a隔开

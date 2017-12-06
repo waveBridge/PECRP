@@ -79,7 +79,6 @@ public class WatchDaoImpl implements WatchDao {
 			int isAdd;
 			int num;
 			Set<Video> userVideos =  (Set<Video>) user.getZanSet();
-			Set<User> VideoUsers = (Set<User>) video.getZanUserSet();
 			
 			if(userVideos.contains(video)){
 				isAdd = 0;
@@ -95,7 +94,7 @@ public class WatchDaoImpl implements WatchDao {
 			user.setZanSet(userVideos);
 			hibernateTemplate.update(user);
 			
-			return isAdd+"a"+num;                     				//返回目前赞的状态以及视频的赞数
+			return isAdd + "a" + num;                     				//返回目前赞的状态以及视频的赞数
 			
 		}catch (Exception e) {
 			System.out.println(e.toString());
@@ -118,6 +117,47 @@ public class WatchDaoImpl implements WatchDao {
 		}catch (Exception e) {
 			return -1;
 		}
+	}
+
+	//已经收藏就删除收藏，未收藏则收藏
+	@Override
+	public String addACollect(int vid, int uid) {
+		System.out.println("addACollect...dao...");
+		
+		try{
+			//得到user、收藏表、video
+			User user = hibernateTemplate.get(User.class, uid);
+			Set<Video> collectionSet = user.getCollectionSet();
+			Video video = hibernateTemplate.get(Video.class, vid);
+			if(user == null || collectionSet == null || video == null){
+				return null;									
+			}
+			
+			int isAdd;											//是否收藏
+			int num;											//总收藏数
+			
+			if(collectionSet.contains(video)) {
+				 isAdd = 0;										//已经收藏
+				 num = video.getCollectionUserSet().size() - 1;
+				 collectionSet.remove(video);
+				 
+			} else {
+				isAdd = 1;										//未收藏，现在收藏
+				num = video.getCollectionUserSet().size() + 1;
+				collectionSet.add(video);
+				
+			}
+			
+			user.setCollectionSet(collectionSet);
+			hibernateTemplate.update(user);
+			
+			return isAdd + "a" + num;						
+			
+		}catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
+		}
+		
 	}
 
 }
