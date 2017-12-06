@@ -173,7 +173,7 @@ a:focus {
 
 /* --Line-- */
 .line {
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid white;
     width: 100%;
     margin: 20px 0;
 }
