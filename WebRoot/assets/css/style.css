@@ -4,7 +4,7 @@
 /* ------------------------------------Html-Body------------------------------- */
 /* ---------------------------------------------------------------------------- */
 body {
-    font-family: 'Ek Mukta', sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
     color: #666;
     background: #fff;
     font-size: 16px;
@@ -19,13 +19,13 @@ html, body {
 }
 
 ::-moz-selection {
-    background: red;
+    /*background: red;*/
     color: #fff;
     text-shadow: none
 }
 
 ::selection {
-    background: red;
+    background: gray;
     color: #fff;
     text-shadow: none
 }
@@ -73,7 +73,7 @@ h6 {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Roboto', sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
     font-weight: 600;
     color: #111;
 }
@@ -83,7 +83,7 @@ p {
 }
 
 a {
-    color: #FD4239;
+    /*color: #FD4239;*/
     -webkit-transition: all .2s ease-in-out;
     -moz-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
@@ -578,14 +578,14 @@ ul.pagination {
 }
 
 ul.pagination li a {
-    border: 1px solid #FD0005;
+    /*border: 1px solid #FD0005;*/
     color: #444;
 }
 
 ul.pagination li a:hover {
-    background-color: #FD0005;
+    /*background-color: #FD0005;*/
     color: #fff;
-    border: 1px solid #FD0005;
+    /*border: 1px solid #FD0005;*/
 }
 
 /* ---------------------------------------------------------------------------- */
@@ -614,7 +614,7 @@ ul.pagination li a:hover {
 }
 
 .widget .heading {
-    background-color: #000;
+    background-color: #759cff;
     padding: 5px 14px;
     border-radius: 5px;
     display: inline-block;
@@ -678,7 +678,7 @@ ul.pagination li a:hover {
 }
 
 .widget.wid-tags a:hover {
-    color: #FD0005;
+    /*color: #FD0005;*/
 }
 
 .post {
@@ -772,7 +772,7 @@ footer a:hover {
 }
 
 footer .top-footer {
-    background-color: #FD0005;
+    background-color: #40b2b7;
     padding: 20px 20px 10px;
     text-align: center;
 }
@@ -785,7 +785,7 @@ footer .top-footer a {
 
 footer .wrap-footer {
     padding-top: 40px;
-    background-color: #222;
+    background-color:#e6deff;
 }
 
 footer .col-footer {
@@ -871,7 +871,7 @@ footer .bottom-footer .link {
 
 #ff label {
     cursor: pointer;
-    margin: px 0;
+    /*margin: px 0;*/
     display: block;
     font-weight: bold;
 }
@@ -938,26 +938,48 @@ footer .bottom-footer .link {
     /*padding: 5px 14px;*/
 }
 
-.btn-facebook:hover, .btn-twitter:hover, .btn-pinterest:hover, .btn-google:hover, .btn-mail:hover {
-    background-color: #000;
+
+
+.btn-zan {
+    background-color: #f43268;
+    color: white;
+}
+
+.btn-zan:hover {
+    background-color: #ff8896;
     color: #fff;
 }
 
-.btn-facebook {
-    background-color: #3B5998;
-}
-
-.btn-twitter {
+.btn-comment {
     background-color: #00ACED;
+    color: white;
 }
 
-.btn-pinterest {
-    background-color: #CA212A;
+.btn-comment:hover {
+    background-color: #8ab6ff;
+    color: #fff;
 }
 
-.btn-google {
-    background-color: #EB4026;
+.btn-share {
+    background-color: #b83bd7;
+    color: white;
 }
+
+.btn-share:hover {
+     background-color: #d2a7ff;
+     color: white;
+ }
+
+.btn-fold {
+    background-color: #ffa535;
+    color: white;
+}
+
+.btn-fold:hover {
+    background-color: #ffed3e;
+    color: white;
+}
+
 
 .btn-mail {
     background-color: #666666;
@@ -971,7 +993,7 @@ footer .bottom-footer .link {
 }
 
 .btn-1:hover {
-    color: #FD0005;
+    /*color: #FD0005;*/
 }
 
 .btn-2 {
@@ -1217,7 +1239,7 @@ li.tweets_avatar {
 }
 
 .vid-name a:hover {
-    color: #FD0005;
+    /*color: #FD0005;*/
 }
 
 .vid-name i{
@@ -1258,13 +1280,13 @@ li.tweets_avatar {
 }
 
 .vid-tags a {
-    background: #FD0005;
+    /*background: #FD0005;*/
     padding: 5px 10px;
-    color: #fff;
+    /*color: #fff;*/
 }
 
 .vid-tags a:hover {
-    background: #000;
+    /*background: #000;*/
 }
 
 
@@ -1307,4 +1329,12 @@ li.tweets_avatar {
 
 .comment textarea {
     height: 210px;
+}
+
+.comment-avatar {
+    float: right;
+    height: 70px;
+}
+.comment-content {
+    height: 70px;
 }
