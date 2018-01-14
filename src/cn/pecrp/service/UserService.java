@@ -1,16 +1,17 @@
 package cn.pecrp.service;
 
-import java.util.Calendar;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
+
 import org.apache.struts2.ServletActionContext;
 import org.springframework.transaction.annotation.Transactional;   //注意事务的配置引入的包一定不要错
 
 import cn.pecrp.dao.UserDao;
 import cn.pecrp.entity.User;
+import cn.pecrp.entity.Video;
 import cn.pecrp.until.MailUtil;
 import cn.pecrp.until.TimeUtil;
-import javassist.bytecode.stackmap.BasicBlock.Catch;
 
 @Transactional
 public class UserService {
@@ -110,12 +111,9 @@ public class UserService {
 				
 				if(flag == true){
 					return true;
-				}
-				
-			}
-			
+				}	
+			}	
 			return false;
-			
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			return false;
@@ -132,6 +130,36 @@ public class UserService {
 			//根据id得到该用户的所有信息
 			User user = userDao.getUserInfo((int)session.getAttribute("uid"));
 			return user;
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
+		}
+	}
+
+	//获取历史记录
+	public Set<Video> getHistory() {
+		System.out.println("getHistory...service...");
+		
+		try{
+			HttpSession session = ServletActionContext.getRequest().getSession();
+			int uid = (int)session.getAttribute("uid");			//获取用户id
+			Set<Video> historySet = userDao.getHistory(uid);	//获取历史记录		
+			return historySet;
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
+		}
+	}
+
+	//删除历史记录
+	public Set<Video> deleteHistory(String vvid) {
+		System.out.println("deleteHistory...service...");
+		
+		try{
+			int vid = Integer.parseInt(vvid);
+			int uid = (int)ServletActionContext.getRequest().getSession().getAttribute("uid");
+			Set<Video> historySet = userDao.deleteHistory(uid, vid);
+			return historySet;
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			return null;

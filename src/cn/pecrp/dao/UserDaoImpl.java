@@ -70,4 +70,40 @@ public class UserDaoImpl implements UserDao {
 			return null;
 		}
 	}
+
+	//得到历史记录
+	@Override
+	public Set<Video> getHistory(int uid) {
+		System.out.println("getHistory...dao...");
+		
+		try{
+			User user = hibernateTemplate.get(User.class, uid);
+			return user.getWatchSet();
+			
+		}catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
+		}
+	}
+
+	//删除历史记录
+	@Override
+	public Set<Video> deleteHistory(int uid, int vid) {
+		System.out.println("deleteHistory...dao...");
+		
+		try{
+			User user = hibernateTemplate.get(User.class, uid);
+			Video video = hibernateTemplate.get(Video.class, vid);
+			
+			Set<Video> historySet = user.getWatchSet();
+			historySet.remove(video);
+			user.setWatchSet(historySet);
+			
+			return historySet;
+			
+		}catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
+		}
+	}
 }

@@ -59,8 +59,20 @@ in	:	vid (视频id)
 out	:	("msg":"当前视频的赞数" , "isZan":"1或者0") 1表示当前用户赞了，0表示当前用户没有赞
 
 //快速收藏视频(跟点赞类似)，之后还有修改收藏夹的功能
-in	:	collectAction
+url	:	collectAction
 in	：	vid (视频id)
 out	：	("msg":"当前视频的收藏量" , "isCollect","1或者0") 1表示当前用户收藏了，0表示当前用户没有收藏
+
+//分享，好像分享都是前端那边，复制粘贴别人给的代码就可以了。
+
+//查看当前用户历史记录
+url	:	getHistoryAction
+in	:	无需输入，用户id存在session中
+out	:	错误("msg","0")			正常("cnt",历史记录数量),("msg",历史记录Video的json数组)
+
+//删除历史记录
+utl	:	deleteHistoryAction
+in	:	vid  视频id
+out ：	错误("msg", "0")  		删除成功,返回新的历史记录("cnt",历史记录数量),("msg",历史记录Video的json数组)
 
   

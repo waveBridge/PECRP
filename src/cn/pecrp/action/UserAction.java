@@ -2,7 +2,9 @@ package cn.pecrp.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Set;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,7 +13,9 @@ import org.apache.struts2.ServletActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import cn.pecrp.entity.User;
+import cn.pecrp.entity.Video;
 import cn.pecrp.service.UserService;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
@@ -185,6 +189,81 @@ public class UserAction extends ActionSupport {
 			json2.put("msg","0");                     //若没有信息则为0
 		}finally {
 			out.write(json2.toString());
+			out.flush();
+			out.close();
+		}
+		
+		return null;
+	}
+	
+	//查看历史记录
+	public String getHistory() throws IOException{
+		System.out.println("getHistory...action...");
+		
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setContentType("application/json;charset=utf-8");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		PrintWriter out = response.getWriter();
+		
+		//设置jsonConfig是为了摆脱死循环，因为是多对多级联关系
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
+		
+		JSONArray json2;
+		JSONObject json = new JSONObject();
+		try{
+			Set<Video> historySet = userService.getHistory();
+			if(historySet == null) {
+				json.put("msg", "0");
+				json.put("cnt", "0");
+			} else {
+				json.put("cnt", historySet.size());				//返回长度
+				json2 = JSONArray.fromObject(historySet, jsonConfig);
+				json.put("msg", json2);							//放入历史表
+			}	
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			json.put("msg", "0");								//异常
+		} finally {
+			out.write(json.toString());
+			out.flush();
+			out.close();
+		}
+		return null;
+	}
+	
+	//删除历史记录
+	public String deleteHistory() throws IOException{
+		System.out.println("deleteHistory...action...");
+		
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setContentType("application/json;charset=utf-8");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		PrintWriter out = response.getWriter();
+		
+		//设置jsonConfig是为了摆脱死循环，因为是多对多级联关系
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
+		
+		JSONArray json2;
+		JSONObject json = new JSONObject();
+		
+		try{
+			String vid = request.getParameter("vid");
+			Set<Video> historySet = userService.deleteHistory(vid);
+			if(historySet == null){
+				json.put("msg", "-1");								//错误
+			} else {
+				json.put("cnt", historySet.size());					//个数
+				json2 = JSONArray.fromObject(historySet, jsonConfig); //内容
+				json.put("msg", json2);
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			json.put("msg", "-1");									//错误																	
+		} finally {
+			out.write(json.toString());
 			out.flush();
 			out.close();
 		}
