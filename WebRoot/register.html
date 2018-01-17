@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>登录</title>
+    <title>注册</title>
     <meta charset="utf-8">
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -34,17 +34,29 @@
 
         $(document).ready(function () {
 
-            $("#btnLogin").click(function () {
+            $("#btnRegister").click(function () {
+                var pwd = $("#password").val();
+                var cpwd = $("#password2").val();
+                if(pwd != cpwd){
+                    alert("两次密码不一致");
+                    $("#password").val("");
+                    $("#password2").val("");
+                    return false;
 
+
+                }
                 $.ajax({
-                    url: "loginAction",   //这个就是填相应的action
+                    url: "registerAction",   //这个就是填相应的action
                     type: "POST", 		   //数据发送方式
                     dataType: "json",	   // 接受数据格式
 
                     // 要传递的数据
                     data: {
                         username: 'usernameValue',
-                        password: 'passwordValue'
+                        password: 'passwordValue',
+                        nickname: 'nicknameValue',
+                        email: 'emailValue',
+                        vcode: 'vcodeValue'
                     },
 
                     // 回调函数，接受服务器端返回给客户端的值，即result值
@@ -68,6 +80,11 @@
                 $("#boxEmpty").show();
 
             });
+            $("#btnVcode").click(function () {
+                $("#btnVcode").text("验证码已发送");
+                $("#vcode").attr("disabled", false);
+            });
+
         });
 
     </script>
@@ -246,16 +263,28 @@
             <div id="main-content" class="col-md-12">
                 <div class="row">
                     <div class="title">
-                        <h2>登录</h2>
+                        <h2>注册</h2>
                     </div>
 
                     <div class="col-md-5">
                         <div class="" style="float: right;text-align: right">
                             <div class="form-group">
-                                <label class="control-label">用户名</label>
+                                <label class="control-label" style="margin-top: 9%">用户名</label>
                             </div>
                             <div class="form-group">
-                                <label class="control-label" style="margin-top: 20%">密码</label>
+                                <label class="control-label" style="margin-top: 9%">密码</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" style="margin-top: 8%">重复密码</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" style="margin-top: 5%">昵称</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" style="margin-top: 2%">邮箱</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" style="margin-top: 5%">验证码</label>
                             </div>
                         </div>
 
@@ -270,30 +299,58 @@
                             </div>
                             <div class="form-group">
 
-                                <input type="password" name="password" class="form-control">
+                                <input type="password" id="password" class="form-control">
                             </div>
                             <div class="form-group">
-                                <div class="">
-                                    <div class="">
-                                        <i id="boxEmpty" class="fa fa-square-o"></i> <i id="boxFull"
-                                                                                        class="fa fa-check-square-o"
-                                                                                        style="display: none"></i>
-                                        <span style="margin-left: 1%;">记住登录</span>
-                                        <a href="password.html" class="col-sm-offset-1">忘记密码？</a>
-                                    </div>
 
-                                </div>
+                                <input type="password" id="password2" class="form-control">
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-info col-sm-offset-0 col-md-4" id="btnLogin">
-                                    登录
-                                </button>
-                                <a href="register.html" class="btn btn-default col-sm-offset-1 col-md-4">
+
+                                <input type="text" name="nickname" class="form-control">
+                            </div>
+                            <div class="form-group">
+
+                                <input type="text" name="email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <a id="btnVcode" class="btn btn-default col-md-5">获取验证码</a>
+                                <input type="text" id="vcode" class="form-control col-sm-offset-1" style="width: 30%;display: inline-block;" disabled>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success col-sm-offset-0 col-md-4" id="btnRegister">
                                     注册
-                                </a>
+                                </button>
+                                <button class="btn btn-danger col-sm-offset-1 col-md-4" type="reset">
+                                    重置
+                                </button>
                             </div>
 
                         </form>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="" style="float: left;text-align: left">
+                            <div class="form-group">
+                                <label class="control-label" style="margin-top: 9%" id="usrname"></label>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" style="margin-top: 9%" id="pwd"></label>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" style="margin-top: 8%" id="pwd2"></label>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" style="margin-top: 5%" id="nick"></label>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" style="margin-top: 2%" id="email"></label>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" style="margin-top: 5%" id="vc"></label>
+                            </div>
+                        </div>
+
                     </div>
 
                 </div>
