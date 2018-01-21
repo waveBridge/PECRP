@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Single</title>
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
@@ -50,6 +49,7 @@
                     url: "loginAction",   //这个就是填相应的action
                     type: "POST", 		   //数据发送方式
                     dataType: "json",	   // 接受数据格式
+                    async: false,
 
                     // 要传递的数据
                     data: {
@@ -63,7 +63,7 @@
                         data = "";
                         console.log(json.msg);
                         if(json.msg == "0"){
-                            alert("用户名或密码错误");w''
+                            alert("用户名或密码错误");
 
                         }
                         else if(json.msg == "1"){
