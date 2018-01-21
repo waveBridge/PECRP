@@ -35,6 +35,16 @@
         $(document).ready(function () {
 
             $("#btnLogin").click(function () {
+                var usrname = $("#username").val();
+                var pwd = $("#password").val();
+                if(usrname == ""){
+                    alert("用户名为空");
+                    return false;
+                }
+                if(pwd == ""){
+                    alert("密码为空");
+                    return false;
+                }
 
                 $.ajax({
                     url: "loginAction",   //这个就是填相应的action
@@ -43,16 +53,23 @@
 
                     // 要传递的数据
                     data: {
-                        username: 'usernameValue',
-                        password: 'passwordValue'
+                        username: usrname,
+                        password: pwd
                     },
 
                     // 回调函数，接受服务器端返回给客户端的值，即result值
                     success: function (data) {      //后台传回json
                         var json = eval(data);
-                        var data = "";
-                        alert(json.name + " " + json.age);
-                        window.location.href = 'index.html';    //跳转页面
+                        data = "";
+                        console.log(json.msg);
+                        if(json.msg == "0"){
+                            alert("用户名或密码错误");w''
+
+                        }
+                        else if(json.msg == "1"){
+                            window.location.href = 'index.html';    //跳转页面
+                        }
+
                     }
 
                 });
@@ -228,7 +245,7 @@
                     <form class="navbar-form" role="search">
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Search">
-                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            <input type="button" class="btn btn-default"/><i class="fa fa-search"></i>
                         </div>
 
                     </form>
@@ -265,12 +282,12 @@
                         <form name="form1" id="form1" method="post" action="" role="form">
                             <div class="form-group">
 
-                                <input type="text" name="username" class="form-control">
+                                <input type="text" id="username" class="form-control">
 
                             </div>
                             <div class="form-group">
 
-                                <input type="password" name="password" class="form-control">
+                                <input type="password" id="password" class="form-control">
                             </div>
                             <div class="form-group">
                                 <div class="">
@@ -285,9 +302,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-info col-sm-offset-0 col-md-4" id="btnLogin">
-                                    登录
-                                </button>
+                                <input type="button" class="btn btn-info col-sm-offset-0 col-md-4" id="btnLogin" value="登录"/>
                                 <a href="register.html" class="btn btn-default col-sm-offset-1 col-md-4">
                                     注册
                                 </a>
