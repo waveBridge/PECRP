@@ -1,4 +1,4 @@
-//用户登录
+﻿//用户登录
 url	:	loginAction
 in	:	username,password   (需要前端提前判断是否为空)
 out	:	登陆成功("msg":"1")  登录失败("msg":"0")
@@ -13,11 +13,6 @@ url	:	registerAction
 in	:	username,password,nickname,email,vcode      (姓名，密码，昵称，邮箱，验证码) 输入两次密码是否一致前端判断
 out	:	用户名重复("msg":"3")	验证码错误或失效("msg":"2")		服务器原因注册失败("msg":"0")	注册成功("msg":"1") 
 
-//用户改密码
-url :	changePassAction
-in	:	oldPass,newPass	
-out	:	修改成功("msg":"1")   旧密码错误("msg":"-1")   未知错误("msg":"0")  
-
 //用户忘记密码请求邮箱验证码
 url	:	forgetPassGetVCodeAction
 in	:	username,email		(用户名和邮箱地址)
@@ -27,6 +22,11 @@ out	:	用户名与邮箱不匹配("msg":"-1")   发送邮件成功("msg":"1")  �
 url :	forgetPassChangeAction
 in	:	vcode,password 		(验证码，新密码,不需要用户名)
 out	:	修改成功("msg":"1")  	修改失败("msg":"0")		验证码错误或失效("msg":"-1")
+
+//用户改密码
+url :	changePassAction
+in	:	oldPass,newPass	
+out	:	修改成功("msg":"1")   旧密码错误("msg":"-1")   未知错误("msg":"0")  
 
 //修改昵称
 url	:	changeNicknameAction

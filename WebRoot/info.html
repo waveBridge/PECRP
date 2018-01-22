@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>重置密码</title>
+    <title>信息修改</title>
     <meta charset="utf-8">
-    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/bootstrap-fileupload.min.css" type="text/css">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/style.css" type="text/css">
@@ -25,6 +25,7 @@
 
     <!-- Core JavaScript Files -->
     <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/bootstrap-fileupload.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,59 +33,109 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            
-            $("#btnReset").click(function () {
-
-                var vc = $("#vcode").val();
-                var pwd = $("#password").val();
-                var cpwd = $("#password2").val();
-                if(vc == ""){
-                    alert("验证码为空");
-                    return false;
-                }
-                if(pwd == ""){
-                    alert("密码为空！");
-                    $("#password").focus();
-                    return false;
-                }
-                if(cpwd == ""){
-                    alert("重复密码为空！");
-                    $("#password2").focus();
-                    return false;
-                }
-                if(pwd != cpwd){
-                    alert("两次密码不一致");
-                    $("#password2").focus();
-                    return false;
+            $("#change11").show();
+            $("#change22").hide();
+            $("#change33").hide();
+            $("#form1").show();
+            $("#form2").hide();
+            $("#form3").hide();
+            $.ajax({
+                url: "getUserInfoAction",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    var json = eval(data);
+                    data = "";
+                    console.log(json.msg);
+                    if (json.msg == "0") {
+                        alert("发生错误！请刷新！");
+                    }
+                    else {
+                        $("#nickname").val(json.msg.nickname);
+                        $("#preview").attr("src", json.msg.photo);
+                    }
                 }
 
+            });
+
+            $("#change1").click(function () {
+                $("#change1").addClass("active");
+                $("#change2").removeClass();
+                $("#change3").removeClass();
+                $("#change11").show();
+                $("#change22").hide();
+                $("#change33").hide();
+                $("#form1").show();
+                $("#form2").hide();
+                $("#form3").hide();
+//                $.ajax({
+//                    url: "getUserInfoAction",
+//                    dataType: "json",
+//                    async: false,
+//                    success: function (data) {
+//                        var json = eval(data);
+//                        data = "";
+//                        console.log(json.msg);
+//                        if (json.msg == "0") {
+//                            alert("发生错误！请刷新！");
+//                        }
+//                        else {
+//                            $("#nickname").val(json.msg.nickname);
+//                        }
+//                    }
+//
+//                });
+
+            });
+            $("#change2").click(function () {
+                $("#change2").addClass("active");
+                $("#change1").removeClass();
+                $("#change3").removeClass();
+                $("#change22").show();
+                $("#change11").hide();
+                $("#change33").hide();
+                $("#form2").show();
+                $("#form1").hide();
+                $("#form3").hide();
+            });
+            $("#change3").click(function () {
+                $("#change3").addClass("active");
+                $("#change1").removeClass();
+                $("#change2").removeClass();
+                $("#change33").show();
+                $("#change11").hide();
+                $("#change22").hide();
+                $("#form3").show();
+                $("#form1").hide();
+                $("#form2").hide();
+            });
+
+            $("#btnChange1").click(function () {
+
+                var nick = $("#nickname").val();
                 $.ajax({
-                    url: "forgetPassChangeAction",   //这个就是填相应的action
+                    url: "changeNicknameAction",   //这个就是填相应的action
                     type: "POST", 		   //数据发送方式
                     dataType: "json",	   // 接受数据格式
+                    async: false,
 
                     // 要传递的数据
                     data: {
-                        vcode: vc,
-                        password: pwd
+                        nickname: nick
                     },
 
                     // 回调函数，接受服务器端返回给客户端的值，即result值
                     success: function (data) {      //后台传回json
                         var json = eval(data);
                         data = "";
+//                        alert(json.msg);
                         console.log(json.msg);
-                        if(json.msg == "1"){
+                        if (json.msg == nick) {
                             alert("修改成功！");
-                            window.location.href = 'login.html';    //跳转页面
+                            window.location.href = 'info.html';    //跳转页面
                         }
-                        else if(json.msg == "-1"){
-                            alert("验证码错误或失效");
-                            $("#vcode").focus();
-//                            return false;
-                        }
-                        else if(json.msg == "0"){
-                            alert("服务器错误，请重试");
+                        else if (json.msg == "0") {
+                            alert("修改失败，请重试");
 //                            return false;
                         }
 
@@ -92,49 +143,114 @@
 
                 });
             });
-            $("#btnVcode").click(function () {
-                console.log("1111")
-                var usrname = $("#username").val();
-                var eml = $("#email").val();
-                if(usrname == ""){
-                    alert("用户名为空！");
-                    $("#username").focus();
+
+            $("#btnChange2").click(function () {
+                var old = $("#oldPassword").val();
+                var pwd = $("#newPassword").val();
+                var cpwd = $("#newPassword2").val();
+
+                if (old == "") {
+                    alert("原密码为空！");
+                    $("#oldPassword").focus();
                     return false;
                 }
-                if(!eml.match(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/)) {
-                    alert("邮箱格式不正确！请重新输入");
-                    $("#email").focus();
+                if (pwd == "") {
+                    alert("新密码为空！");
+                    $("#newPassword").focus();
                     return false;
                 }
+                if (cpwd == "") {
+                    alert("重复新密码为空！");
+                    $("#newPassword2").focus();
+                    return false;
+                }
+                if (pwd != cpwd) {
+                    alert("两次新密码不一致");
+                    $("#newPassword2").focus();
+                    return false;
+                }
+
 
                 $.ajax({
-                  url: "forgetPassGetVCodeAction",
-                  type: "POST",
-                  dataType: "json",
-                  async: false,
-                  data: {
-                      username: usrname,
-                      email: eml
-                  },
-                  success: function (data) {
-                      var json = eval(data);
-                      data = "";
-                      if(json.msg == "-1"){
-                          alert("用户名与邮箱不匹配！");
-                          return false;
-                      }
-                      else if(json.msg == "1"){
-                          $("#btnVcode").text("验证码已发送");
-                      }
-                      else if(json.msg == "0"){
-                          alert("发送失败！请重试");
-                          return false;
-                      }
+                    url: "changePassAction",   //这个就是填相应的action
+                    type: "POST", 		   //数据发送方式
+                    dataType: "json",	   // 接受数据格式
+                    async: false,
 
+                    // 要传递的数据
+                    data: {
+                        oldPass: old,
+                        newPass: pwd
 
-                  }
+                    },
+
+                    // 回调函数，接受服务器端返回给客户端的值，即result值
+                    success: function (data) {      //后台传回json
+                        var json = eval(data);
+                        data = "";
+//                        alert(json.msg);
+                        console.log(json.msg);
+                        if (json.msg == "1") {
+                            alert("修改成功！");
+                            window.location.href = "info.html";
+                        }
+                        else if (json.msg == "-1") {
+                            alert("原密码错误！");
+                            $("#oldPassword").focus();
+
+                        }
+                        else if (json.msg == "0") {
+                            alert("未知错误，请重试");
+//
+                        }
+
+                    }
+
                 });
-            })
+            });
+            $("#btnChange3").click(function () {
+
+                $.ajax({
+                    url: "upImgAction",
+                    fileElementId: "upload",
+                    type: "POST",
+                    dataType: "json",	   // 接受数据格式
+                    async: false,
+                    cache: false,
+                    // 要传递的数据
+                    data: new FormData($('#form3')[0]),
+                    processData: false,
+                    contentType: false,
+
+                    // 回调函数，接受服务器端返回给客户端的值，即result值
+                    success: function (data) {      //后台传回json
+                        var json = eval(data);
+                        data = "";
+//                        alert(json.msg);
+                        console.log(json.msg);
+                        if (json.msg == "0") {
+                            alert("修改失败，请重试");
+//                            return false;
+                        }
+                        else if(json.msg == "-2") {
+                            alert("文件类型不符");
+//                            return false;
+                        }
+                        else if (json.msg == "-1") {
+                            alert("文件太大");
+//                            return false;
+                        }
+                        else {
+                            alert("修改成功！");
+                            window.location.href = 'info.html';    //跳转页面
+                        }
+
+
+                    }
+
+                });
+            });
+
         });
 
     </script>
@@ -295,7 +411,7 @@
                     <form class="navbar-form" role="search">
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Search">
-                            <input type="button" class="btn btn-default"><i class="fa fa-search"></i>
+                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                         </div>
 
                     </form>
@@ -313,25 +429,50 @@
             <div id="main-content" class="col-md-12">
                 <div class="row">
                     <div class="title">
-                        <h2>重置密码</h2>
+                        <h2>信息修改</h2>
                     </div>
 
-                    <div class="col-md-5">
-                        <div class="" style="float: right;text-align: right">
+
+                    <div class="col-md-2">
+                        <ul class="nav nav-stacked nav-pills">
+                            <li id="change1" class="active">
+                                <a style="cursor:pointer;">修改昵称</a>
+                            </li>
+                            <li id="change2">
+                                <a style="cursor:pointer;">修改密码</a>
+                            </li>
+                            <li id="change3">
+                                <a style="cursor:pointer;">修改头像</a>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <div id="change11" style="float: right;text-align: right">
+
                             <div class="form-group">
-                                <label class="control-label" style="margin-top: 8%">用户名</label>
+                                <label class="control-label" style="margin-top: 9%">昵称</label>
+                            </div>
+                        </div>
+                        <div id="change22" style="float: right;text-align: right">
+
+                            <div class="form-group">
+                                <label class="control-label" style="margin-top: 5%">原密码</label>
                             </div>
                             <div class="form-group">
-                                <label class="control-label" style="margin-top: 6%">邮箱</label>
+                                <label class="control-label" style="margin-top: 5%">新密码</label>
                             </div>
                             <div class="form-group">
-                                <label class="control-label" style="margin-top: 5%">验证码</label>
+                                <label class="control-label" style="margin-top: 5%">重复新密码</label>
+                            </div>
+                        </div>
+                        <div id="change33" style="float: right;text-align: right">
+                            <div class="form-group">
+                                <label class="control-label" style="margin-top: 8%">当前头像</label>
                             </div>
                             <div class="form-group">
-                                <label class="control-label" style="margin-top: 4%">新密码</label>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label" style="margin-top: 3%">重复新密码</label>
+                                <label class="control-label" style="margin-top: 120%">更换头像</label>
                             </div>
                         </div>
 
@@ -341,32 +482,87 @@
                         <form name="form1" id="form1" method="post" action="" role="form">
                             <div class="form-group">
 
-                                <input type="text" id="username" class="form-control">
+                                <input type="text" id="nickname" class="form-control" value="">
 
-                            </div>
-                            <div class="form-group">
-
-                                <input type="text" id="email" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <a id="btnVcode" class="btn btn-default col-md-5">获取验证码</a>
-                                <input type="text" id="vcode" class="form-control col-sm-offset-1" style="width: 30%;display: inline-block;">
-                            </div>
-                            <div class="form-group">
-
-                                <input type="password" id="password" class="form-control"/>
-                            </div>
-                            <div class="form-group">
-
-                                <input type="password" id="password2" class="form-control"/>
                             </div>
 
 
                             <div class="form-group">
-                                <input type="button" class="btn btn-info col-sm-offset-0 col-md-12" id="btnReset" value="重置密码"/>
+
+                                <input type="button" class="btn btn-success col-sm-offset-0 col-md-12" id="btnChange1"
+                                       value="提交修改"/>
+
                             </div>
 
                         </form>
+                        <form name="form2" id="form2" method="post" action="" role="form">
+                            <div class="form-group">
+
+                                <input type="password" id="oldPassword" class="form-control">
+
+                            </div>
+                            <div class="form-group">
+
+                                <input type="password" id="newPassword" class="form-control">
+
+                            </div>
+                            <div class="form-group">
+
+                                <input type="password" id="newPassword2" class="form-control">
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <input type="button" class="btn btn-success col-sm-offset-0 col-md-12" id="btnChange2"
+                                       value="提交修改"/>
+
+                            </div>
+
+                        </form>
+                        <form name="form3" id="form3" method="post" action="" role="form" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <div class="thumbnail" style="width: 100px;height: 100px">
+                                    <img src="" id="preview">
+                                </div>
+
+
+                                <div class="fileupload fileupload-new" data-provides="fileupload">
+                                    <div class="fileupload-preview thumbnail" style="width: 100px;height: 100px"></div>
+                                    <div>
+                                            <span class="btn btn-file btn-info">
+                                                <span class="fileupload-new">
+                                                    选择图片
+                                                </span>
+                                                <span class="fileupload-exists">
+                                                    更换图片
+                                                </span>
+                                                <input type="file" name="upload" id="upload">
+                                            </span>
+                                        <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">
+                                            移除
+                                        </a>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <input type="button" class="btn btn-success col-sm-offset-0 col-md-12"
+                                           id="btnChange3"
+                                           value="提交修改"/>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="" style="float: left;text-align: left">
+                            <div class="form-group">
+                                <label class="control-label" style="margin-top: 9%" id="usrname"></label>
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>
