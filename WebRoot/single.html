@@ -21,9 +21,12 @@
 
     <!-- jQuery -->
     <script src="assets/js/jquery-2.1.1.js"></script>
+    <script src="assets/js/loadWhole.js"></script>
 
     <!-- Core JavaScript Files -->
     <script src="assets/js/bootstrap.min.js"></script>
+
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -77,42 +80,44 @@
                         移动端</a></li>
 
                 </ul>
-                <ul class="header-right nav navbar-nav visible-lg" style="padding-top: 0px">
+                <ul class="header-right nav navbar-nav visible-lg" style="padding-top: 0px" id="userNavbar">
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <div>
-                                <img src="assets/img/user.png" class="img-thumbnail img-circle"/>
+                                <img src="assets/img/user.png" style="height: 60px;width: 60px" class="img-thumbnail img-circle" id="userImg"/>
                             </div>
                         </a>
                         <div class="dropdown-menu">
                             <div class="dropdown-inner">
                                 <ul class="list-unstyled">
-                                    <li><a href="login.html">登录</a></li>
-                                    <li><a href="register.html">注册</a></li>
-                                    <li><a href="info.html">资料修改</a></li>
+                                    <li id="loginLi"><a href="login.html">登录</a></li>
+                                    <li id="registerLi"><a href="register.html">注册</a></li>
+                                    <li id="infoLi"><a href="info.html">资料修改</a></li>
+                                    <li id="tagLi"><a href="userTag.html">标签管理</a></li>
+                                    <li id="logoutLi"><a href="">退出登录</a> </li>
                                 </ul>
                             </div>
                         </div>
                     </li>
-                    <li style="padding-top: 20px" class="dropdown"><a href="#" class="dropdown-toggle"
-                                                                      data-toggle="dropdown"> 历史记录</a>
+                    <li style="padding-top: 20px" class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown">历史记录</a>
                         <div class="dropdown-menu">
                             <div class="dropdown-inner">
-                                <ul class="list-unstyled">
-                                    <li><a href="index.html">视频1</a></li>
-                                    <li><a href="index.html">视频2</a></li>
+                                <ul class="list-unstyled unLogin">
+                                    <li class="unLogin"><a href="login.html">登录后查看</a></li>
+                                </ul>
+                                <ul class="list-unstyled" id="historyVideo">
                                 </ul>
                             </div>
                         </div>
                     </li>
-                    <li style="padding-top: 20px" class="dropdown"><a href="#" class="dropdown-toggle"
-                                                                      data-toggle="dropdown"> 收藏夹</a>
+                    <li style="padding-top: 20px" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">收藏夹</a>
                         <div class="dropdown-menu">
                             <div class="dropdown-inner">
-                                <ul class="list-unstyled">
+                                <ul class="list-unstyled" id="collectionVideo">
                                     <li><a href="index.html">视频1</a></li>
-                                    <li><a href="index.html">视频2</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -206,8 +211,11 @@
         <div class="row">
             <div id="main-content" class="col-md-8">
                 <div class="wrap-vid">
-                    <iframe width="100%" height="400" src="https://www.bilibili.com/video/av16634123/?spm_id_from=333.334.bili_douga.8" frameborder="0" allowfullscreen></iframe>
+                    <iframe width="100%" height="400"
+                            src=""
+                            frameborder="0" allowfullscreen></iframe>
                     <!--http://www.iqiyi.com/v_19rreh9f80.html-->
+                    <!--https://www.bilibili.com/video/av16634123/?spm_id_from=333.334.bili_douga.8-->
                 </div>
                 <div class="share">
                     <ul class="list-inline center">
@@ -302,7 +310,8 @@
                                                   required="required"
                                                   placeholder="Message"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-success" name="btnSend" id="btnSend" style="float: right">
+                                <button type="submit" class="btn btn-success" name="btnSend" id="btnSend"
+                                        style="float: right">
                                     提交
                                 </button>
                             </div>

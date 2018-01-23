@@ -306,7 +306,7 @@ body.sub-page .logo {
 }
 
 #menu .dropdown-inner a {
-    min-width: 160px;
+    min-width: 240px;
     display: block;
     padding: 3px 20px;
     clear: both;
