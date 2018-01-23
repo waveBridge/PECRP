@@ -18,6 +18,10 @@ $(document).ready(function () {
                 $("#historyVideo").hide();
                 $("#collectionVideo").hide();
                 $(".unLogin").show();
+                //for index & single
+                //useless
+                $("#toHistory").attr("href", "");
+                $("#toCollection").attr("href", "");
             }
             else{
                 //has Login
@@ -30,6 +34,10 @@ $(document).ready(function () {
                 $("#historyVideo").show();
                 $("#collectionVideo").show();
                 $(".unLogin").hide();
+                //for index & single
+                //useless
+                $("#toHistory").attr("href", "history.html");
+                $("#toCollection").attr("href", "collection.html");
                 $.ajax({
                    url: "getHistoryAction",
                    type: "POST",
@@ -45,9 +53,12 @@ $(document).ready(function () {
                        else{
                            $.each(json.msg, function (i, video) {
                                console.log(i, video.videoName, video.link);
-                               if(i > 6) return false;
+                               if(i > 6){
+                                   return false;
+                               }
                                $("#historyVideo").append("<li><a href=\""+video.link+"\">"+video.videoName+"</a></li>");
-                           } )
+                           } );
+                           $("#historyVideo").append("<li ><a style='color: #806fff; font-size: 89%;' href=\"history.html\">查看更多</a></li>");
                        }
                    }
                 });
