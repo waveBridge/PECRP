@@ -468,8 +468,12 @@ body.sub-page .logo {
 /* ---------------------------------------------------------------------------- */
 .videopic {
     height: 150px;
-    
 
+
+}
+.deleteVideo {
+    color: #ff5f62;
+    float: right;
 }
 .blank {
     margin-bottom: 20%;

@@ -49,8 +49,8 @@
                     else {
                         $.each(json.msg, function (i, video) {
                             console.log(i, video);
-                            if(i > 10) return false;
-                            $("#showHistory").append(" <div class=\"panel panel-info\">\n" +
+                            if(i >= 20) return false;
+                            $("#showHistory").append(" <div class=\"panel panel-info\" >\n" +
                                 "                            <div class=\"panel-body\">\n" +
                                 "                                <div class=\"col-md-4\">\n" +
                                 "                                    <img src=\""+video.picture+"\" class=\"img-thumbnail videopic\">\n" +
@@ -59,8 +59,8 @@
                                 "                                    <h5><a href=\""+video.link+"\">"+video.videoName+"</a> </h5>\n" +
                                 "                                    <div class=\"blank\"></div>\n" +
                                 "                                    <h7>时长："+video.time+"</h7>\n" +
+                                "                                    <span class='deleteVideo' style='cursor: pointer' id="+video.vid+"><i class='fa'></i>删除</span>\n" +
                                 "                                </div>\n" +
-                                "\n" +
                                 "                            </div>\n" +
                                 "                        </div>");
 
@@ -68,6 +68,29 @@
                         $("#showHistory").append("<div style='text-align: center'>没有更多了...</div>")
                     }
                 }
+            });
+            $(".deleteVideo").click(function (e) {
+               var vid = $(e.target).attr("id");
+               console.log(vid);
+               $.ajax({
+                   url: "deleteHistoryAction",
+                   type: "POST",
+                   dataType: "json",
+                   async: false,
+                   data:{
+                       vid: vid
+                   },
+                   success: function (data) {
+                       var json = eval(data);
+                       data = "";
+                       if(json.msg == "0"){
+                           alert("error happend!");
+                       }
+                       else {
+                           window.location.href = "history.html";
+                       }
+                   }
+               });
             });
         });
 
@@ -260,7 +283,7 @@
 
                     </div>
 
-                    <div class="col-md-8" id="showHistory">
+                    <div class="col-md-7" id="showHistory">
 
                     </div>
 
