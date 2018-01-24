@@ -190,6 +190,7 @@ public class InfoAction extends ActionSupport {
 		JSONObject json = new JSONObject();
 		try{
 			String nickname = request.getParameter("nickname");
+			System.out.println(nickname);
 			boolean flag = infoService.changeNickname(nickname);
 			if(flag == false) {
 				json.put("msg","0");                 	   //修改失败

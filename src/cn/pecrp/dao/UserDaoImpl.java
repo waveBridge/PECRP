@@ -106,4 +106,18 @@ public class UserDaoImpl implements UserDao {
 			return null;
 		}
 	}
+
+	//返回某用户所有收藏
+	@Override
+	public Set<Video> getCollect(int uid) {
+		System.out.println("getCollect...dao...");
+		
+		try{
+			User user = hibernateTemplate.get(User.class, uid);
+			return user.getCollectionSet();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
+		}
+	}
 }

@@ -1,5 +1,6 @@
 package cn.pecrp.service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
@@ -160,6 +161,27 @@ public class UserService {
 			int uid = (int)ServletActionContext.getRequest().getSession().getAttribute("uid");
 			Set<Video> historySet = userDao.deleteHistory(uid, vid);
 			return historySet;
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
+		}
+	}
+
+	//得到当前用户的收藏
+	public Set<Video> getCollect() {
+		System.out.println("getCollect...service...");
+		
+		try{
+			int uid = (int) ServletActionContext.getRequest().getSession().getAttribute("uid");
+			Set<Video> collectionSet = userDao.getCollect(uid);
+//			Set<Video> collectionSet2 = new HashSet<Video>();
+//			collectionSet2.addAll(collectionSet);
+//			for(Video v : collectionSet2){
+//				v.setCollectionUserSet(null);
+//				v.setWatchUserSet(null);
+//				v.setZanUserSet(null);
+//			}
+			return collectionSet;
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			return null;

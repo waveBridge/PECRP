@@ -18,4 +18,6 @@ public interface UserDao {
 	public Set<Video> getHistory(int uid);
 
 	public Set<Video> deleteHistory(int uid, int vid);
+
+	public Set<Video> getCollect(int uid);
 }

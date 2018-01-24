@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
@@ -271,5 +272,68 @@ public class UserAction extends ActionSupport {
 		return null;
 	}
 	
+	//退出登录
+	public String logout() throws IOException{
+		System.out.println("logout...action...");
+		
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setContentType("application/json;charset=utf-8");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		PrintWriter out = response.getWriter();
+		
+		JSONObject json = new JSONObject();
+		try{
+			HttpSession session = request.getSession();
+			session.removeAttribute("uid");
+			json.put("msg", "1");
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			json.put("msg", "0");
+		} finally {
+			out.write(json.toString());
+			out.flush();
+			out.close();
+		}
+		return null;
+	}
 	
+	//得到当前用户的收藏
+	public String getCollect() throws IOException{
+		System.out.println("getCollect...action...");
+		
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setContentType("application/json;charset=utf-8");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		PrintWriter out = response.getWriter();
+		
+		//设置jsonConfig是为了摆脱死循环，因为是多对多级联关系
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
+		
+		
+		JSONArray json2;
+		JSONObject json = new JSONObject();
+		try{
+			Set<Video> collectionSet = userService.getCollect();
+			if(collectionSet == null){
+				json.put("msg", "0");
+			} else {
+				json.put("cnt", collectionSet.size());
+				json2 = JSONArray.fromObject(collectionSet, jsonConfig);
+				json.put("msg", json2);
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			json.put("msg", "0");
+		} finally {
+			out.write(json.toString());
+			out.flush();
+			out.close();
+		}
+		
+		
+		return null;
+	}
 }

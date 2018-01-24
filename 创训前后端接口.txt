@@ -3,6 +3,11 @@ url	:	loginAction
 in	:	username,password   (需要前端提前判断是否为空)
 out	:	登陆成功("msg":"1")  登录失败("msg":"0")
 
+//用户退出登录
+url :	logoutAcion
+in	:	无
+out :  	成功("msg","1")   错误("msg","0")
+
 //用户注册请求发送邮箱验证码
 url	：	getVCodeAction	
 in	:	email               (邮箱地址)需要前端判断邮箱格式是否正确
@@ -58,6 +63,11 @@ url	:	zanAction
 in	:	vid (视频id)
 out	:	("msg":"当前视频的赞数" , "isZan":"1或者0") 1表示当前用户赞了，0表示当前用户没有赞
 
+//查看当前用户收藏夹
+url	:	getCollectAction
+in	:	无
+out	:	错误("msg","0")			正常("cnt",收藏数量),("msg",收藏Video的json数组)
+
 //快速收藏视频(跟点赞类似)，之后还有修改收藏夹的功能
 url	:	collectAction
 in	：	vid (视频id)
@@ -71,7 +81,7 @@ in	:	无需输入，用户id存在session中
 out	:	错误("msg","0")			正常("cnt",历史记录数量),("msg",历史记录Video的json数组)
 
 //删除历史记录
-utl	:	deleteHistoryAction
+url	:	deleteHistoryAction
 in	:	vid  视频id
 out ：	错误("msg", "0")  		删除成功,返回新的历史记录("cnt",历史记录数量),("msg",历史记录Video的json数组)
 
