@@ -48,22 +48,115 @@
                     else {
                         $.each(json.msg.labelSet, function (i, tag) {
                             $("#userTag").append("<div class=\"btn-group\">\n" +
-                                "                   <a href=\"#\" class=\"btn btn-info\">"+tag.labelName+"</a>\n" +
-                                "                   <a href=\"#\" id='"+tag.lid+"' class=\"btn btn-info deleteTag\">-</a>\n" +
+                                "                   <input type='button' class=\"btn btn-info deleteTagName\" value=\""+tag.labelName+"\">\n" +
+                                "                   <input type='button' id='"+tag.lid+"' class=\"btn btn-info deleteTag\" value='-'>\n" +
                                 "                 </div>\n");
                         });
 
-                        $("#userTag").append("<a href=\"#addTag\"><i class=\"fa fa-plus-circle\"></i></a>");
+//                        $("#userTag").append("<a href=\"#addTag\"><i class=\"fa fa-plus-circle\"></i></a>");
 
                         $("#addTag").append("<div class=\"btn-group\">\n" +
-                            "                                        <a href=\"#\" class=\"btn btn-warning\">Animal</a>\n" +
-                            "                                        <a href=\"#\" class=\"btn btn-warning\">+</a>\n" +
-                            "                                    </div>\n");
-                        $("#addTag").append(" <a href=\"#userTag\" style=\"color: #ffb800\"><i class=\"fa fa-minus-circle\"></i></a>");
+                            "                    <input type='button' class=\"btn btn-warning addTagName\" value='ssr'>\n" +
+                            "                    <input type='button' class=\"btn btn-warning addTag\" value='+'>\n" +
+                            "                </div>\n");
+//                        $("#addTag").append(" <a href=\"#userTag\" style=\"color: #ffb800\"><i class=\"fa fa-minus-circle\"></i></a>");
                     }
                 }
 
             });
+            $(".deleteTag").click(function (e) {
+                var tagId = $(e.target).attr("id");
+                var tagName = $(e.target).siblings(".deleteTagName").attr("value");
+                $(e.target).parent().remove();
+//                display都是inline-block
+
+                $("#addTag").append("<div class=\"btn-group\">\n" +
+                    "                   <input type='button' class=\"btn btn-warning addTagName\" value='"+tagName+"'>\n" +
+                    "                   <input type='button' class=\"btn btn-warning addTag\" value='+'>\n" +
+                    "                </div>\n");
+
+            });
+            $(".addTag").click(function (e) {
+                var tagId = $(e.target).attr("id");
+                var tagName = $(e.target).siblings(".addTagName").attr("value");
+                $(e.target).parent().remove();
+//                display都是inline-block
+
+                $("#userTag").append("<div class=\"btn-group\">\n" +
+                    "                   <input type='button' class=\"btn btn-info deleteTagName\" value='"+tagName+"'>\n" +
+                    "                   <input type='button' class=\"btn btn-info deleteTag\" value='+'>\n" +
+                    "                 </div>\n");
+
+            });
+            $("#saveTag").click(function () {
+                var nowTags = "";
+                var cnt = 0;
+
+                $("#userTag input").each(function (i) {
+                    if($(this).hasClass("deleteTag")) {
+
+                        console.log($(this).attr("id") + " " + cnt);
+                        cnt++;
+                        nowTags = nowTags.concat($(this).attr("id"),"a");
+                        console.log(nowTags);
+
+                    }
+                });
+                if(cnt == 0) nowTags="a";
+                else{
+                    nowTags = nowTags.slice(0,cnt*2-1);
+                }
+
+                console.log(nowTags);
+
+
+                $.ajax({
+                    url: "changeLabelAction",
+                    type: "POST",
+                    dataType: "json",
+                    async: false,
+                    data: {
+                        lids: nowTags
+                    },
+                    success : function (data) {
+                        var json = eval(data);
+                        data = "";
+                        console.log(json.msg);
+                        if(json.msg == "0"){
+                            alert("修改失败，请重试！");
+                        }
+                        else {
+                            window.location.reload();
+                        }
+                    }
+                })
+            });
+
+            $("#cancelAdd").click(function () {
+               window.location.reload();
+            });
+            $("#deleteAllTag").click(function () {
+                $.ajax({
+                    url: "changeLabelAction",
+                    type: "POST",
+                    dataType: "json",
+                    async: false,
+                    data: {
+                        lids: "a"
+                    },
+                    success : function (data) {
+                        var json = eval(data);
+                        data = "";
+                        console.log(json.msg);
+                        if(json.msg == "0"){
+                            alert("修改失败，请重试！");
+                        }
+                        else {
+                            window.location.reload();
+                        }
+                    }
+                })
+            })
         });
 
     </script>
@@ -264,8 +357,24 @@
                                         </div>
                                         <div class="col-md-5">
                                             <div class="" style="float: right">
-                                                <a href="#" class="btn btn-success" id="saveTag">保存</a>
-                                                <a href="#" class="btn btn-danger" id="deleteAllTag">删除全部</a>
+                                                <input type="button" class="btn btn-success" id="saveTag" value="保存">
+                                                <input type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" value="删除全部">
+                                                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                                <h4 class="modal-title" id="myModalLabel">删除全部</h4>
+                                                            </div>
+                                                            <div class="modal-body">你确定要删除<b style="color: #ff443b">全部标签</b>吗？<b>该操作不可逆!</b></div>
+                                                            <div class="modal-footer">
+                                                                <input type="button" class="btn btn-danger" id="deleteAllTag" value="确定">
+                                                                <input type="button" class="btn btn-default" data-dismiss="modal" value="关闭">
+
+                                                            </div>
+                                                        </div><!-- /.modal-content -->
+                                                    </div><!-- /.modal -->
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
