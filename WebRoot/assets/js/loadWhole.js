@@ -65,5 +65,23 @@ $(document).ready(function () {
 
             }
         }
-    })
+    });
+    $("#logoutLi").click(function () {
+       $.ajax({
+           url: "logoutAction",
+           dataType: "json",
+           async: false,
+           success : function (data) {
+               var json = eval(data);
+               data = "";
+               console.log("logout"+json.msg);
+               if(json.msg == "0"){
+                   alert("注销失败，请重试！");
+               }
+               else{
+                   window.location.href="index.html";
+               }
+           }
+       })
+    });
 });

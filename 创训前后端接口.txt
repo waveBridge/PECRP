@@ -4,7 +4,7 @@ in	:	username,password   (需要前端提前判断是否为空)
 out	:	登陆成功("msg":"1")  登录失败("msg":"0")
 
 //用户退出登录
-url :	logoutAcion
+url :	logoutAction
 in	:	无
 out :  	成功("msg","1")   错误("msg","0")
 

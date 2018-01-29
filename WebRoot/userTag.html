@@ -34,7 +34,36 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+            $.ajax({
+                url: "getUserInfoAction",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    var json = eval(data);
+                    data = "";
+                    console.log(json.msg);
+                    if (json.msg == "0") {
+                        alert("发生错误！请刷新！");
+                    }
+                    else {
+                        $.each(json.msg.labelSet, function (i, tag) {
+                            $("#userTag").append("<div class=\"btn-group\">\n" +
+                                "                   <a href=\"#\" class=\"btn btn-info\">"+tag.labelName+"</a>\n" +
+                                "                   <a href=\"#\" id='"+tag.lid+"' class=\"btn btn-info deleteTag\">-</a>\n" +
+                                "                 </div>\n");
+                        });
 
+                        $("#userTag").append("<a href=\"#addTag\"><i class=\"fa fa-plus-circle\"></i></a>");
+
+                        $("#addTag").append("<div class=\"btn-group\">\n" +
+                            "                                        <a href=\"#\" class=\"btn btn-warning\">Animal</a>\n" +
+                            "                                        <a href=\"#\" class=\"btn btn-warning\">+</a>\n" +
+                            "                                    </div>\n");
+                        $("#addTag").append(" <a href=\"#userTag\" style=\"color: #ffb800\"><i class=\"fa fa-minus-circle\"></i></a>");
+                    }
+                }
+
+            });
         });
 
     </script>
@@ -228,6 +257,40 @@
                     <div class="col-md-8">
                         <div class="panel panel-info">
                             <div class="panel-body">
+                                <div class="vid-tags" id="userTag">
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <h6>用户标签<small>（点击 - 删除该标签，保存后生效）</small></h6>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="" style="float: right">
+                                                <a href="#" class="btn btn-success" id="saveTag">保存</a>
+                                                <a href="#" class="btn btn-danger" id="deleteAllTag">删除全部</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!--<div class="btn-group">-->
+                                        <!--<a href="#" class="btn btn-info">Animal</a>-->
+                                        <!--<a href="#" class="btn btn-info">+</a>-->
+                                    <!--</div>-->
+                                    <!--<a href="#addTag"><i class="fa fa-plus-circle"></i></a>-->
+                                </div>
+                                <div class="vid-tags" id="addTag" >
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <h6>添加标签<small>（点击 + 添加该标签，点击取消添加不保存本次修改）</small></h6>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="" style="float: right">
+                                                <a href="#" class="btn btn-danger" id="cancelAdd">取消添加</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
 
                             </div>
                         </div>
