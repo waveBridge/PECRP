@@ -1,7 +1,11 @@
 package cn.pecrp.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -258,6 +262,32 @@ public class InfoService {
 			return "0";
 		}
 		
+	}
+
+	//得到用户未拥有的标签
+	public Set<Label> labelNotHave(int uid) {
+		System.out.println("labelNotHave...service...");
+		
+		try{
+			List<Label> labelList = infoDao.getAllLabel();
+			Set<Label> userLabel = infoDao.getUserLabel(uid);
+			Set<Label> labelSet = new HashSet<Label>();
+			
+			//将所有的标签List放到新建的Set中
+			for(Label l : labelList){
+				labelSet.add(l);
+			}
+			
+			//从Set中删除掉用户已经拥有的label
+			for(Label l :userLabel){
+				labelSet.remove(l);
+			}
+			
+			return labelSet;
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
+		}
 	}
 	
 }

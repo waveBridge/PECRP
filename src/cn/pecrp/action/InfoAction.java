@@ -4,14 +4,17 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import cn.pecrp.entity.Label;
 import cn.pecrp.service.InfoService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -244,6 +247,46 @@ public class InfoAction extends ActionSupport {
 			out.flush();
 			out.close();
 		}
+		return null;
+	}
+	
+	//得到用户未拥有的标签
+	public String labelNotHave() throws IOException{
+		System.out.println("labelNotHave...Action...");
+		
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setContentType("application/json;charset=utf-8");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		PrintWriter out = response.getWriter();
+		
+		//设置jsonConfig是为了摆脱死循环，因为是多对多级联关系
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
+		
+		JSONArray json2;
+		JSONObject json = new JSONObject();
+		try{
+			HttpSession session = request.getSession();
+			int uid = (int) session.getAttribute("uid");
+			Set<Label> labelList = infoService.labelNotHave(uid);		//得到未拥有的标签
+			if(labelList == null){
+				json.put("msg", "0");
+			} else {
+				json2 = JSONArray.fromObject(labelList, jsonConfig);
+				json.put("cnt", labelList.size());						//数量
+				json.put("msg", json2);									//详情
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			json.put("msg", "0");
+		} finally {
+			out.write(json.toString());
+			out.flush();
+			out.close();
+		}
+		
+		
 		return null;
 	}
 	

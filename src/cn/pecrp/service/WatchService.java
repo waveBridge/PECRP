@@ -20,33 +20,33 @@ public class WatchService {
 	}
 	
 	//准备看视频，加访问量
-	public int watch(String svid) {
+	public Video watch(String svid) {
 		System.out.println("watch...service...");
 		
 		try{
 			int vid = Integer.parseInt(svid);
-			int flag;		
+			Video video;		
 
 			//修改视频访问量
-			flag = watchDao.addPlayNum(vid,1);
-			if(flag == -1){
-				return -1;
+			video = watchDao.addPlayNum(vid,1);
+			if(video == null){
+				return null;
 			}
 			
 			//修改用户访问历史
 			HttpSession session = ServletActionContext.getRequest().getSession();
 			int uid = (int)session.getAttribute("uid");
-			boolean flag2 = watchDao.addHistory(uid,vid);
+			boolean flag = watchDao.addHistory(uid,vid);
 			
-			if(flag2 == false){
-				return -1;
+			if(flag == false){
+				return null;
 			}
 			
-			return flag;
+			return video;
 			
 		}catch (Exception e) {
 			System.out.println(e.toString());
-			return -1;
+			return null;
 		}
 	}
 

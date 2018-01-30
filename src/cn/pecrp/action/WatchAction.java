@@ -34,15 +34,21 @@ public class WatchAction extends ActionSupport {
 		response.setContentType("application/json;charset=utf-8");
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		PrintWriter out = response.getWriter();
+		
+		//设置jsonConfig是为了摆脱死循环，因为是多对多级联关系
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
 				
+		JSONObject json2;
 		JSONObject json = new JSONObject();
 		try{
 			String vid = request.getParameter("vid");
-			int flag = watchService.watch(vid);
-			if(flag == -1){
+			Video video = watchService.watch(vid);
+			if(video == null){
 				json.put("msg", "0");                    //未知错误
 			} else {
-				json.put("msg", flag);                    //可以访问
+				json2 = JSONObject.fromObject(video, jsonConfig);
+				json.put("msg", json2);                    //可以访问
 			}
 		}catch (Exception e) {
 			System.out.println(e.toString());

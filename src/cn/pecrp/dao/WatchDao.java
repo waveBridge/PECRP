@@ -6,7 +6,7 @@ import cn.pecrp.entity.Video;
 
 public interface WatchDao {
 
-	int addPlayNum(int vid, int i);
+	Video addPlayNum(int vid, int i);
 
 	boolean addHistory(int uid, int vid);
 

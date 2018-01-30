@@ -127,5 +127,33 @@ public class InfoDaoImpl implements InfoDao {
 			return false;
 		}
 	}
+
+	//得到所有标签
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Label> getAllLabel() {
+		System.out.println("getAllLabel...dao...");
+		
+		try{
+			return (List<Label>) hibernateTemplate.find("from Label");
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
+		}
+	}
+
+	//得到用户的标签
+	@Override
+	public Set<Label> getUserLabel(int uid) {
+		System.out.println("getUserLabel...dao...");
+		
+		try{
+			User user = hibernateTemplate.get(User.class, uid);
+			return user.getLabelSet();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
+		}
+	}
 	
 }

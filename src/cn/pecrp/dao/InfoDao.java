@@ -1,5 +1,6 @@
 package cn.pecrp.dao;
 
+import java.util.List;
 import java.util.Set;
 
 import cn.pecrp.entity.Label;
@@ -17,5 +18,9 @@ public interface InfoDao {
 	Set<Label> changeLabel(int uid, int[] lidInt);
 
 	boolean upImg(int uid, String path);
+
+	List<Label> getAllLabel();
+
+	Set<Label> getUserLabel(int uid);
 
 }

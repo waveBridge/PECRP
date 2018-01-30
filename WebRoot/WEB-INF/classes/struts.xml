@@ -21,6 +21,7 @@
 		<action name="forgetPassChangeAction" class = "infoAction" method="forgetPassChange"></action>
 		<action name="changeNicknameAction" class = "infoAction" method="changeNickname"></action>
 		<action name="changeLabelAction" class = "infoAction" method="changeLabel"></action>
+		<action name="labelNotHaveAction" class = "infoAction" method="labelNotHave"></action>
 		<action name="upImgAction" class = "infoAction" method="upImg">
 			<!-- param是参数，能够到action中 -->
 			<param name="maximumSize ">1000000</param>    

@@ -43,6 +43,11 @@ url	：	getUserInfoAction
 in	:	无需输入，用户id存在session中
 out	:	成功的到信息("msg":user对象)	未得到信息("msg":"0")
 
+//得到用户未拥有的标签
+url ：	labelNotHaveAction
+in	:	无
+out :	错误("msg":"0")  未拥有的标签("msg":"标签集合" , "cnt":"数量")
+
 //改变某用户的标签
 url	:	changeLabelAction
 in	:	lids    (一个字符串，是用户新的标签，由标签的编号组成，由小写字母a分隔， 如：1a4a3  无需排序 。 特别的，若用户取消所有标签，即删除所有标签，则传一个字符'a'即可)
@@ -53,10 +58,10 @@ url	:	upImgAction
 in	:	通过表单上传，type = "file"  name = "upload"
 out :	修改成功("msg":"图片相对路径，可直接访问")  失败("msg":"0")  文件类型不符合("msg":"-2")  文件太大("msg":"-1");
 
-//点开视频（增加用户历史和视频访问量）
+//点开视频（增加用户历史和视频访问量 返回视频信息）
 url	:	watchAction
 in	:	vid(视频id)
-out	:	允许访问（修改访问量和观看历史成功）("msg":"视频的访问量（更新后的）")  错误("msg":"0")
+out	:	允许访问（修改访问量和观看历史成功）("msg":"视频信息（更新后的）")  错误("msg":"0")
 
 //给视频点赞
 url	:	zanAction

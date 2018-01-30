@@ -17,21 +17,21 @@ public class WatchDaoImpl implements WatchDao {
 	
 	//添加视频访问量
 	@Override
-	public int addPlayNum(int vid, int i) {
+	public Video addPlayNum(int vid, int i) {
 		try{
 			Video video = hibernateTemplate.get(Video.class, vid);
 			if(video == null){
-				return -1;
+				return null;
 			}
 			
 			//添加
 			int tmp = video.getPlayNum() + 1;
 			video.setPlayNum(tmp);
-			hibernateTemplate.save(video);
-			return tmp;
+			hibernateTemplate.update(video);
+			return video;
 		}catch (Exception e) {
 			System.out.println(e.toString());
-			return -1;
+			return null;
 		}
 	}
 
