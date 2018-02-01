@@ -43,5 +43,6 @@
 	<import resource="classpath:userBean.xml"/>
 	<import resource="classpath:infoBean.xml"/>
 	<import resource="classpath:watchBean.xml"/>
+	<import resource="classpath:videoBean.xml"/>
 	
 </beans>
