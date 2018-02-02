@@ -34,8 +34,66 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+            $.ajax({
+                url: "getCollectAction",
+                type: "POST",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    var json = eval(data);
+                    data = "";
+                    console.log(json.msg);
+                    if (json.msg == "0") {
+                        alert("error happend!");
+                    }
+                    else {
+                        $.each(json.msg, function (i, video) {
+                            console.log(i, video);
+                            if(i >= 20) return false;
+                            $("#showCollection").append(" <div class=\"panel panel-info\" >\n" +
+                                "                            <div class=\"panel-body\">\n" +
+                                "                                <div class=\"col-md-4\">\n" +
+                                "                                    <img src=\""+video.picture+"\" class=\"img-thumbnail videopic\">\n" +
+                                "                                </div>\n" +
+                                "                                <div class=\"col-md-7\">\n" +
+                                "                                    <h5><a href=\""+video.link+"\">"+video.videoName+"</a> </h5>\n" +
+                                "                                    <div class=\"blank\"></div>\n" +
+                                "                                    <h7>时长："+video.time+"</h7>\n" +
+                                "                                    <span class='deleteVideo' style='cursor: pointer' id="+video.vid+"><i class='fa'></i>删除</span>\n" +
+                                "                                </div>\n" +
+                                "                            </div>\n" +
+                                "                        </div>");
 
+                        })
+                        $("#showHistory").append("<div style='text-align: center'>没有更多了...</div>")
+                    }
+                }
+            });
+            $(".deleteVideo").click(function (e) {
+                var vid = $(e.target).attr("id");
+                console.log(vid);
+                $.ajax({
+                    url: "deleteCollectionAction",
+                    type: "POST",
+                    dataType: "json",
+                    async: false,
+                    data:{
+                        vid: vid
+                    },
+                    success: function (data) {
+                        var json = eval(data);
+                        data = "";
+                        if(json.msg == "0"){
+                            alert("error happend!");
+                        }
+                        else {
+                            window.location.href = "collection.html";
+                        }
+                    }
+                });
+            });
         });
+
 
     </script>
 </head>
@@ -217,147 +275,25 @@
             <div id="main-content" class="col-md-12">
                 <div class="row">
                     <div class="title">
-                        <h2>信息修改</h2>
+                        <h2>收藏夹<small>（显示最近20条）</small></h2>
                     </div>
 
 
                     <div class="col-md-2">
-                        <ul class="nav nav-stacked nav-pills">
-                            <li id="change1" class="active">
-                                <a style="cursor:pointer;">修改昵称</a>
-                            </li>
-                            <li id="change2">
-                                <a style="cursor:pointer;">修改密码</a>
-                            </li>
-                            <li id="change3">
-                                <a style="cursor:pointer;">修改头像</a>
-                            </li>
-                        </ul>
 
                     </div>
 
-                    <div class="col-md-3">
-                        <div id="change11" style="float: right;text-align: right">
-
-                            <div class="form-group">
-                                <label class="control-label" style="margin-top: 9%">昵称</label>
-                            </div>
-                        </div>
-                        <div id="change22" style="float: right;text-align: right">
-
-                            <div class="form-group">
-                                <label class="control-label" style="margin-top: 5%">原密码</label>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label" style="margin-top: 5%">新密码</label>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label" style="margin-top: 5%">重复新密码</label>
-                            </div>
-                        </div>
-                        <div id="change33" style="float: right;text-align: right">
-                            <div class="form-group">
-                                <label class="control-label" style="margin-top: 8%">当前头像</label>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label" style="margin-top: 120%">更换头像</label>
-                            </div>
-                        </div>
+                    <div class="col-md-7" id="showCollection">
 
                     </div>
-                    <div class="col-md-3 login">
 
-                        <form name="form1" id="form1" method="post" action="" role="form">
-                            <div class="form-group">
-
-                                <input type="text" id="nickname" class="form-control" value="">
-
-                            </div>
-
-
-                            <div class="form-group">
-
-                                <input type="button" class="btn btn-success col-sm-offset-0 col-md-12" id="btnChange1"
-                                       value="提交修改"/>
-
-                            </div>
-
-                        </form>
-                        <form name="form2" id="form2" method="post" action="" role="form">
-                            <div class="form-group">
-
-                                <input type="password" id="oldPassword" class="form-control">
-
-                            </div>
-                            <div class="form-group">
-
-                                <input type="password" id="newPassword" class="form-control">
-
-                            </div>
-                            <div class="form-group">
-
-                                <input type="password" id="newPassword2" class="form-control">
-
-                            </div>
-
-
-                            <div class="form-group">
-                                <input type="button" class="btn btn-success col-sm-offset-0 col-md-12" id="btnChange2"
-                                       value="提交修改"/>
-
-                            </div>
-
-                        </form>
-                        <form name="form3" id="form3" method="post" action="" role="form" enctype="multipart/form-data">
-                            <div class="form-group">
-                                <div class="thumbnail" style="width: 100px;height: 100px">
-                                    <img src="" id="preview">
-                                </div>
-
-
-                                <div class="fileupload fileupload-new" data-provides="fileupload">
-                                    <div class="fileupload-preview thumbnail" style="width: 100px;height: 100px"></div>
-                                    <div>
-                                            <span class="btn btn-file btn-info">
-                                                <span class="fileupload-new">
-                                                    选择图片
-                                                </span>
-                                                <span class="fileupload-exists">
-                                                    更换图片
-                                                </span>
-                                                <input type="file" name="upload" id="upload">
-                                            </span>
-                                        <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">
-                                            移除
-                                        </a>
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <input type="button" class="btn btn-success col-sm-offset-0 col-md-12"
-                                           id="btnChange3"
-                                           value="提交修改"/>
-                                </div>
-                            </div>
-
-                        </form>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="" style="float: left;text-align: left">
-                            <div class="form-group">
-                                <label class="control-label" style="margin-top: 9%" id="usrname"></label>
-                            </div>
-
-                        </div>
-
-                    </div>
 
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 
 <footer>

@@ -62,6 +62,30 @@ $(document).ready(function () {
                        }
                    }
                 });
+                $.ajax({
+                    url: "getCollectAction",
+                    type: "POST",
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        var json = eval(data);
+                        data = "";
+                        console.log(json.msg);
+                        if(json.msg == "0"){
+                            alert("error happend!");
+                        }
+                        else{
+                            $.each(json.msg, function (i, video) {
+                                console.log(i, video.videoName, video.link);
+                                if(i > 6){
+                                    return false;
+                                }
+                                $("#collectionVideo").append("<li><a href=\""+video.link+"\">"+video.videoName+"</a></li>");
+                            } );
+                            $("#collectionVideo").append("<li ><a style='color: #806fff; font-size: 89%;' href=\"collection.html\">查看更多</a></li>");
+                        }
+                    }
+                });
 
             }
         }
