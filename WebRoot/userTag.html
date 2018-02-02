@@ -53,30 +53,49 @@
                                 "                 </div>\n");
                         });
 
-//                        $("#userTag").append("<a href=\"#addTag\"><i class=\"fa fa-plus-circle\"></i></a>");
-
-                        $("#addTag").append("<div class=\"btn-group\">\n" +
-                            "                    <input type='button' class=\"btn btn-warning addTagName\" value='ssr'>\n" +
-                            "                    <input type='button' class=\"btn btn-warning addTag\" value='+'>\n" +
-                            "                </div>\n");
-//                        $("#addTag").append(" <a href=\"#userTag\" style=\"color: #ffb800\"><i class=\"fa fa-minus-circle\"></i></a>");
                     }
                 }
 
             });
-            $(".deleteTag").click(function (e) {
+            $.ajax({
+                url: "labelNotHaveAction",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    var json = eval(data);
+                    data = "";
+                    console.log(json.msg);
+                    if (json.msg == "0") {
+                        alert("发生错误！请刷新！");
+                    }
+                    else {
+                        $.each(json.msg, function (i, tag) {
+
+                            $("#addTag").append("<div class=\"btn-group\">\n" +
+                                "                    <input type='button' class=\"btn btn-warning addTagName\" value='"+tag.labelName+"'>\n" +
+                                "                    <input type='button' id='"+tag.lid+"' class=\"btn btn-warning addTag\" value='+'>\n" +
+                                "                </div>\n");
+                        });
+
+//
+                    }
+                }
+
+            });
+            $("#userTag").on("click",".deleteTag",function (e) {
                 var tagId = $(e.target).attr("id");
                 var tagName = $(e.target).siblings(".deleteTagName").attr("value");
                 $(e.target).parent().remove();
+                console.log(tagId);
 //                display都是inline-block
 
                 $("#addTag").append("<div class=\"btn-group\">\n" +
                     "                   <input type='button' class=\"btn btn-warning addTagName\" value='"+tagName+"'>\n" +
-                    "                   <input type='button' class=\"btn btn-warning addTag\" value='+'>\n" +
+                    "                   <input type='button' id='"+tagId+"' class=\"btn btn-warning addTag\" value='+'>\n" +
                     "                </div>\n");
 
             });
-            $(".addTag").click(function (e) {
+            $("#addTag").on("click",".addTag",function (e) {
                 var tagId = $(e.target).attr("id");
                 var tagName = $(e.target).siblings(".addTagName").attr("value");
                 $(e.target).parent().remove();
@@ -84,7 +103,7 @@
 
                 $("#userTag").append("<div class=\"btn-group\">\n" +
                     "                   <input type='button' class=\"btn btn-info deleteTagName\" value='"+tagName+"'>\n" +
-                    "                   <input type='button' class=\"btn btn-info deleteTag\" value='+'>\n" +
+                    "                   <input type='button' id='"+tagId+"' class=\"btn btn-info deleteTag\" value='-'>\n" +
                     "                 </div>\n");
 
             });
