@@ -16,4 +16,6 @@ public interface WatchDao {
 
 	String addACollect(int vid, int uid);
 
+	Set<Video> deleteCollect(int uid, int vid);
+
 }

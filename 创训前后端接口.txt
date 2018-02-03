@@ -78,6 +78,11 @@ url	:	collectAction
 in	：	vid (视频id)
 out	：	("msg":"当前视频的收藏量" , "isCollect","1或者0") 1表示当前用户收藏了，0表示当前用户没有收藏
 
+//删除收藏
+url ：	deleteCollctAction
+in 	:	vid（视频id）
+out	:	错误("msg":"0")   	 更新后的收藏信息("msg":"收藏"  ,  "cnt":"数量")    
+
 //分享，好像分享都是前端那边，复制粘贴别人给的代码就可以了。
 
 //查看当前用户历史记录

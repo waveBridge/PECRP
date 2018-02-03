@@ -160,4 +160,21 @@ public class WatchDaoImpl implements WatchDao {
 		
 	}
 
+	//删除收藏
+	@Override
+	public Set<Video> deleteCollect(int uid, int vid) {
+		System.out.println("deleteCollect...dao...");
+		
+		try{
+			User user = hibernateTemplate.get(User.class, uid);	
+			Video video = hibernateTemplate.get(Video.class, vid);
+			user.getCollectionSet().remove(video);			//删除对应的视频
+			hibernateTemplate.update(user);
+			return user.getCollectionSet();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
+		}
+	}
+
 }

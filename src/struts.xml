@@ -31,6 +31,8 @@
 		<action name="watchAction" class = "watchAction" method="watch"></action>
 		<action name="zanAction" class = "watchAction" method="zan"></action>
 		<action name="collectAction" class = "watchAction" method="collect"></action>
+		<action name="deleteCollectAction" class = "watchAction" method="deleteCollect"></action>
+		
 		<action name="popVideoAction" class="videoAction" method="popVideo"></action>
 	</package>
 </struts>

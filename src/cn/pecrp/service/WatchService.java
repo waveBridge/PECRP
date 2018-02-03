@@ -89,5 +89,20 @@ public class WatchService {
 		}
 		
 	}
+
+	//删除收藏
+	public Set<Video> deleteCollect(String vvid) {
+		System.out.println("deleteCollect...service");
+		
+		try{
+			int vid = Integer.parseInt(vvid);
+			int uid = (int)ServletActionContext.getRequest().getSession().getAttribute("uid");
+			Set<Video> collectionSet = watchDao.deleteCollect(uid, vid);
+			return collectionSet;
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
+		}
+	}
 	
 }

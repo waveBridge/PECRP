@@ -133,6 +133,42 @@ public class WatchAction extends ActionSupport {
 		return null;
 	}
 	
-	//修改收藏夹
+	//删除收藏
+	public String deleteCollect() throws IOException {
+		System.out.println("deleteCollect...action...");
+		
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setContentType("application/json;charset=utf-8");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		PrintWriter out = response.getWriter();
+		
+		
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
+		
+		JSONArray json2;
+		JSONObject json = new JSONObject();
+		try{
+			String vid = request.getParameter("vid");
+			Set<Video> collectSet = watchService.deleteCollect(vid);
+			if(collectSet == null) {
+				json.put("msg", "0");								//返回0,有错误
+			} else {
+				json.put("cnt", collectSet.size());
+				json2 = JSONArray.fromObject(collectSet, jsonConfig);
+				json.put("msg", json2);
+			} 
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			json.put("mas", "0");									//返回-1，有异常
+		} finally {
+			out.write(json.toString());
+			out.flush();
+			out.close();
+		}
+		
+		return null;
+	}
 	
 }
