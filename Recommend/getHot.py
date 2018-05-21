@@ -19,6 +19,13 @@ def read():
             list.append((vid, playNum))
         list.sort(key=takeSecond,reverse=True)
         # print(list)
+
+    except Exception as e:
+        print(e)
+        db.rollback()
+
+def write():
+    try:
         # 将已有记录更新，没有的插入
         sql_replace = "REPLACE INTO rec_hot_video(vid, hotDegree) VALUES ('%d', '%d')"
         for i in range(len(list)):
@@ -28,10 +35,10 @@ def read():
     except Exception as e:
         print(e)
         db.rollback()
-    finally:
-        db.close()
 
 if __name__ == "__main__":
     print("=====start get hot=====")
     read()
+    write()
+    db.close()
     print("=====end get hot=====")
