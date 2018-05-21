@@ -27,9 +27,119 @@
     <script src="assets/js/bootstrap.min.js"></script>
 
 
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+
+    <script src="assets/js/jquery-2.1.1.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var vid = window.location.search;
+            vid = vid.slice(5);//get video's id
+//            alert(vid);
+            $.ajax({
+                url: "watchAction",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    vid: vid
+                },
+                async: false,
+                success: function (data) {
+                    var json = eval(data);
+                    data = "";
+                    console.log(json.msg);
+                    if (json.msg == "0") {
+                        alert("error happend!");
+                    }
+                    else {
+                        var video = json.msg;
+                        $('#videoPlay').attr('src', video.link);
+                        $('#videoName').text(video.videoName);
+                        $('#videoZan').text(video.zanUserSet.length);
+                        var reviewSet = video.reviewSet;
+                        $.each(reviewSet, function (i, review) {
+
+
+                            $('#showComment').append('<div class="row">\n' +
+                                '                        <div class="col-md-2">\n' +
+                                '                            <div class="comment-avatar">\n' +
+                                '                                <img src="assets/img/user.png" style="height: 70px">\n' +
+                                '                            </div>\n' +
+                                '                        </div>\n' +
+                                '                        <div class="col-md-8">\n' +
+                                '                            <div class="comment-user">\n' +
+                                '                                <span class="comment-name small">' + '用户' + review.uid + '</span>\n' +
+                                '                            </div>\n' +
+                                '                            <div class="comment-content">\n' +
+                                '                                <p>' + review.content + '</p>\n' +
+                                '                            </div>\n' +
+                                '                        </div>\n' +
+                                '                    </div>')
+                        });
+
+                        $.each(video.labelSet, function (i, label) {
+                            $('#videoTags').append(' <div class="btn-group">\n' +
+                                '                        <input type="button" class="btn btn-info" value="'+label.labelName+'">\n' +
+                                '                    </div>');
+                        })
+
+
+
+
+                    }
+                }
+            });
+            $('#addTag').on("click",function () {
+                $('#videoTags').append(' <div class="btn-group">\n' +
+                    '                        <input type="text" class="form-control" placeholder="请输入标签">\n' +
+                    '                    </div>');
+
+            });
+            $('#zan').on("click",function () {
+//                alert("hello");
+                $.ajax({
+                    url: "zanAction",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        vid: vid
+                    },
+                    async: false,
+                    success: function (data) {
+                        $('#zan').text('已点赞');
+                    }
+                });
+            });
+            $('#comment').on("click",function () {
+                alert("hello");
+            });
+
+            $('#share').on("click",function () {
+                alert("hello");
+            });
+            $('#collect').on("click",function () {
+                $.ajax({
+                    url: "collectAction",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        vid: vid
+                    },
+                    async: false,
+                    success: function (data) {
+                        $('#collect').text('已点赞');
+                    }
+                });
+            });
+
+        });
+
+
+
+
+
+    </script>
 
 </head>
 
@@ -85,7 +195,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <div>
-                                <img src="assets/img/user.png" style="height: 60px;width: 60px" class="img-thumbnail img-circle" id="userImg"/>
+                                <img src="assets/img/user.png" style="height: 60px;width: 60px"
+                                     class="img-thumbnail img-circle" id="userImg"/>
                             </div>
                         </a>
                         <div class="dropdown-menu">
@@ -95,7 +206,7 @@
                                     <li id="registerLi"><a href="register.html">注册</a></li>
                                     <li id="infoLi"><a href="info.html">资料修改</a></li>
                                     <li id="tagLi"><a href="userTag.html">标签管理</a></li>
-                                    <li id="logoutLi"><a href="">退出登录</a> </li>
+                                    <li id="logoutLi"><a href="">退出登录</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -213,7 +324,7 @@
         <div class="row">
             <div id="main-content" class="col-md-8">
                 <div class="wrap-vid">
-                    <iframe width="100%" height="400"
+                    <iframe id="videoPlay" width="100%" height="400"
                             src=""
                             frameborder="0" allowfullscreen></iframe>
                     <!--http://www.iqiyi.com/v_19rreh9f80.html-->
@@ -221,88 +332,34 @@
                 </div>
                 <div class="share">
                     <ul class="list-inline center">
-                        <li><a href="#" class="btn btn-zan"><i class="fa fa-thumbs-o-up"></i> 点赞</a></li>
-                        <li><a href="#" class="btn btn-comment"><i class="fa fa-comment-o"></i> 评论</a></li>
-                        <li><a href="#" class="btn btn-share"><i class="fa fa-share-alt"></i> 分享</a></li>
-                        <li><a href="#" class="btn btn-fold"><i class="fa fa-folder-open-o"></i> 收藏</a></li>
+                        <li><span type="button" class="btn btn-zan" id="zan"><i class="fa fa-thumbs-o-up"></i>点赞</span></li>
+                        <li><span type="button" class="btn btn-comment" id="comment"><i class="fa fa-comment-o"></i> 评论</span></li>
+                        <li><span type="button" class="btn btn-share" id="share"><i class="fa fa-share-alt"></i> 分享</span></li>
+                        <li><span type="button" class="btn btn-fold" id="collect"><i class="fa fa-folder-open-o"></i>收藏 </span></li>
                     </ul>
                 </div>
                 <div class="line"></div>
-                <h1 class="vid-name"><a href="#">视频名称</a></h1>
+
                 <div class="info">
-                    <h5>By <a href="#">小李</a></h5>
-                    <span><i class="fa fa-calendar"></i>2017/12/6</span>
-                    <span><i class="fa fa-heart"></i>1,200</span>
+                    <span class="vid-name" id="videoName"
+                          style="font-size: 30px; font-weight: 700; color: #0A0A0A"></span>
+                    <span style="color: #ff8896"><i class="fa fa-heart"><span id="videoZan"></span></i></span>
                 </div>
-                <p style="margin-top: 20px">抛开那些最浪漫的话 我只想为你 把所有冰冷融化 就这样一直走我这一生中的每一个冬夏
-                    不知不觉我爱上了ta
-                    想方法去表达
-                    勇气你在哪
-                    那么多路人甲阻挡不了我对你爱的想法
-                    抛开那些最浪漫的话
-                    我只想为你
-                    把所有冰冷融化
-                    就这样一直走我这一生中的每一个冬夏</p>
+                <p style="margin-top: 20px">不好意思哦，视频简介暂时走丢了。。。</p>
                 <div class="vid-tags">
                     <h6>标签</h6>
-                    <a href="#" class="btn btn-info">Animal</a>
-                    <a href="#" class="btn btn-info">Aenean</a>
-                    <a href="#" class="btn btn-info">Feugiat</a>
-                    <a href="#" class="btn btn-info">Risus</a>
-                    <a href="#" class="btn btn-info">Magna</a>
-                    <a href=""><i class="fa fa-plus-circle"></i></a>
+                    <span id="videoTags">
+
+
+                    </span>
+                    <span type="button" class="btn" id="addTag"><i class="fa fa-plus-circle"></i></span>
+
                 </div>
                 <div class="line"></div>
                 <div class="comment">
                     <h4>评论区 Comments</h4>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <div class="comment-avatar">
-                                <img src="assets/img/user.png" style="height: 70px">
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="comment-user">
-                                <span class="comment-name small">小明</span>
-                                <span class="comment-time small">2017/12/6</span>
-                            </div>
-                            <div class="comment-content">
-                                <p>我觉得ok我觉得ok我觉得ok我觉得ok我觉得ok我觉得ok我觉得ok我觉得ok我觉得ok我觉得ok</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <div class="comment-avatar">
-                                <img src="assets/img/user.png" style="height: 70px">
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="comment-user">
-                                <span class="comment-name small">小明</span>
-                                <span class="comment-time small">2017/12/6</span>
-                            </div>
-                            <div class="comment-content">
-                                <p>我觉得ok</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <div class="comment-avatar">
-                                <img src="assets/img/user.png" style="height: 70px">
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="comment-user">
-                                <span class="comment-name small">小明</span>
-                                <span class="comment-time small">2017/12/6</span>
-                            </div>
-                            <div class="comment-content">
-                                <p>我觉得ok</p>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="showComment"></div>
+
                     <h3>新增评论</h3>
                     <form name="form1" method="post" action="">
                         <div class="row">
