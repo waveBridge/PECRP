@@ -100,4 +100,13 @@ url :	getHotVideoAction
 in	:	无
 out	:	错误("msg":"0")			返回热门视频("msg":"视频集合" , "cnt":"数量")
 
+//首页中，返回分类推荐标签，分类热门视频，分类推荐视频
+url :	getClassifyVideoAction
+in	:	classify  		分类名
+out	:	错误("msg":"0")			正确("msg":"1" , "recommendVideo":"推荐视频集合" , "hotVideo":"热门视频集合" , "recommendLabel" : "推荐标签集合")
+
+
+
+
+
   

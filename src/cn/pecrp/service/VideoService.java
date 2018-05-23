@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.pecrp.dao.VideoDao;
 import cn.pecrp.entity.Hot;
+import cn.pecrp.entity.Label;
 import cn.pecrp.entity.Video;
 
 @Transactional
@@ -50,6 +52,42 @@ public class VideoService {
 			return popVideo;
 		} catch (Exception e) {
 			System.out.println(e.toString());
+			return null;
+		}
+	}
+
+	//根据classifyName获取recommendVideo
+	public Set<Video> getRecommendVideo(String classifyName) {
+		System.out.println("getRecommendVideo...service...");
+		
+		try{
+			Set<Video> recommendVideo = videoDao.getRecommendVideo(classifyName);
+			return recommendVideo;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	//根据classifyName获取HotVideo
+	public Set<Video> getHotVideo(String classifyName) {
+		System.out.println("getRecommendVideo...service...");
+		
+		try{
+			Set<Video> hotVideo = videoDao.getHotVideo(classifyName);
+			return hotVideo;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	//根据classifyName获取recommendLabel
+	public Set<Label> getrecommendLabel(String classifyName) {
+		System.out.println("getRecommendLabel...service...");
+		
+		try{
+			Set<Label> recommendLabel = videoDao.getRecommendLabel(classifyName);
+			return recommendLabel;
+		} catch (Exception e) {
 			return null;
 		}
 	}

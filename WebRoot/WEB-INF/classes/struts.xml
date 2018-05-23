@@ -34,5 +34,7 @@
 		<action name="deleteCollectAction" class = "watchAction" method="deleteCollect"></action>
 		
 		<action name="getHotVideoAction" class="videoAction" method="getHotVideo"></action>
+		<action name="getClassifyVideoAction" class="videoAction" method="getClassifyVideo"></action>
+		
 	</package>
 </struts>
