@@ -26,7 +26,7 @@ public class VideoAction extends ActionSupport {
 	}
 	
 	//返回热门视频
-	public String popVideo() throws IOException{
+	public String getHotVideo() throws IOException{
 		System.out.println("popVideo...action...");	
 		
 		HttpServletRequest request = ServletActionContext.getRequest();
@@ -45,7 +45,17 @@ public class VideoAction extends ActionSupport {
 			if(popVideo == null){
 				json.put("msg", "0");				//错误
 			} else {
-				//cnt最大为10，小于10说明视频不够
+				
+				for(int i = 0 ; i < popVideo.size(); i ++){
+					popVideo.get(i).setZanUserSet(null);
+					popVideo.get(i).setReviewSet(null);
+					popVideo.get(i).setLabelSet(null);
+					popVideo.get(i).setWatchUserSet(null);
+					popVideo.get(i).setCollectionUserSet(null);
+					popVideo.get(i).setClassifySet(null);
+				}
+
+				//cnt最大为5，小于5说明视频不够
 				json.put("cnt", popVideo.size());
 				json2 = JSONArray.fromObject(popVideo, jsonConfig);
 				json.put("msg", json2);

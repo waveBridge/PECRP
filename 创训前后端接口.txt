@@ -95,8 +95,8 @@ url	:	deleteHistoryAction
 in	:	vid  视频id
 out ：	错误("msg":"0")  		删除成功,返回新的历史记录("cnt",历史记录数量),("msg",历史记录Video的json数组)
 
-//返回热门视频(按照playNum降序排列， 返回前10热门的视频，最大数量为10。不足10说明数据库没有)
-url :	popVideoAction
+//返回热门推荐视频
+url :	getHotVideoAction
 in	:	无
 out	:	错误("msg":"0")			返回热门视频("msg":"视频集合" , "cnt":"数量")
 

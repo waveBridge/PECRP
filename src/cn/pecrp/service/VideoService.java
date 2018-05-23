@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.pecrp.dao.VideoDao;
+import cn.pecrp.entity.Hot;
 import cn.pecrp.entity.Video;
 
 @Transactional
@@ -22,28 +23,31 @@ public class VideoService {
 		System.out.println("popVideo...service..");
 		
 		try{
-			List<Video> allVideos = videoDao.allVideos();
-			List<Video> allVideo = new ArrayList<Video>();
+			List<Hot> hotVids = videoDao.hotVid();
+			List<Hot> hotVid = new ArrayList<Hot>();
 			
 			//先复制一份到allVideo的list
-			for(Video v : allVideos){
-				allVideo.add(v);
+			for(Hot h : hotVids){
+				hotVid.add(h);
 			}
 			
 			//再按照热门度排序
-			Collections.sort(allVideo, new SortByPlayNum());
+			Collections.sort(hotVid, new SortByHotDegree());
 			
-			//最多取前十
-			if(allVideo.size() <= 10){
-				return allVideo;
+			List<Video> popVideo;
+			//最多取前五
+			if(hotVid.size() <= 5){
+				popVideo = videoDao.getVideoByVids(hotVid);
 			} else {
-				//将前十放到popVideo
-				List<Video> popVideo = new ArrayList<Video>();
-				for(int i = 0; i < 10 ;i ++){
-					popVideo.add(allVideo.get(i));							
+				//将前五放到popVideo
+				List<Hot> fiveVid = new ArrayList<Hot>();
+				for(int i = 0; i < 5 ;i ++){
+					fiveVid.add(hotVid.get(i));							
 				}
-				return popVideo;
+				popVideo = videoDao.getVideoByVids(fiveVid);
 			}
+			
+			return popVideo;
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			return null;
@@ -52,9 +56,9 @@ public class VideoService {
 	
 }
 
-class SortByPlayNum implements Comparator<Video> {
-	public int compare(Video v1, Video v2){
-		if(v1.getPlayNum() < v2.getPlayNum()){			//按照playnum降序
+class SortByHotDegree implements Comparator<Hot> {
+	public int compare(Hot v1, Hot v2){
+		if(v1.getHotDegree() < v2.getHotDegree()){			//按照playnum降序
 			return 1;
 		} else {
 			return -1;

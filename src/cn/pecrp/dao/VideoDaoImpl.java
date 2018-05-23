@@ -1,9 +1,11 @@
 package cn.pecrp.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
+import cn.pecrp.entity.Hot;
 import cn.pecrp.entity.Video;
 
 public class VideoDaoImpl implements VideoDao {
@@ -12,12 +14,39 @@ public class VideoDaoImpl implements VideoDao {
 		this.hibernateTemplate = hibernateTemplate;
 	}
 	
-	//得到所有视频
+	//得到Hot
 	@Override
-	public List<Video> allVideos() {
-		@SuppressWarnings("unchecked")
-		List<Video> allVideos = (List<Video>) hibernateTemplate.find("from Video");
-		return allVideos;
+	public List<Hot> hotVid() {
+		System.out.println("hotVid...dao...");
+		
+		try{
+			@SuppressWarnings("unchecked")
+			List<Hot> hotVid = (List<Hot>) hibernateTemplate.find("from Hot");
+			return hotVid;
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
+		}
 	}
+	
+	@Override
+	public List<Video> getVideoByVids(List<Hot> hotVid) {
+		System.out.println("getVideoByVids...dao...");
+		
+		try{
+			List<Video> video = new ArrayList<Video>();
+			for(Hot h : hotVid){
+				Video v = hibernateTemplate.get(Video.class, h.getVid());
+				video.add(v);
+			}
+			
+			return video;
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
+		}		
+	}
+
+
 	
 }
