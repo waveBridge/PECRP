@@ -21,6 +21,7 @@
 	<bean id = "videoService" class = "cn.pecrp.service.VideoService">
 		<!-- 注入dao -->
 		<property name="videoDao" ref = "videoDaoImpl"></property>
+		<property name="python" ref = "python"></property>
 	</bean>
 	
 	<!-- 创建dao实现类对象 -->

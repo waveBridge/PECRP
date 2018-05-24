@@ -16,6 +16,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import cn.pecrp.entity.Label;
 import cn.pecrp.entity.Video;
 import cn.pecrp.service.VideoService;
+import cn.pecrp.until.Redundant;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
@@ -50,14 +51,7 @@ public class VideoAction extends ActionSupport {
 			} else {
 				
 				for(int i = 0 ; i < popVideo.size(); i ++){
-					popVideo.get(i).setZanUserSet(null);
-					popVideo.get(i).setReviewSet(null);
-					popVideo.get(i).setLabelSet(null);
-					popVideo.get(i).setWatchUserSet(null);
-					popVideo.get(i).setCollectionUserSet(null);
-					popVideo.get(i).setClassifySet(null);
-					popVideo.get(i).setHotClassifySet(null);
-					popVideo.get(i).setRecommendClassifySet(null);
+					Redundant.rmRedundant(popVideo.get(i));
 				}
 
 				//cnt最大为5，小于5说明视频不够
@@ -107,35 +101,19 @@ public class VideoAction extends ActionSupport {
 				Iterator<Video> it = recommendVideo.iterator();
 				while(it.hasNext()){
 					Video video = it.next();
-					video.setClassifySet(null);
-					video.setZanUserSet(null);
-					video.setReviewSet(null);
-					video.setLabelSet(null);
-					video.setWatchUserSet(null);
-					video.setCollectionUserSet(null);
-					video.setHotClassifySet(null);
-					video.setRecommendClassifySet(null);
+					video = Redundant.rmRedundant(video);	//去除冗余
 				}
 				
 				it = hotVideo.iterator();
 				while(it.hasNext()){
 					Video video = it.next();
-					video.setClassifySet(null);
-					video.setZanUserSet(null);
-					video.setReviewSet(null);
-					video.setLabelSet(null);
-					video.setWatchUserSet(null);
-					video.setCollectionUserSet(null);
-					video.setHotClassifySet(null);
-					video.setRecommendClassifySet(null);
+					Redundant.rmRedundant(video);	//去除冗余
 				}
 				
 				Iterator<Label> it2 = recommendLabel.iterator();
 				while(it2.hasNext()){
 					Label label = it2.next();
-					label.setRecommendClassifySet(null);
-					label.setUserSet(null);
-					label.setVideoSet(null);
+					Redundant.rmRedundant(label);	//去除冗余
 				}
 				
 				//存入json
@@ -159,5 +137,68 @@ public class VideoAction extends ActionSupport {
 		return null;
 	}
 	
-	
+	//视频页面， 同类推荐，标签推荐，视频推荐
+	public String getSingleVideo() throws IOException{
+		System.out.println("getSingleVideo...action...");
+		
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setContentType("application/json;charset=utf-8");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		PrintWriter out = response.getWriter();
+				
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
+		
+		JSONObject json = new JSONObject();
+		JSONArray json2;
+		
+		try{
+			String vid = request.getParameter("vid");
+			Set<Video> recommendVideo = videoService.getSingleRecommend(vid);
+			Set<Video> classifyVideo = videoService.getClassifyVideo(vid);
+			Set<Label> recommendLabel = videoService.getSingleLabel(vid);
+			
+			if(recommendVideo == null || classifyVideo == null || recommendLabel == null){
+				json.put("msg","0");
+			} else {
+				json.put("msg", "1");
+				
+				//删除冗余数据
+				Iterator<Video> it = recommendVideo.iterator();
+				while(it.hasNext()){
+					Video video = it.next();
+					video = Redundant.rmRedundant(video);	//去除冗余
+				}
+				
+				it = classifyVideo.iterator();
+				while(it.hasNext()){
+					Video video = it.next();
+					Redundant.rmRedundant(video);			//去除冗余
+				}
+				
+				Iterator<Label> it2 = recommendLabel.iterator();
+				while(it2.hasNext()){
+					Label label = it2.next();
+					Redundant.rmRedundant(label);			//去除冗余
+				}
+				
+				//存入json
+				json2 = JSONArray.fromObject(recommendVideo, jsonConfig);
+				json.put("recommendVideo", json2);
+				json2 = JSONArray.fromObject(classifyVideo, jsonConfig);
+				json.put("classifyVideo", json2);
+				json2 = JSONArray.fromObject(recommendLabel, jsonConfig);
+				json.put("recommendLabel", json2);
+			}			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			json.put("msg", "0");
+		} finally {
+			out.write(json.toString());
+			out.flush();
+			out.close();
+		}
+		return null;
+	}
 }

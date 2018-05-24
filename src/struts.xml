@@ -35,6 +35,9 @@
 		
 		<action name="getHotVideoAction" class="videoAction" method="getHotVideo"></action>
 		<action name="getClassifyVideoAction" class="videoAction" method="getClassifyVideo"></action>
+		<action name="getSingleVideoAction" class="videoAction" method="getSingleVideo"></action>
+		
+		
 		
 	</package>
 </struts>

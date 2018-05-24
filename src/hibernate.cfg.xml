@@ -23,6 +23,7 @@
 		<mapping resource="cn/pecrp/entity/Classify.hbm.xml"/>  
 		<mapping resource="cn/pecrp/entity/Search.hbm.xml"/>   
 		<mapping resource="cn/pecrp/entity/Hot.hbm.xml"/>  
-		
+		<mapping resource="cn/pecrp/entity/RecSingleLabel.hbm.xml"/>  
+		<mapping resource="cn/pecrp/entity/RecSingleVideo.hbm.xml"/> 
 	</session-factory>
 </hibernate-configuration>

@@ -105,7 +105,10 @@ url :	getClassifyVideoAction
 in	:	classify  		分类名
 out	:	错误("msg":"0")			正确("msg":"1" , "recommendVideo":"推荐视频集合" , "hotVideo":"热门视频集合" , "recommendLabel" : "推荐标签集合")
 
-
+//单个视频中，返回同类视频，推荐标签，推荐视频(当数据库没有时，会调用getSingle.py，然后每隔1秒访问一次数据库，若5次访问后还未产生数据，则认为超时，不再访问，json添加错误信息；若产生数据则取出数据)
+url	:	getSingleVideoAction
+in	:	vid（视频id）
+out	:	错误("msg","0")			正确("msg":"1" , "recommendVideo":"推荐视频集合" , "classifyVideo":"同类视频集合" , "recommendLabel":"推荐标签集合")
 
 
 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<!-- 1:配置类和表的关系 -->
+	<!-- name实体类是全路径 table是数据表的名字 随便写 会帮我们创建 -->
+	<class name="cn.pecrp.entity.RecSingleLabel" table="rec_single_label">
+		<!-- 2:配置实体类id和表id对应 类似主键 -->		
+		<composite-id>
+			<key-property name="vid" column="vid"></key-property>
+			<key-property name="uid" column="uid"></key-property>
+		</composite-id>
+		
+		<!-- 3:配置其他属性和表的字段对应 -->
+		<property name="lid" column="lid"></property>
+
+	</class>
+</hibernate-mapping>

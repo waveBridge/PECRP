@@ -1,6 +1,7 @@
 package cn.pecrp.dao;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -9,6 +10,8 @@ import org.springframework.orm.hibernate5.HibernateTemplate;
 import cn.pecrp.entity.Classify;
 import cn.pecrp.entity.Hot;
 import cn.pecrp.entity.Label;
+import cn.pecrp.entity.RecSingleLabel;
+import cn.pecrp.entity.RecSingleVideo;
 import cn.pecrp.entity.Video;
 
 public class VideoDaoImpl implements VideoDao {
@@ -109,6 +112,101 @@ public class VideoDaoImpl implements VideoDao {
 				}
 			}
 			return null;
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
+		}
+	}
+
+	//根据vid获取类别set
+	@Override
+	public Set<Classify> getClassifySet(int vid) {
+		System.out.println("getClassifySet...dao...");
+		
+		try{
+			Video video = hibernateTemplate.get(Video.class, vid);
+			return video.getClassifySet();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
+		}
+	}
+	
+	
+	//根据类别set获取所有同类视频
+	@Override
+	public Set<Video> getClassifyVideo(Set<Classify> classifySet, int vid) {
+		System.out.println("getClassifyVideo...dao...");
+		
+		try{
+			System.out.println("classifySet size->>>>>" + classifySet.size());
+			Set<Video> videoSet = new HashSet<Video>();
+			for(Classify c : classifySet){
+				videoSet.addAll(c.getVideoSet());
+			}
+			
+			System.out.println("videoSet size->>>>>" + videoSet.size());
+			Video video = hibernateTemplate.get(Video.class, vid);
+			videoSet.remove(video);
+			
+			System.out.println("videoSet size->>>>>" + videoSet.size());
+			return videoSet;
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
+		}
+	}
+
+	//根据vid和uid获取推荐视频，single的推荐视频
+	@Override
+	public Set<Video> getSingleRecommendVideo(int vid, int uid) {
+		System.out.println("getSingleRecommendVideo...dao...");
+		
+		try{
+			Set<Video> recommendVideoSet = new HashSet<Video>();
+			String q = "from RecSingleVideo";
+			@SuppressWarnings("unchecked")
+			List<RecSingleVideo> recSingleVideoSet = (List<RecSingleVideo>) hibernateTemplate.find(q);
+			if(recSingleVideoSet == null || recSingleVideoSet.size() == 0){
+				return null;
+			} else {
+				for(RecSingleVideo rv : recSingleVideoSet){
+					if(rv.getVid() == vid && rv.getUid() == uid){
+						Video video = hibernateTemplate.get(Video.class, rv.getRecVid());
+						recommendVideoSet.add(video);
+					}
+				}
+				return recommendVideoSet;
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
+		}
+	}
+
+	//根据vid和uid获取推荐标签，single的推荐标签
+	@Override
+	public Set<Label> getSingleLabel(int vid, int uid) {
+		System.out.println("getSingleLabel...dao...");
+		
+		try{
+			Set<Label> recommendLabel = new HashSet<Label>();
+			
+			String q = "from RecSingleLabel";
+			@SuppressWarnings("unchecked")
+			List<RecSingleLabel> recSingleLabelSet = (List<RecSingleLabel>) hibernateTemplate.find(q);
+			if(recSingleLabelSet == null || recSingleLabelSet.size() == 0){
+				return null;
+			} else {
+				for(RecSingleLabel l : recSingleLabelSet){
+					if(l.getVid() == vid && l.getUid() == uid){
+						Label label = hibernateTemplate.get(Label.class, l.getLid());
+						recommendLabel.add(label);
+					}
+				}
+				return recommendLabel;
+			}
+			
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			return null;
