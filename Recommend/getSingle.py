@@ -14,11 +14,9 @@ userLabel = {}
 userModel = {}
 cosList = []
 resLabel = []
-
 resVideo = []
 vid = 0
 uid = 0
-
 
 def read():
     # 获取所有的用户编号
@@ -279,9 +277,10 @@ def writeVideo():
 
 if __name__ == "__main__":
     print("=====start get single=====")
-    # vid = int(sys.argv[1])
-    vid = 1
-    uid = 1
+    vid = int(sys.argv[1])
+    uid = int(sys.argv[2])
+    # vid = 1
+    # uid = 1
     read()
     for u in users:
         user_tag_model(u)
@@ -294,4 +293,6 @@ if __name__ == "__main__":
     # print(resVideo)
     writeVideo()
     print("=======single video recVideos finished!")
+    # writeVideo()
+    print(vid)
     print("=====end get single=====")

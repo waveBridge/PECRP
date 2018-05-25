@@ -40,9 +40,10 @@
 	<!-- 引入其他spring配置文件 -->
 	<import resource="classpath:mailUtil.xml"/>
 	<import resource="classpath:timeUtil.xml"/>
+	<import resource="classpath:python.xml"/>
 	<import resource="classpath:userBean.xml"/>
 	<import resource="classpath:infoBean.xml"/>
 	<import resource="classpath:watchBean.xml"/>
 	<import resource="classpath:videoBean.xml"/>
-	
+		
 </beans>
