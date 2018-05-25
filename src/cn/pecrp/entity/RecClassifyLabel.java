@@ -2,24 +2,17 @@ package cn.pecrp.entity;
 
 import java.io.Serializable;
 
-public class RecSingleLabel implements Serializable{
+public class RecClassifyLabel implements Serializable{
 	private static final long serialVersionUID = 1L;
-	private Integer vid;
-	private Integer uid;
+	private Integer cid;
 	private Integer lid;
 	private Integer hotDegree;
 	
-	public Integer getVid() {
-		return vid;
+	public Integer getCid() {
+		return cid;
 	}
-	public void setVid(Integer vid) {
-		this.vid = vid;
-	}
-	public Integer getUid() {
-		return uid;
-	}
-	public void setUid(Integer uid) {
-		this.uid = uid;
+	public void setCid(Integer cid) {
+		this.cid = cid;
 	}
 	public Integer getLid() {
 		return lid;

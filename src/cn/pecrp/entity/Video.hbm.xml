@@ -55,16 +55,6 @@
 			<key column="vid"></key>
 			<one-to-many class="cn.pecrp.entity.Review" />
 		</set>
-		
-		<set name="recommendClassifySet" table="rec_classify_video" cascade="save-update,delete" lazy="false">
-			<key column="vid"></key>
-			<many-to-many class="cn.pecrp.entity.Classify" column="cid"></many-to-many>
-		</set>
-		
-		<set name="hotClassifySet" table="rec_classify_hot" cascade="save-update,delete" lazy="false">
-			<key column="vid"></key>
-			<many-to-many class="cn.pecrp.entity.Classify" column="cid"></many-to-many>
-		</set>
 
 
 	</class>

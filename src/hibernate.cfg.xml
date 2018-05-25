@@ -7,7 +7,7 @@
 	<session-factory>
 	
 		<!-- Hibernate的信息  可选部分 -->
-		<property name="hibernate.show_sql">true</property>  <!-- 输出底层的sql语句 -->
+		<!-- <property name="hibernate.show_sql">true</property>   输出底层的sql语句 --> 
 		<property name="hibernate.format_sql">true</property> <!-- 格式化sql语句 -->
 		<property name="hibernate.hbm2ddl.auto">update</property> <!-- 让hibernate帮助创建表 -->
 			<!-- 配置数据库方言  让hibernate识别不同数据 库的特有的语句 这里时用mysql 做分页需要这个-->
@@ -25,5 +25,9 @@
 		<mapping resource="cn/pecrp/entity/Hot.hbm.xml"/>  
 		<mapping resource="cn/pecrp/entity/RecSingleLabel.hbm.xml"/>  
 		<mapping resource="cn/pecrp/entity/RecSingleVideo.hbm.xml"/> 
+		<mapping resource="cn/pecrp/entity/RecClassifyHot.hbm.xml"/> 
+		<mapping resource="cn/pecrp/entity/RecClassifyLabel.hbm.xml"/> 
+		<mapping resource="cn/pecrp/entity/RecClassifyVideo.hbm.xml"/> 
+
 	</session-factory>
 </hibernate-configuration>

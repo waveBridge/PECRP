@@ -22,21 +22,6 @@
 			<key column="cid"></key>
 			<many-to-many class="cn.pecrp.entity.Video" column="vid"></many-to-many>
 		</set>
-		
-		<set name="recommendVideoSet" table="rec_classify_video" cascade="save-update,delete" lazy="false">
-			<key column="cid"></key>
-			<many-to-many class="cn.pecrp.entity.Video" column="vid"></many-to-many>
-		</set>
-		
-		<set name="hotVideoSet" table="rec_classify_hot" cascade="save-update,delete" lazy="false">
-			<key column="cid"></key>
-			<many-to-many class="cn.pecrp.entity.Video" column="vid"></many-to-many>
-		</set>
-		
-		<set name="recommendLabelSet" table="rec_classify_label" cascade="save-update,delete" lazy="false">
-			<key column="cid"></key>
-			<many-to-many class="cn.pecrp.entity.Label" column="lid"></many-to-many>
-		</set>
 
 	</class>
 </hibernate-mapping>

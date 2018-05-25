@@ -7,6 +7,7 @@ public class RecSingleVideo implements Serializable {
 	private Integer vid;
 	private Integer uid;
 	private Integer recVid;
+	private Integer hotDegree;
 	
 	public Integer getVid() {
 		return vid;
@@ -25,5 +26,11 @@ public class RecSingleVideo implements Serializable {
 	}
 	public void setRecVid(Integer recVid) {
 		this.recVid = recVid;
+	}
+	public Integer getHotDegree() {
+		return hotDegree;
+	}
+	public void setHotDegree(Integer hotDegree) {
+		this.hotDegree = hotDegree;
 	}
 }

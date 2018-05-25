@@ -1,7 +1,6 @@
 package cn.pecrp.dao;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -10,6 +9,9 @@ import org.springframework.orm.hibernate5.HibernateTemplate;
 import cn.pecrp.entity.Classify;
 import cn.pecrp.entity.Hot;
 import cn.pecrp.entity.Label;
+import cn.pecrp.entity.RecClassifyHot;
+import cn.pecrp.entity.RecClassifyLabel;
+import cn.pecrp.entity.RecClassifyVideo;
 import cn.pecrp.entity.RecSingleLabel;
 import cn.pecrp.entity.RecSingleVideo;
 import cn.pecrp.entity.Video;
@@ -35,6 +37,27 @@ public class VideoDaoImpl implements VideoDao {
 		}
 	}
 	
+	//根据classify得到cid
+	@Override
+	public int getCidByClassifyName(String classifyName) {
+		System.out.println("getCidByClassifyName...dao...");
+		
+		try{
+			String q = "from Classify";
+			@SuppressWarnings("unchecked")
+			List<Classify> classifies = (List<Classify>) hibernateTemplate.find(q);
+			for(Classify c : classifies){
+				if(c.getClassifyName().equals(classifyName)){
+					return c.getCid();
+				}
+			}
+			return 0;
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return 0;
+		}
+	}
+	
 	//根据vid集合获取视频集合
 	@Override
 	public List<Video> getVideoByVids(List<Hot> hotVid) {
@@ -56,19 +79,24 @@ public class VideoDaoImpl implements VideoDao {
 
 	//根据类别名获取recommend视频
 	@Override
-	public Set<Video> getRecommendVideo(String classifyName) {
+	public List<Video> getRecommendVideo(int cid) {
 		System.out.println("getRecommendVideo...dao...");
 		
 		try{
-			String q = "from Classify";
+			List<Video> videoList = new ArrayList<Video>();
+			
+			String q = "from RecClassifyVideo order by hotDegree";
 			@SuppressWarnings("unchecked")
-			List<Classify> classify = (List<Classify>) hibernateTemplate.find(q);
-			for(Classify c : classify){
-				if(c.getClassifyName().equals(classifyName)){
-					return c.getRecommendVideoSet();
+			List<RecClassifyVideo> recClassifyVideoList = (List<RecClassifyVideo>) hibernateTemplate.find(q);
+			
+			for(RecClassifyVideo rv : recClassifyVideoList){
+				if(rv.getCid() == cid){
+					Video video = hibernateTemplate.get(Video.class, rv.getVid());
+					videoList.add(video);
 				}
 			}
-			return null;
+			
+			return videoList;
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			return null;
@@ -77,19 +105,25 @@ public class VideoDaoImpl implements VideoDao {
 
 	//根据类别名获取hot视频
 	@Override
-	public Set<Video> getHotVideo(String classifyName) {
+	public List<Video> getHotVideo(int cid) {
 		System.out.println("getHotVideo...dao...");
 		
 		try{
-			String q = "from Classify";
+			List<Video> videoList = new ArrayList<Video>();
+			
+			String q = "from RecClassifyHot order by hotDegree";
 			@SuppressWarnings("unchecked")
-			List<Classify> classify = (List<Classify>) hibernateTemplate.find(q);
-			for(Classify c : classify){
-				if(c.getClassifyName().equals(classifyName)){
-					return c.getHotVideoSet();
+			List<RecClassifyHot> recClassifyHotList = (List<RecClassifyHot>) hibernateTemplate.find(q);
+			
+			for(RecClassifyHot rh : recClassifyHotList){
+				if(rh.getCid() == cid){
+					Video video = hibernateTemplate.get(Video.class, rh.getVid());
+					videoList.add(video);
 				}
 			}
-			return null;
+			
+			return videoList;
+		
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			return null;
@@ -99,19 +133,25 @@ public class VideoDaoImpl implements VideoDao {
 
 	//根据类别名获取recommend标签
 	@Override
-	public Set<Label> getRecommendLabel(String classifyName) {
+	public List<Label> getRecommendLabel(int cid) {
 		System.out.println("getRecommendLabel...dao...");
 		
 		try{
-			String q = "from Classify";
+			List<Label> LabelList = new ArrayList<Label>();
+			
+			String q = "from RecClassifyLabel order by hotDegree";
 			@SuppressWarnings("unchecked")
-			List<Classify> classify = (List<Classify>) hibernateTemplate.find(q);
-			for(Classify c : classify){
-				if(c.getClassifyName().equals(classifyName)){
-					return c.getRecommendLabelSet();
+			List<RecClassifyLabel> recClassifyLabelList = (List<RecClassifyLabel>) hibernateTemplate.find(q);
+			
+			for(RecClassifyLabel rl : recClassifyLabelList){
+				if(rl.getCid() == cid){
+					Label label = hibernateTemplate.get(Label.class, rl.getLid());
+					LabelList.add(label);
 				}
 			}
-			return null;
+			
+			return LabelList;
+		
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			return null;
@@ -135,22 +175,33 @@ public class VideoDaoImpl implements VideoDao {
 	
 	//根据类别set获取所有同类视频
 	@Override
-	public Set<Video> getClassifyVideo(Set<Classify> classifySet, int vid) {
+	public List<Video> getClassifyVideo(Set<Classify> classifySet, int vid) {
 		System.out.println("getClassifyVideo...dao...");
 		
 		try{
-			System.out.println("classifySet size->>>>>" + classifySet.size());
-			Set<Video> videoSet = new HashSet<Video>();
-			for(Classify c : classifySet){
-				videoSet.addAll(c.getVideoSet());
+//			System.out.println("classifySet size->>>>>" + classifySet.size());
+			List<Video> videoList = new ArrayList<Video>();
+			
+			String q = "from RecClassifyVideo order by hotDegree";
+			@SuppressWarnings("unchecked")
+			List<RecClassifyVideo> recClassifyVideoList = (List<RecClassifyVideo>) hibernateTemplate.find(q);
+			
+			if(recClassifyVideoList == null || recClassifyVideoList.size() == 0){
+				return null;
+			} else {
+				for(RecClassifyVideo rc : recClassifyVideoList){
+					if(rc.getVid() != vid){	//不要推荐本视频
+						for(Classify c : classifySet){
+							if(c.getCid() == rc.getCid()){
+								Video video = hibernateTemplate.get(Video.class, rc.getVid());
+								videoList.add(video);
+							}
+						}
+					}
+				}
 			}
-			
-			System.out.println("videoSet size->>>>>" + videoSet.size());
-			Video video = hibernateTemplate.get(Video.class, vid);
-			videoSet.remove(video);
-			
-			System.out.println("videoSet size->>>>>" + videoSet.size());
-			return videoSet;
+		
+			return videoList;
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			return null;
@@ -159,18 +210,20 @@ public class VideoDaoImpl implements VideoDao {
 
 	//根据vid和uid获取推荐视频，single的推荐视频
 	@Override
-	public Set<Video> getSingleRecommendVideo(int vid, int uid) {
+	public List<Video> getSingleRecommendVideo(int vid, int uid) {
 		System.out.println("getSingleRecommendVideo...dao...");
 		
 		try{
-			Set<Video> recommendVideoSet = new HashSet<Video>();
-			String q = "from RecSingleVideo";
+			List<Video> recommendVideoSet = new ArrayList<Video>();
+			String q = "from RecSingleVideo order by hotDegree";
 			@SuppressWarnings("unchecked")
 			List<RecSingleVideo> recSingleVideoSet = (List<RecSingleVideo>) hibernateTemplate.find(q);
+			
 			if(recSingleVideoSet == null || recSingleVideoSet.size() == 0){
 				return null;
-			} else {
+			} else {	
 				for(RecSingleVideo rv : recSingleVideoSet){
+					System.out.println(rv.getVid() + " " + rv.getUid() + " " + rv.getRecVid());
 					if(rv.getVid() == vid && rv.getUid() == uid){
 						Video video = hibernateTemplate.get(Video.class, rv.getRecVid());
 						recommendVideoSet.add(video);
@@ -186,13 +239,13 @@ public class VideoDaoImpl implements VideoDao {
 
 	//根据vid和uid获取推荐标签，single的推荐标签
 	@Override
-	public Set<Label> getSingleLabel(int vid, int uid) {
+	public List<Label> getSingleLabel(int vid, int uid) {
 		System.out.println("getSingleLabel...dao...");
 		
 		try{
-			Set<Label> recommendLabel = new HashSet<Label>();
+			List<Label> recommendLabel = new ArrayList<Label>();
 			
-			String q = "from RecSingleLabel";
+			String q = "from RecSingleLabel order by hotDegree";
 			@SuppressWarnings("unchecked")
 			List<RecSingleLabel> recSingleLabelSet = (List<RecSingleLabel>) hibernateTemplate.find(q);
 			if(recSingleLabelSet == null || recSingleLabelSet.size() == 0){

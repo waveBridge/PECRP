@@ -28,11 +28,6 @@
 			<key column="lid"></key>
 			<many-to-many class="cn.pecrp.entity.Video" column="vid"></many-to-many>
 		</set>
-		
-		<set name="recommendClassifySet" table="rec_classify_label" cascade="save-update,delete" lazy="false">
-			<key column="lid"></key>
-			<many-to-many class="cn.pecrp.entity.Classify" column="cid"></many-to-many>
-		</set>
 
 	</class>
 </hibernate-mapping>

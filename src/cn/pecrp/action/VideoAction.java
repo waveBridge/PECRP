@@ -88,9 +88,9 @@ public class VideoAction extends ActionSupport {
 		
 		try{
 			String classifyName = request.getParameter("classifyName");
-			Set<Video> recommendVideo = videoService.getRecommendVideo(classifyName);
-			Set<Video> hotVideo = videoService.getHotVideo(classifyName);
-			Set<Label> recommendLabel = videoService.getrecommendLabel(classifyName); 
+			List<Video> recommendVideo = videoService.getRecommendVideo(classifyName);
+			List<Video> hotVideo = videoService.getHotVideo(classifyName);
+			List<Label> recommendLabel = videoService.getrecommendLabel(classifyName); 
 			
 			if(recommendVideo == null || hotVideo == null || recommendLabel == null){
 				json.put("msg", "0");		
@@ -155,11 +155,11 @@ public class VideoAction extends ActionSupport {
 		
 		try{
 			String vid = request.getParameter("vid");
-			Set<Video> recommendVideo = videoService.getSingleRecommend(vid);
-			Set<Video> classifyVideo = videoService.getClassifyVideo(vid);
-			Set<Label> recommendLabel = videoService.getSingleLabel(vid);
+			List<Video> recommendVideo = videoService.getSingleRecommend(vid);
+			List<Video> classifyVideo = videoService.getClassifyVideo(vid);
+			List<Label> recommendLabel = videoService.getSingleLabel(vid);
 			
-			if(recommendVideo == null || classifyVideo == null || recommendLabel == null){
+			if(recommendVideo == null || classifyVideo == null ||recommendLabel == null){
 				json.put("msg","0");
 			} else {
 				json.put("msg", "1");

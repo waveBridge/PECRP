@@ -13,14 +13,11 @@ public class Redundant {
 		video.setLabelSet(null);
 		video.setWatchUserSet(null);
 		video.setCollectionUserSet(null);
-		video.setHotClassifySet(null);
-		video.setRecommendClassifySet(null);
 		return video;
 	}
 	
 	//去除label的冗余数据
 	public static Label rmRedundant(Label label){
-		label.setRecommendClassifySet(null);
 		label.setUserSet(null);
 		label.setVideoSet(null);
 		return label;

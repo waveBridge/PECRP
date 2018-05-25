@@ -16,8 +16,6 @@ public class Video {
 	private Set<User> watchUserSet = new HashSet<User>();
 	private Set<Classify> classifySet = new HashSet<Classify>();
 	private Set<Review> reviewSet = new HashSet<Review>();
-	private Set<Classify> recommendClassifySet = new HashSet<Classify>();
-	private Set<Classify> hotClassifySet = new HashSet<Classify>();
 	
 	public Set<User> getZanUserSet() {
 		return zanUserSet;
@@ -90,17 +88,5 @@ public class Video {
 	}
 	public void setPlayNum(Integer playNum) {
 		this.playNum = playNum;
-	}
-	public Set<Classify> getRecommendClassifySet() {
-		return recommendClassifySet;
-	}
-	public void setRecommendClassifySet(Set<Classify> recommendClassifySet) {
-		this.recommendClassifySet = recommendClassifySet;
-	}
-	public Set<Classify> getHotClassifySet() {
-		return hotClassifySet;
-	}
-	public void setHotClassifySet(Set<Classify> hotClassifySet) {
-		this.hotClassifySet = hotClassifySet;
 	}
 }

@@ -14,18 +14,20 @@ public interface VideoDao {
 
 	List<Hot> hotVid();
 
-	Set<Video> getRecommendVideo(String classifyName);
+	List<Video> getRecommendVideo(int cid);
 
-	Set<Video> getHotVideo(String classifyName);
+	List<Video> getHotVideo(int cid);
 
-	Set<Label> getRecommendLabel(String classifyName);
+	List<Label> getRecommendLabel(int cid);
 
 	Set<Classify> getClassifySet(int vid);
 
-	Set<Video> getClassifyVideo(Set<Classify> classifySet, int vid);
+	List<Video> getClassifyVideo(Set<Classify> classifySet, int vid);
 
-	Set<Video> getSingleRecommendVideo(int vid, int uid);
+	List<Video> getSingleRecommendVideo(int vid, int uid);
 
-	Set<Label> getSingleLabel(int vid, int uid);
+	List<Label> getSingleLabel(int vid, int uid);
+
+	int getCidByClassifyName(String classifyName);
 
 }

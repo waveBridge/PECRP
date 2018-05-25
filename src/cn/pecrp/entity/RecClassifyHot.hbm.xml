@@ -6,14 +6,13 @@
 <hibernate-mapping>
 	<!-- 1:配置类和表的关系 -->
 	<!-- name实体类是全路径 table是数据表的名字 随便写 会帮我们创建 -->
-	<class name="cn.pecrp.entity.RecSingleVideo" table="rec_single_video">
-		<!-- 2:配置实体类id和表id对应 类似主键 -->		
+	<class name="cn.pecrp.entity.RecClassifyHot" table="rec_classify_hot">
+		<!-- 2:配置实体类id和表id对应 类似主键 -->
 		<composite-id>
+			<key-property name="cid" column="cid"></key-property>
 			<key-property name="vid" column="vid"></key-property>
-			<key-property name="uid" column="uid"></key-property>
-			<key-property name="recVid" column="recVid"></key-property>
 		</composite-id>
-		
+
 		<!-- 3:配置其他属性和表的字段对应 -->
 		<property name="hotDegree" column="hotDegree"></property>
 

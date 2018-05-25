@@ -64,11 +64,15 @@ public class VideoService {
 	}
 
 	//根据classifyName获取recommendVideo
-	public Set<Video> getRecommendVideo(String classifyName) {
+	public List<Video> getRecommendVideo(String classifyName) {
 		System.out.println("getRecommendVideo...service...");
 		
 		try{
-			Set<Video> recommendVideo = videoDao.getRecommendVideo(classifyName);
+			int cid = videoDao.getCidByClassifyName(classifyName);
+			if(cid == 0){
+				return null;
+			}
+			List<Video> recommendVideo = videoDao.getRecommendVideo(cid);
 			return recommendVideo;
 		} catch (Exception e) {
 			return null;
@@ -76,11 +80,16 @@ public class VideoService {
 	}
 
 	//根据classifyName获取HotVideo
-	public Set<Video> getHotVideo(String classifyName) {
+	public List<Video> getHotVideo(String classifyName) {
 		System.out.println("getRecommendVideo...service...");
 		
 		try{
-			Set<Video> hotVideo = videoDao.getHotVideo(classifyName);
+			int cid = videoDao.getCidByClassifyName(classifyName);
+			if(cid == 0){
+				return null;
+			}
+			
+			List<Video> hotVideo = videoDao.getHotVideo(cid);
 			return hotVideo;
 		} catch (Exception e) {
 			return null;
@@ -88,11 +97,16 @@ public class VideoService {
 	}
 
 	//根据classifyName获取recommendLabel
-	public Set<Label> getrecommendLabel(String classifyName) {
+	public List<Label> getrecommendLabel(String classifyName) {
 		System.out.println("getRecommendLabel...service...");
 		
 		try{
-			Set<Label> recommendLabel = videoDao.getRecommendLabel(classifyName);
+			int cid = videoDao.getCidByClassifyName(classifyName);
+			if(cid == 0){
+				return null;
+			}
+			
+			List<Label> recommendLabel = videoDao.getRecommendLabel(cid);
 			return recommendLabel;
 		} catch (Exception e) {
 			return null;
@@ -100,18 +114,18 @@ public class VideoService {
 	}
 
 	//获取单个视频的推荐视频
-	public Set<Video> getSingleRecommend(String vids) {
+	public List<Video> getSingleRecommend(String vids) {
 		System.out.println("getSingleRecommend...service...");
 		
 		try{
 			int vid = Integer.parseInt(vids);
 			int uid = (int)ServletActionContext.getRequest().getSession().getAttribute("uid");
 			
-			Set<Video> recommendVideoSet = videoDao.getSingleRecommendVideo(vid, uid);
+			List<Video> recommendVideoSet = videoDao.getSingleRecommendVideo(vid, uid);
 			if(recommendVideoSet == null || recommendVideoSet.size() == 0){
 				//调用py脚本，更新数据库中的single推荐视频数据
 				System.out.println("调用py了->>>>>>>>>>>>>>>>>>>>>>>>>>>");
-				python.updateSingleRecommend(vid);
+				python.updateSingleRecommend(vid, uid);
 				
 				int i = 1;					
 				while(i<=5 && (recommendVideoSet == null || recommendVideoSet.size() == 0)){
@@ -129,18 +143,18 @@ public class VideoService {
 	}
 
 	//获取单个视频的推荐标签
-	public Set<Label> getSingleLabel(String vids) {
+	public List<Label> getSingleLabel(String vids) {
 		System.out.println("getSingleLabel...service...");
 		
 		try{
 			int vid = Integer.parseInt(vids);
 			int uid = (int)ServletActionContext.getRequest().getSession().getAttribute("uid");
 			
-			Set<Label> recommendLabelSet = videoDao.getSingleLabel(vid, uid);
+			List<Label> recommendLabelSet = videoDao.getSingleLabel(vid, uid);
 			if(recommendLabelSet == null || recommendLabelSet.size() == 0){
 				//调用py脚本，更新数据库中的single推荐视频数据
 				System.out.println("调用py了->>>>>>>>>>>>>>>>>>>>>>>>>>>");
-				python.updateSingleRecommend(vid);
+				python.updateSingleRecommend(vid, uid);
 				
 				int i = 1;					
 				while(i<=5 && (recommendLabelSet == null || recommendLabelSet.size() == 0)){
@@ -158,7 +172,7 @@ public class VideoService {
 	}
 	
 	//获取单个视频的同类视频
-	public Set<Video> getClassifyVideo(String vids) {
+	public List<Video> getClassifyVideo(String vids) {
 		System.out.println("getClassifyVideo...service...");
 		
 		try{
@@ -170,7 +184,7 @@ public class VideoService {
 				return null;
 			} else {
 				//找到类别表中所有类别对应的视频
-				Set<Video> classifyVideoSet = videoDao.getClassifyVideo(classifySet, vid);
+				List<Video> classifyVideoSet = videoDao.getClassifyVideo(classifySet, vid);
 				return classifyVideoSet;
 			}
 			

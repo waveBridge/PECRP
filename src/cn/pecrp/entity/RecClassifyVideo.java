@@ -2,30 +2,23 @@ package cn.pecrp.entity;
 
 import java.io.Serializable;
 
-public class RecSingleLabel implements Serializable{
+public class RecClassifyVideo implements Serializable{
 	private static final long serialVersionUID = 1L;
+	private Integer cid;
 	private Integer vid;
-	private Integer uid;
-	private Integer lid;
 	private Integer hotDegree;
 	
+	public Integer getCid() {
+		return cid;
+	}
+	public void setCid(Integer cid) {
+		this.cid = cid;
+	}
 	public Integer getVid() {
 		return vid;
 	}
 	public void setVid(Integer vid) {
 		this.vid = vid;
-	}
-	public Integer getUid() {
-		return uid;
-	}
-	public void setUid(Integer uid) {
-		this.uid = uid;
-	}
-	public Integer getLid() {
-		return lid;
-	}
-	public void setLid(Integer lid) {
-		this.lid = lid;
 	}
 	public Integer getHotDegree() {
 		return hotDegree;

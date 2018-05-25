@@ -5,12 +5,13 @@ import java.io.InputStreamReader;
 
 public class Python {
 	
-	public void updateSingleRecommend(int vid){
+	public void updateSingleRecommend(int vid, int uid){
 		try {	
 			System.out.println("py...updateSingleRecommend...start...");
 			
 			String vids = "" + vid;
-			String[] args = new String[] {"python", "/getSingle.py", vids};
+			String uids = "" + uid;
+			String[] args = new String[] {"python", "/getSingle.py", vids, uids};
 			Process pr = Runtime.getRuntime().exec(args);
 			BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream()));
 			String line;

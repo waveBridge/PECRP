@@ -8,7 +8,6 @@ public class Label {
 	private String labelName;
 	private Set<User> userSet = new HashSet<User>();
 	private Set<Video> videoSet = new HashSet<Video>();
-	private Set<Classify> recommendClassifySet = new HashSet<Classify>();
 	
 	public Set<Video> getVideoSet() {
 		return videoSet;
@@ -33,11 +32,5 @@ public class Label {
 	}
 	public void setLabelName(String labelName) {
 		this.labelName = labelName;
-	}
-	public Set<Classify> getRecommendClassifySet() {
-		return recommendClassifySet;
-	}
-	public void setRecommendClassifySet(Set<Classify> recommendClassifySet) {
-		this.recommendClassifySet = recommendClassifySet;
 	}
 }
