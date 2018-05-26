@@ -50,7 +50,7 @@
                     data = "";
                     console.log(json.msg);
                     if (json.msg == "0") {
-                        alert("error happend!");
+                        alert("error happend in getVideoInfo!");
                     }
                     else {
                         var video = json.msg;
@@ -131,6 +131,66 @@
                         $('#collect').text('已点赞');
                     }
                 });
+            });
+//            获取推荐信息
+            $.ajax({
+                url: "getSingleVideoAction",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    vid: vid
+                },
+                async: true,
+                success: function (data) {
+                    var json = eval(data);
+                    data = "";
+                    console.log(json.msg);
+                    if (json.msg == "0") {
+                        alert("error happend in getSingleRec!");
+                    }
+                    else {
+                        console.log(json);
+                        var recVideo = json.recommendVideo;
+                        var clsVideo = json.classifyVideo;
+                        var recLabel = json.recommendLabel;
+
+                        $.each(recLabel, function (i, label) {
+                            $('#rec_label').append('<li><a href="#">'+ label.labelName+' , </a></li>');
+
+                        });
+
+                        $.each(recVideo, function (i, video) {
+                            $('#rec_video').append('<div class="wrap-vid">\n' +
+                                '                            <div class="zoom-container">\n' +
+                                '                                <div class="zoom-caption">\n' +
+                                '                                    <a href="single.html?vid='+video.vid+'">\n' +
+                                '                                        <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>\n' +
+                                '                                    </a>\n' +
+                                '                                    <p>'+video.videoName+'</p>\n' +
+                                '                                </div>\n' +
+                                '                                <img src="'+video.picture+'"/>\n' +
+                                '                            </div>\n' +
+                                '                            <h3 class="vid-name"><a href="#">'+video.videoName+'</a></h3>\n' +
+                                '                        </div>')
+                        })
+
+                        $.each(clsVideo, function (i, video) {
+                            $('#rec_class').append('<div class="wrap-vid">\n' +
+                                '                            <div class="zoom-container">\n' +
+                                '                                <div class="zoom-caption">\n' +
+                                '                                    <a href="single.html?vid='+video.vid+'">\n' +
+                                '                                        <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>\n' +
+                                '                                    </a>\n' +
+                                '                                    <p>'+video.videoName+'</p>\n' +
+                                '                                </div>\n' +
+                                '                                <img src="'+video.picture+'"/>\n' +
+                                '                            </div>\n' +
+                                '                            <h3 class="vid-name"><a href="#">'+video.videoName+'</a></h3>\n' +
+                                '                        </div>')
+                        })
+                    }
+                }
+
             });
 
         });
@@ -384,15 +444,7 @@
                 <div class="widget wid-tags">
                     <div class="heading"><h4><i class="fa fa-tags"></i>推荐标签</h4></div>
                     <div class="content">
-                        <ul class="list-inline">
-                            <li><a href="#">技巧 , </a></li>
-                            <li><a href="#">比赛 ,</a></li>
-                            <li><a href="#">入门 ,</a></li>
-                            <li><a href="#">团队协作 ,</a></li>
-                            <li><a href="#">饮食 ,</a></li>
-                            <li><a href="#">恢复 ,</a></li>
-                            <li><a href="#">拉伤 ,</a></li>
-                            <li><a href="#">视频</a></li>
+                        <ul class="list-inline" id="rec_label">
                         </ul>
                     </div>
                     <div class="line"></div>
@@ -400,103 +452,14 @@
                 <!---- Start Widget ---->
                 <div class="widget wid-news">
                     <div class="heading"><h4><i class="fa fa-heart"></i> 猜你喜欢</h4></div>
-                    <div class="content">
-                        <div class="wrap-vid">
-                            <div class="zoom-container">
-                                <div class="zoom-caption">
-                                    <span>Video's Tag</span>
-                                    <a href="single.html">
-                                        <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>
-                                    </a>
-                                    <p>Video's Name</p>
-                                </div>
-                                <img src="assets/img/4.jpg"/>
-                            </div>
-                            <h3 class="vid-name"><a href="#">Video's Name</a></h3>
-                            <div class="info">
-                                <h5>By <a href="#">Kelvin</a></h5>
-                                <span><i class="fa fa-calendar"></i>25/3/2015</span>
-                                <span><i class="fa fa-heart"></i>1,200</span>
-                            </div>
-                        </div>
-                        <div class="wrap-vid">
-                            <div class="zoom-container">
-                                <div class="zoom-caption">
-                                    <span>Video's Tag</span>
-                                    <a href="single.html">
-                                        <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>
-                                    </a>
-                                    <p>Video's Name</p>
-                                </div>
-                                <img src="assets/img/3.jpg"/>
-                            </div>
-                            <h3 class="vid-name"><a href="#">Video's Name</a></h3>
-                            <div class="info">
-                                <h5>By <a href="#">Kelvin</a></h5>
-                                <span><i class="fa fa-calendar"></i>25/3/2015</span>
-                                <span><i class="fa fa-heart"></i>1,200</span>
-                            </div>
-                        </div>
-                        <div class="wrap-vid">
-                            <div class="zoom-container">
-                                <div class="zoom-caption">
-                                    <span>Video's Tag</span>
-                                    <a href="single.html">
-                                        <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>
-                                    </a>
-                                    <p>Video's Name</p>
-                                </div>
-                                <img src="assets/img/4.jpg"/>
-                            </div>
-                            <h3 class="vid-name"><a href="#">Video's Name</a></h3>
-                            <div class="info">
-                                <h5>By <a href="#">Kelvin</a></h5>
-                                <span><i class="fa fa-calendar"></i>25/3/2015</span>
-                                <span><i class="fa fa-heart"></i>1,200</span>
-                            </div>
-                        </div>
+                    <div class="content" id="rec_video">
+
                     </div>
                 </div>
                 <!---- Start Widget ---->
                 <div class="widget wid-post">
                     <div class="heading"><h4><i class="fa fa-globe"></i> 同类视频</h4></div>
-                    <div class="content">
-                        <div class="wrap-vid">
-                            <div class="zoom-container">
-                                <div class="zoom-caption">
-                                    <span>Video's Tag</span>
-                                    <a href="single.html">
-                                        <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>
-                                    </a>
-                                    <p>Video's Name</p>
-                                </div>
-                                <img src="assets/img/4.jpg"/>
-                            </div>
-                            <h3 class="vid-name"><a href="#">Video's Name</a></h3>
-                            <div class="info">
-                                <h5>By <a href="#">Kelvin</a></h5>
-                                <span><i class="fa fa-calendar"></i>25/3/2015</span>
-                                <span><i class="fa fa-heart"></i>1,200</span>
-                            </div>
-                        </div>
-                        <div class="wrap-vid">
-                            <div class="zoom-container">
-                                <div class="zoom-caption">
-                                    <span>Video's Tag</span>
-                                    <a href="single.html">
-                                        <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>
-                                    </a>
-                                    <p>Video's Name</p>
-                                </div>
-                                <img src="assets/img/4.jpg"/>
-                            </div>
-                            <h3 class="vid-name"><a href="#">Video's Name</a></h3>
-                            <div class="info">
-                                <h5>By <a href="#">Kelvin</a></h5>
-                                <span><i class="fa fa-calendar"></i>25/3/2015</span>
-                                <span><i class="fa fa-heart"></i>1,200</span>
-                            </div>
-                        </div>
+                    <div class="content" id="rec_class">
 
                     </div>
                     <div class="line"></div>
