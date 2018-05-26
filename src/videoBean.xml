@@ -15,13 +15,13 @@
 	<bean id="videoAction" class="cn.pecrp.action.VideoAction" scope="prototype">
 		<!-- 注入service -->
 		<property name="videoService" ref = "videoService"></property>
+		<property name="python" ref = "python"></property>
 	</bean>
 	
 	<!-- 创建service对象 -->
 	<bean id = "videoService" class = "cn.pecrp.service.VideoService">
 		<!-- 注入dao -->
 		<property name="videoDao" ref = "videoDaoImpl"></property>
-		<property name="python" ref = "python"></property>
 	</bean>
 	
 	<!-- 创建dao实现类对象 -->

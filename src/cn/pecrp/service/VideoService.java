@@ -19,12 +19,8 @@ import cn.pecrp.until.Python;
 @Transactional
 public class VideoService {
 	private VideoDao videoDao;
-	private Python python;
 	public void setVideoDao(VideoDao videoDao) {
 		this.videoDao = videoDao;
-	}
-	public void setPython(Python python) {
-		this.python = python;
 	}
 	
 	//返回热门视频
@@ -120,21 +116,7 @@ public class VideoService {
 		try{
 			int vid = Integer.parseInt(vids);
 			int uid = (int)ServletActionContext.getRequest().getSession().getAttribute("uid");
-			
 			List<Video> recommendVideoSet = videoDao.getSingleRecommendVideo(vid, uid);
-			if(recommendVideoSet == null || recommendVideoSet.size() == 0){
-				//调用py脚本，更新数据库中的single推荐视频数据
-				System.out.println("调用py了->>>>>>>>>>>>>>>>>>>>>>>>>>>");
-				python.updateSingleRecommend(vid, uid);
-				
-				int i = 1;					
-				while(i<=5 && (recommendVideoSet == null || recommendVideoSet.size() == 0)){
-					System.out.println("第" + i + "次查询");
-					Thread.sleep(1000);				//1秒钟查一次数据库，最多查5次
-					recommendVideoSet = videoDao.getSingleRecommendVideo(vid, uid);
-					i ++;
-				}
-			}
 			return recommendVideoSet;
 		} catch (Exception e) {
 			System.out.println(e.toString());
@@ -149,21 +131,7 @@ public class VideoService {
 		try{
 			int vid = Integer.parseInt(vids);
 			int uid = (int)ServletActionContext.getRequest().getSession().getAttribute("uid");
-			
 			List<Label> recommendLabelSet = videoDao.getSingleLabel(vid, uid);
-			if(recommendLabelSet == null || recommendLabelSet.size() == 0){
-				//调用py脚本，更新数据库中的single推荐视频数据
-				System.out.println("调用py了->>>>>>>>>>>>>>>>>>>>>>>>>>>");
-				python.updateSingleRecommend(vid, uid);
-				
-				int i = 1;					
-				while(i<=5 && (recommendLabelSet == null || recommendLabelSet.size() == 0)){
-					System.out.println("第" + i + "次查询");
-					Thread.sleep(1000);				//1秒钟查一次数据库，最多查5次
-					recommendLabelSet = videoDao.getSingleLabel(vid, uid);
-					i ++;
-				}
-			}
 			return recommendLabelSet;
 		} catch (Exception e) {
 			System.out.println(e.toString());

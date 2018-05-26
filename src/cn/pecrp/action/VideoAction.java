@@ -16,6 +16,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import cn.pecrp.entity.Label;
 import cn.pecrp.entity.Video;
 import cn.pecrp.service.VideoService;
+import cn.pecrp.until.Python;
 import cn.pecrp.until.Redundant;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -25,10 +26,14 @@ import net.sf.json.util.CycleDetectionStrategy;
 public class VideoAction extends ActionSupport {
 
 	private VideoService videoService;
+	private Python python;
 	public void setVideoService(VideoService videoService) {
 		this.videoService = videoService;
 	}
-	
+	public void setPython(Python python) {
+		this.python = python;
+	}
+
 	//返回热门视频
 	public String getHotVideo() throws IOException{
 		System.out.println("popVideo...action...");	
@@ -154,10 +159,27 @@ public class VideoAction extends ActionSupport {
 		JSONArray json2;
 		
 		try{
-			String vid = request.getParameter("vid");
-			List<Video> recommendVideo = videoService.getSingleRecommend(vid);
-			List<Video> classifyVideo = videoService.getClassifyVideo(vid);
-			List<Label> recommendLabel = videoService.getSingleLabel(vid);
+			int uid = (int) ServletActionContext.getRequest().getSession().getAttribute("uid");
+			
+			String vids = request.getParameter("vid");
+			List<Video> recommendVideo = videoService.getSingleRecommend(vids);
+			List<Video> classifyVideo = videoService.getClassifyVideo(vids);
+			List<Label> recommendLabel = videoService.getSingleLabel(vids);
+			
+			if(recommendLabel == null || recommendLabel.size() == 0 || recommendVideo == null || recommendVideo.size() == 0){
+				//调用py脚本，更新数据库中的single推荐视频数据
+				int vid = Integer.parseInt(vids);
+				python.updateSingleRecommend(vid, uid);
+				
+				int i = 1;					
+				while(i<=10 && (recommendLabel == null || recommendLabel.size() == 0 || recommendVideo == null || recommendVideo.size() == 0)){
+					System.out.println("第" + i + "次查询");
+					Thread.sleep(1000);				//1秒钟查一次数据库，最多查10次
+					recommendLabel = videoService.getSingleLabel(vids);
+					recommendVideo = videoService.getSingleRecommend(vids);
+					i ++;
+				}
+			}		
 			
 			if(recommendVideo == null || classifyVideo == null ||recommendLabel == null){
 				json.put("msg","0");

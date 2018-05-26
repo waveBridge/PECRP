@@ -279,8 +279,8 @@ if __name__ == "__main__":
     print("=====start get single=====")
     vid = int(sys.argv[1])
     uid = int(sys.argv[2])
-    # vid = 1
-    # uid = 1
+    #vid = 1
+    #uid = 1
     read()
     for u in users:
         user_tag_model(u)
