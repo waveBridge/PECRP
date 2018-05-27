@@ -51,8 +51,20 @@ public class VideoAction extends ActionSupport {
 		JSONArray json2;
 		try{
 			List<Video> popVideo = videoService.popVideo();
-			if(popVideo == null){
-				json.put("msg", "0");				//错误
+			if(popVideo == null || popVideo.size() == 0){
+				python.updateHot();						//调用py
+				
+				int i = 1;
+				while(i <= 5 && (popVideo == null || popVideo.size() == 0)){
+					System.out.println("第" + i + "次查询");
+					Thread.sleep(1000);
+					popVideo = videoService.popVideo();
+					i ++;
+				}
+			} 
+			
+			if(popVideo == null || popVideo.size() == 0){
+				json.put("msg", "0");
 			} else {
 				
 				for(int i = 0 ; i < popVideo.size(); i ++){
@@ -93,9 +105,28 @@ public class VideoAction extends ActionSupport {
 		
 		try{
 			String classifyName = request.getParameter("classifyName");
+			int cid = videoService.getCidByClassifyName(classifyName);
 			List<Video> recommendVideo = videoService.getRecommendVideo(classifyName);
 			List<Video> hotVideo = videoService.getHotVideo(classifyName);
 			List<Label> recommendLabel = videoService.getrecommendLabel(classifyName); 
+			
+			if(recommendLabel == null || recommendLabel.size() == 0 ||
+				hotVideo == null || hotVideo.size() == 0 || 
+				recommendVideo == null || recommendVideo.size() == 0 ){
+				python.updateClassifyRecommend(cid);
+				
+				int i = 1;					
+				while(i<=5 && (recommendLabel == null || recommendLabel.size() == 0 ||
+									hotVideo == null || hotVideo.size() == 0 || 
+									recommendVideo == null || recommendVideo.size() == 0 )){
+					System.out.println("第" + i + "次查询");
+					Thread.sleep(1000);				//1秒钟查一次数据库，最多查10次
+					recommendVideo = videoService.getRecommendVideo(classifyName);
+					hotVideo = videoService.getHotVideo(classifyName);
+					recommendLabel = videoService.getrecommendLabel(classifyName); 
+					i ++;
+				}
+			}
 			
 			if(recommendVideo == null || hotVideo == null || recommendLabel == null){
 				json.put("msg", "0");		
@@ -172,7 +203,7 @@ public class VideoAction extends ActionSupport {
 				python.updateSingleRecommend(vid, uid);
 				
 				int i = 1;					
-				while(i<=10 && (recommendLabel == null || recommendLabel.size() == 0 || recommendVideo == null || recommendVideo.size() == 0)){
+				while(i<=5 && (recommendLabel == null || recommendLabel.size() == 0 || recommendVideo == null || recommendVideo.size() == 0)){
 					System.out.println("第" + i + "次查询");
 					Thread.sleep(1000);				//1秒钟查一次数据库，最多查10次
 					recommendLabel = videoService.getSingleLabel(vids);

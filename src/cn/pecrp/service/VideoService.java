@@ -29,6 +29,10 @@ public class VideoService {
 		
 		try{
 			List<Hot> hotVids = videoDao.hotVid();
+			if(hotVids == null || hotVids.size() == 0){
+				return null;
+			}
+			
 			List<Hot> hotVid = new ArrayList<Hot>();
 			
 			//先复制一份到allVideo的list
@@ -160,6 +164,13 @@ public class VideoService {
 			System.out.println(e.toString());
 			return null;
 		}
+	}
+
+	//根据classifyName得到cid
+	public int getCidByClassifyName(String classifyName) {
+		System.out.println("getCidByClassifyName...service...");
+		int cid = videoDao.getCidByClassifyName(classifyName);
+		return cid;
 	}
 	
 }
