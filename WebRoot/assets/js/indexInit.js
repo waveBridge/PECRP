@@ -74,7 +74,7 @@ $(document).ready(function () {
                         alert("error happend in getClassified!");
                     }
                     else {
-                        console.log(json);
+                        console.log(classified,json);
                         recVideo = json.recommendVideo;
                         hotVideo = json.hotVideo;
                         recLabel = json.recommendLabel;
@@ -82,7 +82,7 @@ $(document).ready(function () {
                         $.each(recVideo, function (x, video) {
                             id = 'c' + i;
                             if (x < 6) {
-                                id = id + 'v' +parseInt((x + 1) / 2 + 1);
+                                id = id + 'v' +parseInt((x + 2) / 2);
                                 console.log(id)
                                 $('#'+id).append('<div class="wrap-vid">\n' +
                                     '                                    <div class="zoom-container">\n' +

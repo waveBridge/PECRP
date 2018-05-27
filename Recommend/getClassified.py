@@ -153,7 +153,7 @@ def topKLabel(cid):
                 labelList[l][0] += 1
     labelList.sort(reverse=True)
     for l in labelList:
-        if (l != 0):
+        if (l[1] != 0):
             ansList.append(l[1])
     print("cid:", cid, "label:", ansList)
     return ansList[:]
@@ -189,7 +189,7 @@ def topKVideo(cid):
                 cntList[v][0] += 1
     cntList.sort(reverse=True)
     for item in cntList:
-        if (item[1] != 0):
+        if ((item[1] != 0) and (item[1] in classifyVideo[cid])):
             ansList.append(item[1])
     print("cid:", cid, "video:", ansList)
     return ansList[:]
