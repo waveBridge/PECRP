@@ -220,7 +220,7 @@ def video_tag_model(u):
         else:
             w.append(0)
 
-        if (index == len(userLabel[u])):
+        if (index == len(videoLabel[u])):
             index -= 1  # 防止下标溢出
 
     return w[:]

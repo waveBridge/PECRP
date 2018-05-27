@@ -59,9 +59,9 @@
                         hotVideo = json.hotVideo;
 
                         $.each(hotVideo, function (x, video) {
-                            id = 'c' + i;
+
                             if (x < 12) {
-                                id = id + 'v' + parseInt((x + 3) / 3);
+                                id = 'c' + parseInt((x + 3) / 3);
                                 console.log(id)
                                 $('#' + id).append('<div class="wrap-vid">\n' +
                                     '                                    <div class="zoom-container">\n' +

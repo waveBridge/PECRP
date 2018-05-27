@@ -160,34 +160,42 @@
                         });
 
                         $.each(recVideo, function (i, video) {
-                            $('#rec_video').append('<div class="wrap-vid">\n' +
-                                '                            <div class="zoom-container">\n' +
-                                '                                <div class="zoom-caption">\n' +
-                                '                                    <a href="single.html?vid='+video.vid+'">\n' +
-                                '                                        <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>\n' +
-                                '                                    </a>\n' +
-                                '                                    <p>'+video.videoName+'</p>\n' +
-                                '                                </div>\n' +
-                                '                                <img src="'+video.picture+'"/>\n' +
-                                '                            </div>\n' +
-                                '                            <h3 class="vid-name"><a href="#">'+video.videoName+'</a></h3>\n' +
-                                '                        </div>')
-                        })
+                            if(i <= 3){
+                                $('#rec_video').append('<div class="wrap-vid">\n' +
+                                    '                            <div class="zoom-container">\n' +
+                                    '                                <div class="zoom-caption">\n' +
+                                    '                                    <a href="single.html?vid='+video.vid+'">\n' +
+                                    '                                        <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>\n' +
+                                    '                                    </a>\n' +
+                                    '                                    <p>'+video.videoName+'</p>\n' +
+                                    '                                </div>\n' +
+                                    '                                <img src="'+video.picture+'"/>\n' +
+                                    '                            </div>\n' +
+                                    '                            <h3 class="vid-name"><a href="#">'+video.videoName+'</a></h3>\n' +
+                                    '                        </div>');
+                            }
+
+
+                        });
 
                         $.each(clsVideo, function (i, video) {
-                            $('#rec_class').append('<div class="wrap-vid">\n' +
-                                '                            <div class="zoom-container">\n' +
-                                '                                <div class="zoom-caption">\n' +
-                                '                                    <a href="single.html?vid='+video.vid+'">\n' +
-                                '                                        <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>\n' +
-                                '                                    </a>\n' +
-                                '                                    <p>'+video.videoName+'</p>\n' +
-                                '                                </div>\n' +
-                                '                                <img src="'+video.picture+'"/>\n' +
-                                '                            </div>\n' +
-                                '                            <h3 class="vid-name"><a href="#">'+video.videoName+'</a></h3>\n' +
-                                '                        </div>')
-                        })
+                            if(i <= 3){
+                                $('#rec_class').append('<div class="wrap-vid">\n' +
+                                    '                            <div class="zoom-container">\n' +
+                                    '                                <div class="zoom-caption">\n' +
+                                    '                                    <a href="single.html?vid='+video.vid+'">\n' +
+                                    '                                        <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>\n' +
+                                    '                                    </a>\n' +
+                                    '                                    <p>'+video.videoName+'</p>\n' +
+                                    '                                </div>\n' +
+                                    '                                <img src="'+video.picture+'"/>\n' +
+                                    '                            </div>\n' +
+                                    '                            <h3 class="vid-name"><a href="#">'+video.videoName+'</a></h3>\n' +
+                                    '                        </div>');
+                            }
+
+                        });
+
                     }
                 }
 
@@ -365,7 +373,7 @@
                     <form class="navbar-form" role="search">
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Search">
-                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            <a href="search.html?word=篮球" class="btn btn-default" ><i class="fa fa-search"></i></a>
                         </div>
 
                     </form>
