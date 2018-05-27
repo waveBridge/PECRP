@@ -19,6 +19,7 @@ resVideo = [[0]]
 
 videoPlayList = [(0, 0)]
 
+
 def read():
     # 获取所有分类编号
     sql_select = "SELECT * FROM classify"
@@ -118,7 +119,6 @@ def read():
         print(e)
         db.rollback()
 
-
     sql = "SELECT * FROM video"
     try:
         cur.execute(sql)
@@ -213,10 +213,9 @@ def writeVideo(cid):
 
 # 将分类热门推荐视频写入数据库
 def writeHot(cid):
-
     playList = [(0, 0)]
     for v in classifyVideo[cid]:
-        if(v == 0):
+        if (v == 0):
             return
         # print(v, videoPlayList[v])
         playList.append((videoPlayList[v], v))
@@ -230,23 +229,24 @@ def writeHot(cid):
         sql_replace = "REPLACE INTO rec_classify_hot(cid, vid, hotDegree) VALUES ('%d', '%d', '%d')"
         index = 1
         for item in playList:
-            if(item[1] != 0):
+            if (item[1] != 0):
                 cur.execute(sql_replace % (cid, item[1], index))
                 db.commit()
                 index += 1
     except Exception as e:
         print(e)
-    # db.rollback()
+        # db.rollback()
 
 
 if __name__ == "__main__":
+    c = int(sys.argv[1])
     print("=====start get classified=====")
     read()
-    for c in classifies:
-        resLabel[c] = topKLabel(c)
-        resVideo[c] = topKVideo(c)
-        writeLabel(c)
-        writeVideo(c)
-        writeHot(c)
+    # for c in classifies:
+    resLabel[c] = topKLabel(c)
+    resVideo[c] = topKVideo(c)
+    writeLabel(c)
+    writeVideo(c)
+    writeHot(c)
 
-    print("=====end get classified=====")
+print("=====end get classified=====")

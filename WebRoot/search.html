@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>收藏夹</title>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Single</title>
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="assets/css/bootstrap.css" type="text/css">
-    <link rel="stylesheet" href="assets/css/bootstrap-fileupload.min.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/style.css" type="text/css">
@@ -26,78 +25,73 @@
 
     <!-- Core JavaScript Files -->
     <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/bootstrap-fileupload.js"></script>
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+
     <script src="assets/js/jquery-2.1.1.js" type="text/javascript"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {
+            var word = window.location.search;
+            word = word.slice(6);//get video's id
+            word = decodeURI(word);
+
+//            alert(word);
             $.ajax({
-                url: "getCollectAction",
+                url: "getClassifyVideoAction",
                 type: "POST",
                 dataType: "json",
-                async: false,
+                data: {
+                    classifyName: '篮球'
+                },
+                async: true,
                 success: function (data) {
                     var json = eval(data);
                     data = "";
                     console.log(json.msg);
                     if (json.msg == "0") {
-                        alert("error happend!");
+                        alert("error happend in getClassified!");
                     }
                     else {
-                        $.each(json.msg, function (i, video) {
-                            console.log(i, video);
-                            if(i >= 20) return false;
-                            $("#showCollection").append(" <div class=\"panel panel-info\" >\n" +
-                                "                            <div class=\"panel-body\">\n" +
-                                "                                <div class=\"col-md-4\">\n" +
-                                "                                    <img src=\""+video.picture+"\" class=\"img-thumbnail videopic\">\n" +
-                                "                                </div>\n" +
-                                "                                <div class=\"col-md-7\">\n" +
-                                "                                    <h5><a href=\""+video.link+"\">"+video.videoName+"</a> </h5>\n" +
-                                "                                    <div class=\"blank\"></div>\n" +
-                                "                                    <h7>时长："+video.time+"</h7>\n" +
-                                "                                    <span class='deleteVideo' style='cursor: pointer' id="+video.vid+"><i class='fa'></i>删除</span>\n" +
-                                "                                </div>\n" +
-                                "                            </div>\n" +
-                                "                        </div>");
+                        console.log('篮球', json);
+                        hotVideo = json.hotVideo;
 
-                        })
-                        $("#showHistory").append("<div style='text-align: center'>没有更多了...</div>")
+                        $.each(hotVideo, function (x, video) {
+                            id = 'c' + i;
+                            if (x < 12) {
+                                id = id + 'v' + parseInt((x + 3) / 3);
+                                console.log(id)
+                                $('#' + id).append('<div class="wrap-vid">\n' +
+                                    '                                    <div class="zoom-container">\n' +
+                                    '                                        <div class="zoom-caption">\n' +
+                                    '                                            <a href="single.html?vid=' + video.vid + '">\n' +
+                                    '                                                <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>\n' +
+                                    '                                            </a>\n' +
+                                    '                                            <p>' + video.videoName + '</p>\n' +
+                                    '                                        </div>\n' +
+                                    '                                        <img src="' + video.picture + '"/>\n' +
+                                    '                                    </div>\n' +
+                                    '                                    <h3 class="vid-name"><a href="#">' + video.videoName + '</a></h3>\n' +
+                                    '                                </div>');
+                            }
+
+                        });
+
                     }
                 }
-            });
-            $(".deleteVideo").click(function (e) {
-                var vid = $(e.target).attr("id");
-                console.log(vid);
-                $.ajax({
-                    url: "deleteCollectionAction",
-                    type: "POST",
-                    dataType: "json",
-                    async: false,
-                    data:{
-                        vid: vid
-                    },
-                    success: function (data) {
-                        var json = eval(data);
-                        data = "";
-                        if(json.msg == "0"){
-                            alert("error happend!");
-                        }
-                        else {
-                            window.location.href = "collection.html";
-                        }
-                    }
-                });
+
             });
         });
 
 
     </script>
+
 </head>
+
 <body>
+
 <header>
 
     <!--Navigation-->
@@ -148,7 +142,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <div>
-                                <img src="assets/img/user.png" style="height: 60px;width: 60px" class="img-thumbnail img-circle" id="userImg"/>
+                                <img src="assets/img/user.png" style="height: 60px;width: 60px"
+                                     class="img-thumbnail img-circle" id="userImg"/>
                             </div>
                         </a>
                         <div class="dropdown-menu">
@@ -158,13 +153,13 @@
                                     <li id="registerLi"><a href="register.html">注册</a></li>
                                     <li id="infoLi"><a href="info.html">资料修改</a></li>
                                     <li id="tagLi"><a href="userTag.html">标签管理</a></li>
-                                    <li id="logoutLi"><a href="">退出登录</a> </li>
+                                    <li id="logoutLi"><a href="">退出登录</a></li>
                                 </ul>
                             </div>
                         </div>
                     </li>
                     <li style="padding-top: 20px" class="dropdown">
-                        <a href="history.html" class="dropdown-toggle" data-toggle="dropdown">历史记录</a>
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" id="toHistory">历史记录</a>
                         <div class="dropdown-menu">
                             <div class="dropdown-inner">
                                 <ul class="list-unstyled unLogin">
@@ -176,7 +171,7 @@
                         </div>
                     </li>
                     <li style="padding-top: 20px" class="dropdown">
-                        <a href="collection.html" class="dropdown-toggle" data-toggle="dropdown">收藏夹</a>
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" id="toCollection">收藏夹</a>
                         <div class="dropdown-menu">
                             <div class="dropdown-inner">
                                 <ul class="list-unstyled unLogin">
@@ -269,33 +264,103 @@
 
 </header>
 <!-- Header -->
+
+<!-- /////////////////////////////////////////Content -->
 <div id="page-content" class="single-page">
     <div class="container">
         <div class="row">
             <div id="main-content" class="col-md-12">
-                <div class="row">
-                    <div class="title">
-                        <h2>收藏夹<small>（显示最近20条）</small></h2>
+                <center>
+                    <form class="navbar-form" role="search">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="篮球">
+                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                        </div>
+
+                    </form>
+                </center>
+                <div class="filter-list row"
+                     style="border-bottom: #abbfff solid 1px; padding-left: 2%; margin-bottom: 3%">
+                    <div class="list-sort col-md-10">
+                        <ul class="list-inline">
+                            <li class="btn btn-info btn-xs">综合排序</li>
+                            <li class="btn  btn-xs">最多播放</li>
+                            <li class="btn  btn-xs">最多点赞</li>
+                            <li class="btn  btn-xs">最多收藏</li>
+                        </ul>
+                    </div>
+                    <div class="list-time col-md-10">
+                        <ul class="list-inline">
+                            <li class="btn btn-info btn-xs">综合排序</li>
+                            <li class="btn  btn-xs">5分钟以下</li>
+                            <li class="btn  btn-xs">5-10分钟</li>
+                            <li class="btn  btn-xs">10-20分钟</li>
+                            <li class="btn  btn-xs">20分钟以上</li>
+                        </ul>
+                    </div>
+                    <div class="list-classify col-md-10">
+                        <ul class="list-inline">
+                            <li class="btn btn-info btn-xs">全部分类</li>
+                            <li class="btn  btn-xs">篮球</li>
+                            <li class="btn  btn-xs">足球</li>
+                            <li class="btn  btn-xs">排球</li>
+                            <li class="btn  btn-xs">网球</li>
+                            <li class="btn  btn-xs">乒乓球</li>
+                            <li class="btn  btn-xs">羽毛球</li>
+                            <li class="btn  btn-xs">跑步</li>
+                            <li class="btn  btn-xs">瑜伽</li>
+                            <li class="btn  btn-xs">健身</li>
+                            <li class="btn  btn-xs">其他</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!--========================================================================-->
+                <div class="show-video">
+                    <div class="col-md-3" id="c1">
+
                     </div>
 
-
-                    <div class="col-md-2">
-
-                    </div>
-
-                    <div class="col-md-7" id="showCollection">
+                    <div class="col-md-3" id="c2">
 
                     </div>
+                    <div class="col-md-3" id="c3">
 
+                    </div>
+                    <div class="col-md-3" id="c4">
+                    </div>
 
                 </div>
+                <!--========================================================================-->
+
+                <center>
+                    <ul class="pagination">
+                        <li>
+                            <a href="#" aria-label="Previous">
+                                <span aria-hidden="true"><<上一页</span>
+                            </a>
+                        </li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#">6</a></li>
+                        <li><a href="#">7</a></li>
+                        <li>
+                            <a href="#" aria-label="Next">
+                                <span aria-hidden="true">>>下一页</span>
+                            </a>
+                        </li>
+                    </ul>
+                </center>
+
+                <div class="line"></div>
             </div>
         </div>
     </div>
 </div>
-
-
-
 <footer>
     <div class="top-footer">
         <ul class="footer-social list-inline">
@@ -307,7 +372,7 @@
     </div>
     <div class="wrap-footer">
         <div class="container">
-            <div class="row" style="height: 50px;">
+            <div class="row" style="height: 70px;">
 
             </div>
         </div>
@@ -315,5 +380,7 @@
 
 </footer>
 <!-- Footer -->
+
+
 </body>
 </html>
