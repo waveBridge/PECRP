@@ -90,7 +90,7 @@ public class Redundant {
 		}		
 	}
 
-	private static void rmRedundantLabel(Set<Label> labelSet) {
+	public static void rmRedundantLabel(Set<Label> labelSet) {
 		// TODO 自动生成的方法存根
 		try{
 			Iterator<Label> it = labelSet.iterator();
@@ -103,7 +103,7 @@ public class Redundant {
 		}
 	}
 
-	private static void rmRedundantVideo(Set<Video> videoSet) {
+	public static void rmRedundantVideo(Set<Video> videoSet) {
 		// TODO 自动生成的方法存根
 		try{
 			Iterator<Video> it = videoSet.iterator();
@@ -114,5 +114,14 @@ public class Redundant {
 			System.out.println(e.toString());
 			return;
 		}
+	}
+
+	public static Video rmRedundantExceptLabelSet(Video video) {
+		video.setClassifySet(null);
+		video.setZanUserSet(null);
+		video.setReviewSet(null);
+		video.setWatchUserSet(null);
+		video.setCollectionUserSet(null);
+		return video;
 	}
 }

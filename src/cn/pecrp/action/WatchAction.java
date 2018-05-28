@@ -17,6 +17,7 @@ import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 import cn.pecrp.entity.Video;
 import cn.pecrp.service.WatchService;
+import cn.pecrp.until.Redundant;
 
 public class WatchAction extends ActionSupport {
 	
@@ -47,6 +48,9 @@ public class WatchAction extends ActionSupport {
 			if(video == null){
 				json.put("msg", "0");                    //未知错误
 			} else {
+				json.put("zanNum", video.getZanUserSet().size());
+				Redundant.rmRedundantExceptLabelSet(video);
+				Redundant.rmRedundantLabel(video.getLabelSet());
 				json2 = JSONObject.fromObject(video, jsonConfig);
 				json.put("msg", json2);                    //可以访问
 			}
@@ -152,6 +156,7 @@ public class WatchAction extends ActionSupport {
 		try{
 			String vid = request.getParameter("vid");
 			Set<Video> collectSet = watchService.deleteCollect(vid);
+			Redundant.rmRedundantVideo(collectSet);
 			if(collectSet == null) {
 				json.put("msg", "0");								//返回0,有错误
 			} else {

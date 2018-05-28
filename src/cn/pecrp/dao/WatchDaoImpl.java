@@ -18,6 +18,8 @@ public class WatchDaoImpl implements WatchDao {
 	//添加视频访问量
 	@Override
 	public Video addPlayNum(int vid, int i) {
+		System.out.println("addPlayNum...dao...");
+		
 		try{
 			Video video = hibernateTemplate.get(Video.class, vid);
 			if(video == null){

@@ -218,6 +218,8 @@ public class UserAction extends ActionSupport {
 		JSONObject json = new JSONObject();
 		try{
 			Set<Video> historySet = userService.getHistory();
+			Redundant.rmRedundantVideo(historySet);
+			
 			if(historySet == null) {
 				json.put("msg", "0");
 				json.put("cnt", "0");
@@ -257,6 +259,7 @@ public class UserAction extends ActionSupport {
 		try{
 			String vid = request.getParameter("vid");
 			Set<Video> historySet = userService.deleteHistory(vid);
+			Redundant.rmRedundantVideo(historySet);
 			if(historySet == null){
 				json.put("msg", "-1");								//错误
 			} else {
@@ -321,6 +324,7 @@ public class UserAction extends ActionSupport {
 		JSONObject json = new JSONObject();
 		try{
 			Set<Video> collectionSet = userService.getCollect();
+			Redundant.rmRedundantVideo(collectionSet);
 			if(collectionSet == null){
 				json.put("msg", "0");
 			} else {
