@@ -24,7 +24,7 @@
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<!-- 注入属性值 -->
 		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
-		<property name="jdbcUrl" value="jdbc:mysql:///pecrp"></property>
+		<property name="jdbcUrl" value="jdbc:mysql:///pecrp?useUnicode=true&amp;characterEncoding=utf8"></property>
 		<property name="user" value="root"></property>
 		<property name="password" value="root"></property>
 	</bean>
