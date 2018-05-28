@@ -3,7 +3,7 @@ $(document).ready(function () {
         url: "getUserInfoAction",
         type: "POST",
         dataType: "json",
-        async: false,
+        async: true,
         success: function (data) {
             var json = eval(data);
             data = "";
@@ -42,7 +42,7 @@ $(document).ready(function () {
                    url: "getHistoryAction",
                    type: "POST",
                    dataType: "json",
-                   async: false,
+                   async: true,
                    success: function (data) {
                        var json = eval(data);
                        data = "";
@@ -66,7 +66,7 @@ $(document).ready(function () {
                     url: "getCollectAction",
                     type: "POST",
                     dataType: "json",
-                    async: false,
+                    async: true,
                     success: function (data) {
                         var json = eval(data);
                         data = "";
