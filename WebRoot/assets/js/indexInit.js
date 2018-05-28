@@ -90,11 +90,11 @@ $(document).ready(function () {
                                     '                                            <a href="single.html?vid='+video.vid+'">\n' +
                                     '                                                <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>\n' +
                                     '                                            </a>\n' +
-                                    '                                            <p>'+video.videoName+'</p>\n' +
+
                                     '                                        </div>\n' +
                                     '                                        <img src="'+video.picture+'"/>\n' +
                                     '                                    </div>\n' +
-                                    '                                    <h3 class="vid-name"><a href="#">'+video.videoName+'</a></h3>\n' +
+                                    '                                    <p class="vid-name"><a href="#">'+video.videoName+'</a></p>\n' +
                                     '                                    <div class="info">\n' +
                                     '                                        <span><i class="fa fa-heart"></i>'+video.zanUserSet.length+'</span>\n' +
                                     '                                    </div>\n' +
@@ -104,8 +104,11 @@ $(document).ready(function () {
                         });
 
                         $.each(recLabel, function (x, label) {
-                            id = 'c' + i + 'l';
-                            $('#' + id).append('<li><a href="#">'+label.labelName+' ,</a></li>');
+							if(x <= 10){
+								
+								id = 'c' + i + 'l';
+								$('#' + id).append('<li><a href="#">'+label.labelName+' ,</a></li>');
+							}
                         });
 
                         $.each(hotVideo, function (x, video) {
@@ -123,7 +126,7 @@ $(document).ready(function () {
                                     '                            </div>\n' +
                                     '                        </div>');
                             }
-                            else if(x < 6){
+                            else if(x < 5){
                                 $('#' + id).append(' <div class="wrap-vid">\n' +
                                     '\n' +
                                     '                            <div class="vid-name">\n' +

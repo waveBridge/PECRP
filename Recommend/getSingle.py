@@ -265,10 +265,10 @@ def filterVideo():
 def writeVideo():
     try:
         sql_insert = "REPLACE INTO rec_single_video(vid, uid, recVid, hotDegree) VALUES ('%d', '%d', '%d', '%d')"
-        index = 1
+        index = 150
         for item in resVideo:
             cur.execute(sql_insert % (vid, uid, item, index))
-            index += 1
+            index -= 1
             db.commit()
     except Exception as e:
         print(e)
@@ -277,22 +277,24 @@ def writeVideo():
 
 if __name__ == "__main__":
     print("=====start get single=====")
-    vid = int(sys.argv[1])
-    uid = int(sys.argv[2])
-    # vid = 1
-    # uid = 1
+    # vid = int(sys.argv[1])
+    # uid = int(sys.argv[2])
+
+    uid = 1
     read()
     for u in users:
         user_tag_model(u)
-    topKNeighbor(uid)
-    topKLabel(uid, 10)
-    writeLabel()
-    print("=======single video labels finished!")
-    topKLabelVideo(10)
-    filterVideo()
-    # print(resVideo)
-    writeVideo()
-    print("=======single video recVideos finished!")
-    # writeVideo()
-    print(vid)
+    for v in range(7,16):
+        vid = v
+        topKNeighbor(uid)
+        topKLabel(uid, 10)
+        writeLabel()
+        print("=======single video labels finished!")
+        topKLabelVideo(10)
+        filterVideo()
+        # print(resVideo)
+        writeVideo()
+        print("=======single video recVideos finished!")
+        # writeVideo()
+        print(vid)
     print("=====end get single=====")

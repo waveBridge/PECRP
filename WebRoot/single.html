@@ -79,6 +79,7 @@
                         });
 
                         $.each(video.labelSet, function (i, label) {
+						
                             $('#videoTags').append(' <div class="btn-group">\n' +
                                 '                        <input type="button" class="btn btn-info" value="'+label.labelName+'">\n' +
                                 '                    </div>');
@@ -155,7 +156,9 @@
                         var recLabel = json.recommendLabel;
 
                         $.each(recLabel, function (i, label) {
-                            $('#rec_label').append('<li><a href="#">'+ label.labelName+' , </a></li>');
+							if(i<=10){
+								$('#rec_label').append('<li><a href="#">'+ label.labelName+' , </a></li>');
+								}
 
                         });
 
@@ -167,7 +170,6 @@
                                     '                                    <a href="single.html?vid='+video.vid+'">\n' +
                                     '                                        <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>\n' +
                                     '                                    </a>\n' +
-                                    '                                    <p>'+video.videoName+'</p>\n' +
                                     '                                </div>\n' +
                                     '                                <img src="'+video.picture+'"/>\n' +
                                     '                            </div>\n' +
@@ -186,7 +188,6 @@
                                     '                                    <a href="single.html?vid='+video.vid+'">\n' +
                                     '                                        <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>\n' +
                                     '                                    </a>\n' +
-                                    '                                    <p>'+video.videoName+'</p>\n' +
                                     '                                </div>\n' +
                                     '                                <img src="'+video.picture+'"/>\n' +
                                     '                            </div>\n' +

@@ -239,14 +239,14 @@ def writeHot(cid):
 
 
 if __name__ == "__main__":
-    c = int(sys.argv[1])
+    # c = int(sys.argv[1])
     print("=====start get classified=====")
     read()
-    # for c in classifies:
-    resLabel[c] = topKLabel(c)
-    resVideo[c] = topKVideo(c)
-    writeLabel(c)
-    writeVideo(c)
-    writeHot(c)
+    for c in classifies:
+        resLabel[c] = topKLabel(c)
+        resVideo[c] = topKVideo(c)
+        writeLabel(c)
+        writeVideo(c)
+        writeHot(c)
 
 print("=====end get classified=====")
