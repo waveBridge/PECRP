@@ -16,6 +16,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import cn.pecrp.entity.Label;
 import cn.pecrp.service.InfoService;
+import cn.pecrp.until.Redundant;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
@@ -270,6 +271,7 @@ public class InfoAction extends ActionSupport {
 			HttpSession session = request.getSession();
 			int uid = (int) session.getAttribute("uid");
 			Set<Label> labelList = infoService.labelNotHave(uid);		//得到未拥有的标签
+			Redundant.rmRedundantLabel(labelList);
 			if(labelList == null){
 				json.put("msg", "0");
 			} else {
