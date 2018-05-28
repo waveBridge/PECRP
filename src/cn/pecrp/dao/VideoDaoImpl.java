@@ -165,6 +165,10 @@ public class VideoDaoImpl implements VideoDao {
 		
 		try{
 			Video video = hibernateTemplate.get(Video.class, vid);
+			if(video == null){
+				System.out.println("video是nul");
+				return null;
+			}
 			return video.getClassifySet();
 		} catch (Exception e) {
 			System.out.println(e.toString());
@@ -223,7 +227,7 @@ public class VideoDaoImpl implements VideoDao {
 				return null;
 			} else {	
 				for(RecSingleVideo rv : recSingleVideoSet){
-					System.out.println(rv.getVid() + " " + rv.getUid() + " " + rv.getRecVid());
+				//	System.out.println(rv.getVid() + " " + rv.getUid() + " " + rv.getRecVid());
 					if(rv.getVid() == vid && rv.getUid() == uid){
 						Video video = hibernateTemplate.get(Video.class, rv.getRecVid());
 						recommendVideoSet.add(video);

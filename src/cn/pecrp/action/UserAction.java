@@ -16,6 +16,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import cn.pecrp.entity.User;
 import cn.pecrp.entity.Video;
 import cn.pecrp.service.UserService;
+import cn.pecrp.until.Redundant;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
@@ -173,23 +174,26 @@ public class UserAction extends ActionSupport {
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
 		
-		JSONObject json; 
-		JSONObject json2 = new JSONObject();
+		JSONObject json = new JSONObject(); 
+		JSONObject json2;
 		
 		try {
 			User user  = userService.getUserInfo();
-			if(user != null) {
-				json = JSONObject.fromObject(user, jsonConfig);
-				json2.put("msg",json);                //有信息则输出信息
+			if(user == null){
+				json.put("msg","0");                 //没有信息 0
 			} else {
-				json2.put("msg","0");                 //没有信息 0
+				Redundant.rmRedundant(user);
+				if(user != null) {
+					json2 = JSONObject.fromObject(user, jsonConfig);
+					json.put("msg",json2);                //有信息则输出信息
+				}
 			}
 			
 		}catch (Exception e) {
 			System.out.println(e.toString());
-			json2.put("msg","0");                     //若没有信息则为0
+			json.put("msg","0");                     //若没有信息则为0
 		}finally {
-			out.write(json2.toString());
+			out.write(json.toString());
 			out.flush();
 			out.close();
 		}

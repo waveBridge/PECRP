@@ -44,13 +44,13 @@ public class VideoService {
 			Collections.sort(hotVid, new SortByHotDegree());
 			
 			List<Video> popVideo;
-			//最多取前五
-			if(hotVid.size() <= 5){
+			//最多取前10
+			if(hotVid.size() <= 10){
 				popVideo = videoDao.getVideoByVids(hotVid);
 			} else {
-				//将前五放到popVideo
+				//将前10放到popVideo
 				List<Hot> fiveVid = new ArrayList<Hot>();
-				for(int i = 0; i < 5 ;i ++){
+				for(int i = 0; i < 10 ;i ++){
 					fiveVid.add(hotVid.get(i));							
 				}
 				popVideo = videoDao.getVideoByVids(fiveVid);

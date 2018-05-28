@@ -2,6 +2,7 @@ package cn.pecrp.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -26,13 +27,13 @@ import net.sf.json.util.CycleDetectionStrategy;
 public class VideoAction extends ActionSupport {
 
 	private VideoService videoService;
-	private Python python;
+//	private Python python;
 	public void setVideoService(VideoService videoService) {
 		this.videoService = videoService;
 	}
-	public void setPython(Python python) {
-		this.python = python;
-	}
+//	public void setPython(Python python) {
+//		this.python = python;
+//	}
 
 	//返回热门视频
 	public String getHotVideo() throws IOException{
@@ -51,17 +52,17 @@ public class VideoAction extends ActionSupport {
 		JSONArray json2;
 		try{
 			List<Video> popVideo = videoService.popVideo();
-			if(popVideo == null || popVideo.size() == 0){
-				python.updateHot();						//调用py
-				
-				int i = 1;
-				while(i <= 5 && (popVideo == null || popVideo.size() == 0)){
-					System.out.println("第" + i + "次查询");
-					Thread.sleep(1000);
-					popVideo = videoService.popVideo();
-					i ++;
-				}
-			} 
+//			if(popVideo == null || popVideo.size() == 0){
+//				python.updateHot();						//调用py
+//				
+//				int i = 1;
+//				while(i <= 5 && (popVideo == null || popVideo.size() == 0)){
+//					System.out.println("第" + i + "次查询");
+//					Thread.sleep(1000);
+//					popVideo = videoService.popVideo();
+//					i ++;
+//				}
+//			} 
 			
 			if(popVideo == null || popVideo.size() == 0){
 				json.put("msg", "0");
@@ -105,28 +106,34 @@ public class VideoAction extends ActionSupport {
 		
 		try{
 			String classifyName = request.getParameter("classifyName");
-			int cid = videoService.getCidByClassifyName(classifyName);
+//			int cid = videoService.getCidByClassifyName(classifyName);
 			List<Video> recommendVideo = videoService.getRecommendVideo(classifyName);
 			List<Video> hotVideo = videoService.getHotVideo(classifyName);
 			List<Label> recommendLabel = videoService.getrecommendLabel(classifyName); 
 			
-			if(recommendLabel == null || recommendLabel.size() == 0 ||
-				hotVideo == null || hotVideo.size() == 0 || 
-				recommendVideo == null || recommendVideo.size() == 0 ){
-				python.updateClassifyRecommend(cid);
-				
-				int i = 1;					
-				while(i<=5 && (recommendLabel == null || recommendLabel.size() == 0 ||
-									hotVideo == null || hotVideo.size() == 0 || 
-									recommendVideo == null || recommendVideo.size() == 0 )){
-					System.out.println("第" + i + "次查询");
-					Thread.sleep(1000);				//1秒钟查一次数据库，最多查10次
-					recommendVideo = videoService.getRecommendVideo(classifyName);
-					hotVideo = videoService.getHotVideo(classifyName);
-					recommendLabel = videoService.getrecommendLabel(classifyName); 
-					i ++;
-				}
-			}
+			//取前十个
+			recommendVideo = Redundant.getTenFirstVideo(recommendVideo);
+			hotVideo = Redundant.getTenFirstVideo(hotVideo);
+			recommendLabel = Redundant.getTenFirstLabel(recommendLabel);
+			
+			
+//			if(recommendLabel == null || recommendLabel.size() == 0 ||
+//				hotVideo == null || hotVideo.size() == 0 || 
+//				recommendVideo == null || recommendVideo.size() == 0 ){
+//				python.updateClassifyRecommend(cid);
+//				
+//				int i = 1;					
+//				while(i<=5 && (recommendLabel == null || recommendLabel.size() == 0 ||
+//									hotVideo == null || hotVideo.size() == 0 || 
+//									recommendVideo == null || recommendVideo.size() == 0 )){
+//					System.out.println("第" + i + "次查询");
+//					Thread.sleep(1000);				//1秒钟查一次数据库，最多查10次
+//					recommendVideo = videoService.getRecommendVideo(classifyName);
+//					hotVideo = videoService.getHotVideo(classifyName);
+//					recommendLabel = videoService.getrecommendLabel(classifyName); 
+//					i ++;
+//				}
+//			}
 			
 			if(recommendVideo == null || hotVideo == null || recommendLabel == null){
 				json.put("msg", "0");		
@@ -190,27 +197,31 @@ public class VideoAction extends ActionSupport {
 		JSONArray json2;
 		
 		try{
-			int uid = (int) ServletActionContext.getRequest().getSession().getAttribute("uid");
+	//		int uid = (int) ServletActionContext.getRequest().getSession().getAttribute("uid");
 			
 			String vids = request.getParameter("vid");
 			List<Video> recommendVideo = videoService.getSingleRecommend(vids);
 			List<Video> classifyVideo = videoService.getClassifyVideo(vids);
 			List<Label> recommendLabel = videoService.getSingleLabel(vids);
 			
-			if(recommendLabel == null || recommendLabel.size() == 0 || recommendVideo == null || recommendVideo.size() == 0){
-				//调用py脚本，更新数据库中的single推荐视频数据
-				int vid = Integer.parseInt(vids);
-				python.updateSingleRecommend(vid, uid);
-				
-				int i = 1;					
-				while(i<=5 && (recommendLabel == null || recommendLabel.size() == 0 || recommendVideo == null || recommendVideo.size() == 0)){
-					System.out.println("第" + i + "次查询");
-					Thread.sleep(1000);				//1秒钟查一次数据库，最多查10次
-					recommendLabel = videoService.getSingleLabel(vids);
-					recommendVideo = videoService.getSingleRecommend(vids);
-					i ++;
-				}
-			}		
+			recommendVideo = Redundant.getTenFirstVideo(recommendVideo);
+			classifyVideo = Redundant.getTenFirstVideo(classifyVideo);
+			recommendLabel = Redundant.getTenFirstLabel(recommendLabel);
+			
+//			if(recommendLabel == null || recommendLabel.size() == 0 || recommendVideo == null || recommendVideo.size() == 0){
+//				//调用py脚本，更新数据库中的single推荐视频数据
+//				int vid = Integer.parseInt(vids);
+//				python.updateSingleRecommend(vid, uid);
+//				
+//				int i = 1;					
+//				while(i<=5 && (recommendLabel == null || recommendLabel.size() == 0 || recommendVideo == null || recommendVideo.size() == 0)){
+//					System.out.println("第" + i + "次查询");
+//					Thread.sleep(1000);				//1秒钟查一次数据库，最多查10次
+//					recommendLabel = videoService.getSingleLabel(vids);
+//					recommendVideo = videoService.getSingleRecommend(vids);
+//					i ++;
+//				}
+//			}		
 			
 			if(recommendVideo == null || classifyVideo == null ||recommendLabel == null){
 				json.put("msg","0");
