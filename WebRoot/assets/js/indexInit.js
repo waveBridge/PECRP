@@ -56,7 +56,7 @@ $(document).ready(function () {
     });
     var className = ['首页', '篮球', '足球', '排球', '网球', '乒乓球', '羽毛球', '跑步', '瑜伽', '健身', '剑道', '其他'];
     $.each(className, function (i, classified) {
-        if (i > 0) {
+        if (i > 0 && i < 5) {
             // alert(classified);
             $.ajax({
                 url: "getClassifyVideoAction",
