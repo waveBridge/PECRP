@@ -116,12 +116,12 @@ public class Redundant {
 		}
 	}
 
-	public static Video rmRedundantExceptLabelSet(Video video) {
+	public static Video rmRedundantExceptLabelAndReview(Video video) {
 		video.setClassifySet(null);
 		video.setZanUserSet(null);
-		video.setReviewSet(null);
 		video.setWatchUserSet(null);
 		video.setCollectionUserSet(null);
 		return video;
 	}
+
 }

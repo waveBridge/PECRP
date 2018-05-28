@@ -49,7 +49,7 @@ public class WatchAction extends ActionSupport {
 				json.put("msg", "0");                    //未知错误
 			} else {
 				json.put("zanNum", video.getZanUserSet().size());
-				Redundant.rmRedundantExceptLabelSet(video);
+				Redundant.rmRedundantExceptLabelAndReview(video);
 				Redundant.rmRedundantLabel(video.getLabelSet());
 				json2 = JSONObject.fromObject(video, jsonConfig);
 				json.put("msg", json2);                    //可以访问
